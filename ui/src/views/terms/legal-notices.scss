@@ -1,0 +1,41 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+
+.legal-notices {
+  width: 100%;
+  &-title{
+    @include fontsize(36px);
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #000;
+  }
+  &-content{
+    text-align: left;
+    line-height: 28px;
+    padding: 0 15% 50px 15%;
+    &-font{
+      p{
+        @include fontsize(16px);
+        text-indent: 2em;
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,60 @@
+.news {
+  width: 100%;
+  &>div{
+    width:100%;
+    cursor: pointer;
+  }
+  .cover-img{
+    height: 500px;
+    width:100%;
+    background-size: cover;
+    background-position: 0 0;
+    animation-duration: 1s;
+    z-index: 2;
+    position: relative;
+  }
+  &-padding{
+    position: relative;
+    padding: 40px 40px 100px;
+  }
+  &-desc-content{
+    padding-left: 70px;
+    position: relative;
+    h2{
+      font-size: 36px;
+      cursor: pointer;
+      padding-bottom: 30px;
+    }
+    p{
+      font-size: 16px;
+      margin-top: 30px;
+      margin-bottom: 0;
+      max-height: 200px;
+      overflow: hidden;
+      cursor: pointer;
+      vertical-align: top;
+    }
+  }
+  &-title-icons{
+    position: absolute;
+    background-color: #fe3e76;
+    width: 54px;
+    height: 54px;
+    line-height: 52px;
+    left: 0;
+    top: -6px;
+    text-align: center;
+    border-radius: 100%;
+  }
+  &-date{
+    font-size: 18px;
+    color: #787878;
+    .bo-box{
+      font-weight: 400;
+    }
+    i{
+      cursor: pointer;
+      margin-top: -2px;
+    }
+  }
+}

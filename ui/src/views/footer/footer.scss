@@ -1,0 +1,70 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+
+
+.footer{
+  background-color: #f6f6f6;
+  clear: both;
+  padding: 12px 0 16px 0;
+  width: 100%;
+  &-icpinfo{
+    width: 100%;
+    text-align: center;
+    line-height: 20px;
+    padding-top: 5px;
+    color: #969696;
+    font-size: 12px;
+  }
+  &-linkslist{
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+    li{
+      text-align: center;
+      display: inline;
+      color: #969696;
+      cursor: pointer;
+      @include transparent;
+      &:hover{
+        color: $colorh;
+      }
+    }
+
+    ul li{
+      border-right: 1px solid #969696;
+      padding: 0 50px;
+
+    }
+    ol{
+      span{
+        color: #969696;
+      }
+      li{
+        padding: 0 20px;
+      }
+
+    }
+    &:hover{
+        color: $colorh;
+      }
+  }
+
+  .footer-none{
+    border-right: 0 none;
+  }
+}

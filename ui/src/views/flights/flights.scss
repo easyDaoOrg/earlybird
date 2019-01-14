@@ -1,0 +1,93 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+
+
+.flights{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  &-cover{
+    background-size: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  &-search{
+    top: 15%;
+    left: 50%;
+    position: absolute;
+    z-index: 12;
+    margin-left: -480px;
+    width: 960px;
+    &-slogan{
+      text-align: center;
+      z-index: 3;
+      color: #fff;
+      h1{
+        margin-bottom: 30px;
+        @include fontsize(20px);
+        -webkit-text-shadow: 0 2px 6px rgba(0,0,0,.3);
+        text-shadow: 0 2px 6px rgba(0,0,0,.3);
+      }
+    }
+    &-bar{
+      text-align: center;
+      display: block;
+      ul{
+        li{
+          background-color: rgba(0,0,0,.6);
+          padding: 0 12px;
+          margin: 0 4px;
+          height: 36px;
+          line-height: 36px;
+          vertical-align: middle;
+          border-radius: 4px 4px 0 0;
+          font-weight: 700;
+          color: $colorw;
+          @include displayinline;
+          @include fontsize(18px);
+          cursor: pointer;
+          @include transparent();
+          i{
+            font-size: 24px;
+            margin-right: 7px;
+            @include transparent();
+          }
+          &:hover,&.flights-search-bar-active{
+            background-color: rgba(0,0,0,.7);
+            i{
+              color: #fc437a
+            }
+          }
+        }
+      }
+      &-active{
+        background-color: rgba(0,0,0,.7);
+      }
+
+    }
+  }
+  &-content{
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+}
+

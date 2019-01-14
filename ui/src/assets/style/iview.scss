@@ -1,0 +1,44 @@
+
+  .flights-index-search-input-city-date .ivu-input{
+    font-size: 14px;
+    border: 0 none;
+    color: #0096ff;
+    padding: 0;
+  }
+  .flights-index-search-input-city-date .ivu-date-picker-focused input {
+    border-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  .flights-index-search-input-city-date .ivu-input-icon{
+    display: none;
+  }
+
+  .flights-index-search-input-city-date input::-webkit-input-placeholder{
+    color: #999;
+  }
+
+  .flights-index-prev .ivu-btn-primary span{
+    position: relative;
+    top: -4px;
+  }
+
+  .flights-index-prev .ivu-input-number{
+    width: 60px;
+  }
+
+  .flights-index-search-input-left .ivu-select-dropdown{
+    margin-left: -42px;
+  }
+
+  .flights-index-search-input-left .ivu-tabs-bar{
+    margin-bottom: 5px;
+  }
+
+  .flights-index-search-input-city .ivu-tabs-nav-right{
+    margin-right: 6px;
+    margin-top: -7px;
+  }
+
+  .flights-index .ivu-select-dropdown{
+    padding: 0;
+  }

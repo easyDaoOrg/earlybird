@@ -1,0 +1,24 @@
+.hotel {
+  width: 100%;
+  background-image: url(https://content.igola.com/static/WEB/images/background/new_hotel_bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding:200px 0;
+  &-panel{
+    width: 1200px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 6px;
+    margin: 40px auto 0;
+  }
+}
+.slogan-panel{
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+}
+@media screen and (max-height: 768px){
+  .hotel-panel{
+    top: 250px!important;
+  }
+}

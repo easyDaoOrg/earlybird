@@ -1,0 +1,106 @@
+
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#00b4ff;
+$colorh:#323232;
+
+.join-us {
+  width: 100%;
+  overflow-x: hidden;
+  &-title{
+    @include fontsize(36px);
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #000;
+  }
+  &-content{
+    text-align: left;
+    line-height: 22px;
+    padding: 0 10%;
+    &-choose{
+      padding-top: 15px;
+      dl{
+        padding: 15px 0;
+        dt{
+          line-height: 2em;
+          @include fontsize(18px);
+          font-weight: bold;
+        }
+      }
+    }
+    &-wall{
+      margin: 37px -100% 45px;
+      background-position: top;
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      height: 668px;
+    }
+  }
+
+  &-notices{
+    height: 60px;
+    line-height: 60px;
+    background-color: #f5f5f5;
+    @include fontsize(16px);
+    padding: 0 35px;
+  }
+
+  &-part{
+    margin: 20px 0;
+    position: relative;
+    padding-left: 325px;
+    overflow: hidden;
+    &-list{
+      padding: 15px 35px;
+      width: 325px;
+      margin-left: -325px;
+      border-right: 1px solid #c8c8c8;
+      ul li{
+        @include fontsize(16px);
+        margin-bottom: 25px;
+        cursor: pointer;
+        @include transparent;
+        &:hover{
+          color: #000;
+        }
+      }
+    }
+    &-content{
+      padding: 15px 55px;
+      border-left: 1px solid #c8c8c8;
+      margin-left: -1px;
+      &-title{
+        @include fontsize(16px);
+        color: $colorb;
+        padding-bottom: 35px;
+      }
+      &-intro{
+        line-height: 28px;
+        padding: 10px;
+        @include fontsize(15px);
+      }
+    }
+  }
+
+  .joinactive{
+    color: $colorb;
+    &:hover{
+      color: $colorb;
+    }
+  }
+
+}

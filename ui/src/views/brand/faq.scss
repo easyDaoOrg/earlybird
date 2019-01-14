@@ -1,0 +1,57 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#00b4ff;
+$colorh:#323232;
+
+.faq {
+  width: 100%;
+  &-title{
+    @include fontsize(36px);
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #000;
+  }
+  &-content{
+    text-align: left;
+    line-height: 22px;
+    padding: 0 15%;
+    dl{
+      border-bottom: 1px solid #dcdcdc;
+      margin-bottom: 20px;
+      dt{
+        @include fontsize(15px);
+        color: $colorb;
+        font-weight: bold;
+        i{
+          font-size: 20px;
+          margin-right: 2px;
+          font-weight: bold;
+        }
+      }
+      dd{
+        padding: 20px 0 20px 2em;
+        p{
+          @include fontsize(16px);
+          text-indent: 2em;
+          padding-bottom: 20px;
+          line-height: 30px;
+        }
+      }
+    }
+  }
+
+}

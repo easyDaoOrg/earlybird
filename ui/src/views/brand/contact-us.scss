@@ -1,0 +1,127 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#00b4ff;
+$colorh:#323232;
+
+.contact-us {
+  width: 100%;
+  overflow-x: hidden;
+  &-title{
+    @include fontsize(36px);
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #000;
+  }
+  &-content{
+    text-align: left;
+    line-height: 22px;
+    padding: 0 15%;
+    &-person{
+      border-top: 1px solid #c8c8c8;
+      border-bottom: 1px solid #c8c8c8;
+      padding: 28px 0;
+      margin: 33px 0;
+      span{
+        padding-right: 38px;
+        color: #969696;
+        min-width: 120px;
+        @include fontsize(16px);
+        line-height: 30px;
+        @include displayinline;
+      }
+    }
+    &-list{
+      dl{
+        position: relative;
+        padding: 7px 10px 48px;
+        width: 31.3333333333333%;
+        margin: 20px .5%;
+        cursor: pointer;
+        float: left;
+        min-height: 80px;
+        text-align: center;
+        box-sizing: border-box;
+        cursor: pointer;
+        dt{
+          @include fontsize(18px);
+          font-weight: 400;
+          margin-top: 12px;
+          margin-bottom: 40px;
+          text-align: center;
+          color: $colorb;
+        }
+        dd{
+          line-height: 22px;
+          text-align: center;
+          padding-top: 10px;
+          @include transparent;
+        }
+        button{
+          display: block;
+          position: absolute;
+          padding: 4px 0;
+          height: 30px;
+          left: 50%;
+          margin-left: -50px;
+          width: 100px;
+          background-color: #fe3e76;
+          border: none;
+          color: #fff;
+          box-sizing: border-box;
+          margin-top: 5px;
+          border-radius: 4px;
+          opacity: 0;
+          @include transparent;
+        }
+        &:hover{
+          dd{
+            color: $colorb;
+          }
+          button{
+            opacity: 1;
+          }
+        }
+      }
+    }
+    &-feedback{
+      padding: 30px;
+      max-height: 500px;
+      margin: 0 -100%;
+      overflow: visible;
+      position: relative;
+      clear: both;
+      background-position: 50%;
+      &-form{
+        padding: 20px 20px 10px;
+        background-color: #fff;
+        border-radius: 0 5px 5px 5px;
+        box-shadow: 2px 2px 0 0 rgba(0,0,0,.2);
+        width: 960px;
+        margin: 0 auto;
+        &-title{
+          font-weight: bold;
+          @include fontsize(15px);
+          color: $colorb;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+
+}
+
+
