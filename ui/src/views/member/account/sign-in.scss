@@ -23,6 +23,7 @@ $colorb:#0096ff;
 $colorh:#323232;
 $colorg:#8c8c8c;
 $colorq:#969696;
+$colora:#40ae3d;
 
 .sign-up{
   position: absolute;
@@ -112,12 +113,23 @@ $colorq:#969696;
         display: inline-block;
         margin: 0 10px;
         color: #fff;
-        i{
+        &:first-child b{
+          background: $colora;
+        }
+        &:last-child b{
+          background: $colorw;
+        }
+        b{
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          background: $colorw;
+          i{
+            font-size: 38px;
+            margin-top: 6px;
+            display: inline-block
+          }
           display: inline-block;
+         
           img{
             width: 43px;
             height: 43px;

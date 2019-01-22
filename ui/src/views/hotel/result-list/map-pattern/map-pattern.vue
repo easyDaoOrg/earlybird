@@ -30,22 +30,22 @@
   padding-bottom:10px;
   box-shadow: 0 2px 14px 0 hsla(0,0%,71%,.6);
 }
-.ivu-radio-wrapper{
+.pattern .ivu-radio-wrapper{
   width: 150px;
   margin:0 0 20px;
   /* font-weight: bold; */
   font-size: 14px;
 }
-.ivu-radio{
+.pattern .ivu-radio{
   margin-right: 10px;
 }
-.ivu-radio-checked .ivu-radio-inner{
+.pattern .ivu-radio-checked .ivu-radio-inner{
   border-color:#00bedc;
 }
-.ivu-radio-inner:after{
+.pattern .ivu-radio-inner:after{
   background-color:#00bedc;
 }
-.ivu-radio-wrapper span:last-child{
+.pattern .ivu-radio-wrapper span:last-child{
     width: 118px;
     overflow: hidden;
     white-space: nowrap;

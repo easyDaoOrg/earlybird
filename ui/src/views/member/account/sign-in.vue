@@ -96,10 +96,12 @@
       </div>
       <div class="sign-up-public-party">
         <a href="#">
-          <i><img src="../../../assets/images/weixin.svg"></i><br>微信
+          <!-- <i><img src="@/assets/images/weixin.svg"></i> -->
+          <b><i class="iconfont icon-travel-wechat" /></b>
+          <br>微信
         </a>
         <a href="#">
-          <i class="sign-up-public-qq"><img src="../../../assets/images/qq.svg"></i><br>QQ
+          <b class="sign-up-public-qq"><img src="../../../assets/images/qq.svg"></b><br>QQ
         </a>
       </div>
     </div>
@@ -118,30 +120,30 @@ export default {
   data () {
     return {
       formInline: {
-          user: '',
-          password: '',
-          select: '+86',
+        user: '',
+        password: '',
+        select: '+86'
       },
       formItem: {
-          email: '',
-          emailpassword: '',
+        email: '',
+        emailpassword: ''
       },
       formSola: {
         user: '',
         password: '',
-        select: '+86',
+        select: '+86'
       },
       ruleInline: {
-          user: [
-              { required: true, message: '用户名不能为空', trigger: 'blur' }
-          ],
-          password: [
-              { required: true, message: '密码不能为空', trigger: 'blur' },
-              { type: 'string', min: 6, message: '密码的长度不能小于6位', trigger: 'blur' }
-          ],
-          email: [
-              { required: true, message: '邮箱不能为空', trigger: 'blur' }
-          ],
+        user: [
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          { type: 'string', min: 6, message: '密码的长度不能小于6位', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '邮箱不能为空', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -149,16 +151,16 @@ export default {
 
   },
   methods: {
-    handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-            if (valid) {
-                this.$Message.success('Success!');
-                this.$router.push('/member/user/my-booking');
-            } else {
-                this.$Message.error('Fail!');
-                this.$router.push('/member/user/my-booking');
-            }
-        })
+    handleSubmit (name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          this.$Message.success('Success!')
+          this.$router.push('/member/user/my-booking')
+        } else {
+          this.$Message.error('Fail!')
+          this.$router.push('/member/user/my-booking')
+        }
+      })
     }
   },
   mounted () {}

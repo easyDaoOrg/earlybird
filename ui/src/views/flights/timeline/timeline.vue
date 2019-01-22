@@ -4,9 +4,10 @@
 </style>
 <style>
   .ivu-affix .search{
-    margin: 0;
+    margin: 0!important;
     background: #000;
     z-index: 10;
+    padding: 0!important;
   }
   .ivu-affix .timeline-container::after{
     content: '';
@@ -46,30 +47,30 @@
     <div class="timeline-tips"><b>6658</b>个结果</div>
     <Affix>
       <div class="demo-affix">
-        <search></search>
-      </div>
+      <search></search>
 
-    <div class="timeline-container" :class="{'sort': sortClass}">
-      <!--自由搭配&航班组合-->
-      <div class="timeline-container-tab">
-        <div v-for="(item,index) in tabList" :key="index" :class="{'active':item.actived}" @click="tabTimeline(item,index)">
-          <i class="iconfont" :class="item.tabClass"></i>
-          <span>{{item.value}}</span>
+      <div class="timeline-container" :class="{'sort': sortClass}">
+        <!--自由搭配&航班组合-->
+        <div class="timeline-container-tab">
+          <div v-for="(item,index) in tabList" :key="index" :class="{'active':item.actived}" @click="tabTimeline(item,index)">
+            <i class="iconfont" :class="item.tabClass"></i>
+            <span>{{item.value}}</span>
+          </div>
         </div>
+
+        <!--选择-->
+        <div class="time-container-control">
+          <filterBar :pTabIndex="tabIndex"></filterBar>
+          <sortprice v-if="tabIndex == 1"></sortprice>
+          <sortBar v-if="tabIndex == 0"></sortBar>
+        </div>
+
       </div>
 
-      <!--选择-->
-      <div class="time-container-control">
-        <filterBar :pTabIndex="tabIndex"></filterBar>
-        <sortprice v-if="tabIndex == 1"></sortprice>
-        <sortBar v-if="tabIndex == 0"></sortBar>
+      <div class="timeline-barbot" @click="sortShow()">
+        筛选和排序
       </div>
-
-    </div>
-
-    <div class="timeline-barbot" @click="sortShow()">
-      筛选和排序
-    </div>
+      </div>
     </Affix>
 
     <div class="timeline-container">

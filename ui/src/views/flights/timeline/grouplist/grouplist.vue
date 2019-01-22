@@ -19,7 +19,7 @@
 
 <template>
   <div class="timeline-list">
-    <Scroll :on-reach-edge="handleReachEdge">
+    <Scroll :on-reach-edge="handleReachEdge"  height="1000">
         <Card dis-hover v-for="(item, index) in list3" :key="index">
             <div class="timeline-list-card">
               <div class="timeline-grouplist-l fl">
