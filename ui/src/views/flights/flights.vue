@@ -70,6 +70,8 @@ export default {
       this.flightsTitle.default = this.flightsTitle[this.$route.path]
     }
   },
-  mounted () {}
+  mounted () {
+    this.isActivedRoute();
+  }
 }
 </script>
