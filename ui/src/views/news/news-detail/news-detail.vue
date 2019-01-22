@@ -31,7 +31,7 @@
      <div class="news-detail-content">
        <a class='news-detail-share'><Icon type="md-share" size='23s' color='#fff'/></a>
        <div class="news-details-title-one">
-         <h2>iGola骑鹅旅行斩获龙雀奖“最佳出境旅游服务机构”</h2>
+         <h2>易到旅行斩获龙雀奖“最佳出境旅游服务机构”</h2>
          <b>2018年12月21日,  周五</b>
        </div>
      </div>

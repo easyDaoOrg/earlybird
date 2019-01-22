@@ -1,0 +1,23 @@
+// 公共
+.row-item {
+  position: relative;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-right: .5px solid #464646;
+  padding: 0 15px 0 20px;
+  cursor: pointer;
+}
+.main{
+  float:left;
+  width: 312px;
+}
+.marginRight{
+  margin-right:10px;
+}
+.icon-dropdown{
+  position: relative;
+  top: -2px;
+  left: 6px;
+}

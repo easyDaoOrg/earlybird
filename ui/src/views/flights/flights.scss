@@ -70,7 +70,7 @@ $colorh:#323232;
             margin-right: 7px;
             @include transparent();
           }
-          &:hover,&.flights-search-bar-active{
+          &:hover,&.flightssSearchBaractive{
             background-color: rgba(0,0,0,.7);
             i{
               color: #fc437a

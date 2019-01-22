@@ -1,0 +1,391 @@
+$colorb:#00bedc;
+
+.selected {
+  color: $colorb !important;
+}
+
+.borderColor {
+  border-color: $colorb !important;
+}
+
+.booking {
+  width: 1200px;
+  padding-top: 50px;
+  margin: auto auto 20px
+}
+
+.progress {
+  width: 100%;
+
+  &-container {
+    margin: 0 auto;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: -o-fit-content;
+    width: -ms-fit-content;
+    width: fit-content;
+    text-align: center;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    &-item {
+      float: left;
+      padding: 5px 0;
+      position: relative;
+      width: 150px;
+
+      .item-main {
+        display: block;
+
+        b {
+          margin-bottom: 10px;
+          border-radius: 50%;
+          display: block;
+          width: 50px;
+          height: 50px;
+          border: 1px solid #d2d2d2;
+          line-height: 46px;
+          font-size: 20px;
+          color: #d2d2d2;
+
+          i {
+            font-size: 25px;
+          }
+        }
+
+        p {
+          font-size: 18px;
+          color: #d2d2d2;
+          text-align: left
+        }
+      }
+
+
+    }
+
+    .item-line {
+      display: inline-block;
+      height: 4px;
+      width: 60px;
+      border-radius: 8px;
+      background-color: #e1e1e1;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-bottom: 5px;
+      position: absolute;
+      bottom: 10px;
+    }
+  }
+}
+
+.booking-login {
+  width: 100%;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 100% 100%;
+  margin-top: 50px;
+  font-size: 16px;
+  color: #323232;
+  position: relative;
+
+  .login-text {
+    line-height: 80px;
+    padding-left: 20px;
+
+    .login-btn {
+      color: #00bedc;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+  }
+
+  .login-off-icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+}
+
+.mainBooking {
+  padding-top: 20px;
+
+  &-left {
+    float: left;
+    width: calc(100% - 440px);
+    padding: 0 20px;
+    border: .5px solid #787878;
+    border-radius: 1px;
+
+    .info-box {
+      border-bottom: .5px solid #787878;
+      padding-bottom: 25px;
+    }
+
+    .info-box-line {
+      height: 80px;
+      line-height: 80px;
+      font-size: 16px;
+      color: #464646;
+      font-weight: 600;
+    }
+
+  }
+
+  &-right {
+    width: 440px;
+    display: inline-block;
+    padding-left: 20px;
+  }
+
+  .detail-title {
+    font-size: 20px;
+    color: #323232;
+    font-weight: 600;
+  }
+}
+
+.guest {
+  padding: 20px 0 25px;
+}
+
+.text-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #323232;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.text-small {
+  font-size: 12px;
+  color: #787878;
+  line-height: 20px;
+}
+
+.guest-content {
+  margin-top: 25px;
+  font-size: 16px;
+  color: #464646;
+  position: relative;
+}
+
+.guest-clear {
+  position: absolute;
+  right: 0;
+  top: 8px;
+  cursor: pointer;
+}
+
+.cardInput {
+  display: flex;
+}
+
+.edit-item {
+  display: inline-block;
+  width: calc((100% - 28px)/2);
+
+  label {
+    font-size: 12px;
+    color: #464646;
+    padding-bottom: 10px;
+    display: block;
+  }
+
+  .i-input {
+    float: left;
+  }
+}
+
+.mobilePhoneStyle {
+  border-radius: 0;
+  height: 36px;
+  font-size: 16px;
+  border: 1px solid rgb(210, 210, 210);
+  border: 1px solid #d2d2d2;
+  padding: 5px 10px;
+  color: #d2d2d2;
+  border-right: none
+}
+
+.contact-clear {
+  font-size: 16px;
+  color: #464646;
+  padding-top: 32px;
+  cursor: pointer;
+  width: 50%;
+  text-align: right
+}
+
+
+
+
+
+
+
+
+.text-small {
+  font-size: 12px;
+  color: #787878;
+  line-height: 20px;
+//   padding-bottom: 20px;
+}
+
+.booking-detail {
+  width: 100%;
+  padding: 0 20px;
+  border: .5px solid #787878;
+  border-radius: 1px;
+
+  .detail-box {
+    border-bottom: .5px solid #d2d2d2;
+
+    .height-80 {
+      height: 80px;
+      line-height: 80px;
+      text-align: right;
+    }
+
+    .detail-map {
+      display: inline-block;
+      margin-bottom: 25px;
+
+      i {
+        vertical-align: baseline;
+        padding-right: 3px;
+        color: #00bedc;
+      }
+
+      span {
+        font-size: 16px;
+        color: #464646;
+      }
+    }
+  }
+}
+
+.hotel-base-info {
+  padding-bottom: 20px;
+
+  h2 {
+    font-size: 16px;
+    color: #464646;
+    padding-bottom: 10px;
+  }
+
+  .padding-bottom-10 {
+    padding-bottom: 10px;
+  }
+
+  .info-star {
+    display: inline-block;
+    padding: 0 6px;
+    line-height: 20px;
+    font-size: 12px;
+    border-radius: 2px;
+    color: #fff;
+    background: linear-gradient(to right, #ff8532, #ff5200);
+    margin-bottom: 8px;
+  }
+}
+
+.text-normal {
+  font-size: 16px;
+  color: #464646;
+
+  .check-in-out {
+    font-size: 14px;
+    display: inline-block;
+    padding: 1.5px 8px;
+    border: .5px solid #464646;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+
+  .check-date {
+    margin-right: 15px;
+  }
+}
+
+.padding-bottom-15 {
+  padding-bottom: 15px;
+}
+
+.room-info {
+  padding-top: 27px;
+  padding-bottom: 30px
+}
+
+.price-detail {
+  padding-top: 27px;
+
+  p {
+    padding-bottom: 20px;
+    font-size: 16px;
+    color: #464646;
+  }
+
+  .total-price {
+    border-top: .5px solid #d2d2d2;
+    padding-top: 18px;
+    line-height: 35px;
+
+    b {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    label {
+      font-size: 12px;
+    }
+
+    span {
+      font-size: 27px;
+      font-weight: 600;
+      color: #ff7846;
+    }
+  }
+}
+
+.btn-pay {
+  margin-top: 20px;
+  width: 100%;
+  color: #fff;
+  line-height: 60px;
+  background: linear-gradient(to right, #ff8532, #ff5200);
+  font-size: 20px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pay-prompt {
+  color: #787878;
+  text-align: center;
+  padding-top: 30px;
+  font-size: 12px;
+}
+
+.booking-policy {
+  width: 100%;
+  padding: 20px 20px 0;
+  border: .5px solid #787878;
+  border-radius: 1px;
+  margin-top: 20px;
+  padding-bottom: 30px;
+
+  p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #464646;
+    line-height: 40px;
+  }
+
+  span {
+    font-size: 16px;
+    color: #787878;
+    line-height: 20px
+  }
+}

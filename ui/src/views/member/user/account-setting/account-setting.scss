@@ -1,0 +1,59 @@
+.account-setting{
+  &-title{
+    padding-bottom: 20px;
+    b{
+      color: #3391eb;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+  &-info{
+    position: relative;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    padding: 30px 100px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    p{
+      width: 60%;
+      margin: 0;
+      padding: 0 0 22px;
+      height: 40px;
+      span{
+        width: 30%;
+        float: left;
+      }
+      font{
+        width: 70%;
+      }
+      b.fr{
+        color: #3391eb;
+        cursor: pointer;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  &-safe{
+    position: relative;
+    border: 1px solid #dcdcdc;
+    border-radius: 3px;
+    padding: 15px 0;
+    margin-bottom: 50px;
+    p{
+      padding: 0 20px;
+      i{
+        color: green;
+        font-size: 18px;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+    }
+    &-con{
+      padding: 20px 80px;
+      line-height: 34px;
+      border-top: 1px solid #dcdcdc;
+    }
+  }
+}

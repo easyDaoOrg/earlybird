@@ -1,0 +1,16 @@
+.booking-subtitle{
+  &-title{
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  &-tips{
+    span{
+      color: #969696;
+      padding-bottom: 10px;
+      display: block;
+    }
+  }
+}

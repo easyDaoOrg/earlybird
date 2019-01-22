@@ -9,4 +9,30 @@ $colorw:#00bedc;
   padding-top: 35px;
   position: relative;
 }
+.search-btn{
+  background-image: linear-gradient(90deg,#28c8dc 0,#3296d2 100%);
+  border-radius: 6px;
+  width: 100px;
+  height: 60px;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 0;
+  line-height: 60px;
+  text-align: center;
+  float: right;
+  margin-right:20px;
+  position: relative;
+  top: -16px;
+  cursor: pointer;
+}
+// 酒店列表页数据
+.resultStyle{
+  padding-top:20px;
+  .search-btn{
+    height: 50px;
+    line-height: 50px;
+    top: -10px;
+  }
+}
+
 

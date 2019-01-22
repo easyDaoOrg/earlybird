@@ -1,0 +1,42 @@
+.booking-passenger{
+  padding: 8px;
+  border-radius: 3px;
+  background: #f0f0f0;
+  &-set{
+    padding-top: 10px;
+    line-height: 16.8px;
+    font-size: 12px;
+    color: #0096ff;
+    b{
+      font-weight: bold;
+    }
+  }
+}
+
+.booking-col-1{
+  width: auto;
+  position: relative;
+  padding-right: 30px;
+  display: inline-block;
+}
+
+.booking-col-box{
+  cursor: default;
+  height: 34px;
+  line-height: 34px;
+  b{
+    font-weight: 400;
+    color: #969696;
+  }
+}
+
+.booking-changepeople{
+  margin: 0;
+  padding: 0;
+  ul{
+    width: 300px!important;
+    font{
+      padding-left: 100px;
+    }
+  }
+}

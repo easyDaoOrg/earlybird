@@ -1,0 +1,75 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+@mixin public(){
+  background-color: rgba(0,0,0,.6);
+  padding: 10px 20px 0 20px;
+  color: $colorw;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+$colorg:#8c8c8c;
+$colorq:#969696;
+$colorz:#f0f0f0;
+$colorl:#8ecf01;
+
+
+.timeline-grouplist{
+  &-l{
+    width: 80%;
+    padding: 0 20px;
+    border-right: 1px solid #ececec;
+    &-air{
+      &:last-child{
+        .timeline-list-card-body-sted-block-time{
+          color: orange;
+        }
+        .timeline-list-card-body-sted-mid-alltime{
+          background: #965a00;
+        }
+      }
+    }
+  }
+  &-c{
+    margin: 10px 0;
+    height: 1px;
+    width: 100%;
+    background: #ececec;
+    position: relative;
+    span{
+      position: absolute;
+      top: -15px;
+      right: 0;
+    }
+  }
+  &-r{
+    width: 20%;
+    padding: 0 10px;
+    .timeline-list-card-footer-price{
+      clear: both;
+      padding: 20px 0;
+      height: 80px;
+    }
+  }
+  &-btn{
+    width: 100%;
+    float: left;
+    button{
+      width: 70px;
+      margin: 10px 45px;
+    }
+  }
+}

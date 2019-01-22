@@ -1,0 +1,75 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+@mixin fttitle(){
+  line-height: 30px;
+  cursor: pointer;
+  color: $colorw;
+  i{
+    @include fontsize(20px);
+  }
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+$colorg:#8c8c8c;
+$colorq:#969696;
+
+.search-bar{
+  &-group{
+    padding: 0 10px;
+    span{
+      @include fttitle;
+    }
+    ul{
+      width: 450px;
+      li{
+        line-height: 24px;
+        padding: 10px 20px;
+        border-bottom: 1px solid #dcdcdc;
+        overflow: hidden;
+        strong{
+          @include fontsize(16px);
+          color: $colorh;
+        }
+        &:last-child{
+          border-bottom: 0 none;
+          padding: 15px 20px;
+        }
+        button{
+          @include fontsize(14px);
+        }
+      }
+    }
+  }
+  &-gray{
+    color: $colorg!important;
+    @include fontsize(14px);
+  }
+  &-prev{
+    button{
+      width: 18px;
+      height: 18px;
+      font-weight: bold;
+      padding: 0;
+    }
+  }
+}
+
+
+.search-bar-b-active{
+  background: $colorb;
+  color: $colorw;
+}

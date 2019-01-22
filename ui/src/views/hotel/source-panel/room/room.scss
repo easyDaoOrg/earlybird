@@ -1,0 +1,123 @@
+// 公共
+.row-item {
+  position: relative;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-right: .5px solid #464646;
+  padding: 0 15px 0 20px;
+  cursor: pointer;
+}
+
+.main {
+  float: left;
+  width: 295px;
+}
+.dropdownMenu{
+  display: flex;
+  &-left {
+    width: 320px;
+    padding: 10px 20px 60px;
+  }
+
+  &-right {
+    width: 280px;
+    padding: 30px 20px 66px;
+  }
+}
+.marginRight {
+  margin-right: 10px;
+}
+
+.icon-dropdown {
+  position: relative;
+  top: -2px;
+  left: 6px;
+}
+
+.inline-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: #323232;
+  font-size: 16px;
+  line-height: 36px;
+  &-icon{
+    position: relative;
+    display: inline-block;
+    height: 15px;
+    font-size: 19px;
+    top: 8px;
+  }
+}
+
+.selectedColor {
+  color: #00bedc;
+}
+
+.room-item {
+  line-height: 56px;
+
+  i {
+    top: 18px;
+  }
+}
+
+.inline-content {
+  position: relative;
+  width: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.tip-title {
+  border-top: .5px solid #d2d2d2;
+  font-size: 12px;
+  line-height: 12px;
+  color: #9b9b9b;
+  padding: 20px 0 10px;
+}
+
+.select-check-in-btn {
+  height: 66px;
+  line-height: 66px;
+  bottom: 0;
+  font-size: 16px;
+  color: #00bedc;
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+ 
+}
+.tip-title-age{
+  font-size: 12px;
+  line-height: 12px;
+  color: #9b9b9b;
+  padding-bottom: 10px;
+}
+.half-width{
+  width: 72px;
+  position: relative;
+}
+.childrenDropdown{
+  position: absolute;
+  right: -43px;
+  top: 1px;
+}
+.lessThan{
+  position: relative;
+  top: -1px;
+}
+.max-scroll-children{
+  height:calc(100% - 22px);
+  // overflow-y:auto;
+  // overflow-x:hidden;
+  // max-height: 290px;
+}
+.greaterThan0Age{
+  padding-left: 20px;
+}

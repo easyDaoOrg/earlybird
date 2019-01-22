@@ -1,0 +1,223 @@
+$colorb:#00bedc;
+
+.pattern {
+  width: 100%;
+  display: flex;
+  // height: calc(100% - 322px);
+  height: 100%;
+
+  &-left {
+    width: 510px;
+    height: 100%;
+    // overflow-y: auto;
+    background-color: #fff;
+    padding: 24px 0 0 10px;
+
+    &-list {
+      width: 100%;
+      overflow-x: hidden;
+      height: calc(100% - 61px);
+      &-rate{
+        padding-left: 16px;
+      }
+    }
+
+    &-search {
+      padding: 0px 20px 20px;
+      height: calc(100% - 52px);
+      overflow-y: auto;
+    }
+  }
+
+
+
+  &-right {
+    width: calc(100% - 510px);
+    padding-left: 10px;
+    position: relative;
+
+    .map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .toList {
+      background: #fff;
+      box-shadow: 0 2px 14px 0 hsla(0, 0%, 71%, .6);
+      border-radius: 6px;
+      width: 150px;
+      height: 60px;
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      z-index: 22;
+      cursor: pointer;
+
+      p {
+        font-size: 20px;
+        color: #323232;
+        letter-spacing: 0;
+        line-height: 60px;
+        text-align: center;
+
+        img {
+          width: 20px;
+          height: 20px;
+          margin: -2px 8px 0 0;
+        }
+      }
+    }
+  }
+}
+
+.hotel-all {
+  width: 100%;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.lineMap-selected {
+  width: 100%;
+  border-bottom: .5px solid #d2d2d2;
+  padding-top: 20px;
+  margin-bottom:20px;
+  .line-selectedTitle {
+    font-size: 16px;
+    color: #323232;
+    line-height: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+
+    span {
+      font-weight: 400;
+      color: #4d4d4d;
+      float: right;
+      font-size: 14px;
+      line-height: 14px;
+      cursor: pointer;
+    }
+  }
+}
+
+.selected-text {
+  cursor: pointer;
+  display: inline-block;
+  border: .5px solid $colorb;
+  border-radius: 4px;
+  margin-right: 10px;
+  padding-right: 0;
+  margin-bottom: 10px;
+
+  p {
+    line-height: 30px;
+    padding: 0 20px 0 10px;
+    margin: 0;
+    font-size: 14px;
+    color: $colorb;
+    text-align: justify;
+    position: relative;
+    overflow: hidden;
+
+    span {
+      display: inline-block;
+      width: 15px;
+      height: 31px;
+      background: #00bedc;
+      position: absolute;
+      right: -4px;
+      bottom: -11px;
+      z-index: 1;
+      transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      /* IE 9 */
+      -moz-transform: rotate(45deg);
+      /* Firefox */
+      -webkit-transform: rotate(45deg);
+      /* Safari 和 Chrome */
+      -o-transform: rotate(45deg);
+    }
+
+    i {
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      color: $colorb;
+      z-index: 2;
+      color: #fff;
+    }
+  }
+}
+
+.line {
+  position: relative;
+  width: 100%;
+  border-bottom: .5px solid #d2d2d2;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: height 2s;
+  -moz-transition: height 2s;	/* Firefox 4 */
+  -webkit-transition: height 2s;	/* Safari 和 Chrome */
+  -o-transition: height 2s;	/* Opera */
+  &-title {
+    font-size: 16px;
+    color: #323232;
+    line-height: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+
+    a {
+      font-size: 14px;
+      color: #1ac5e0;
+      font-weight: 400;
+      letter-spacing: 0;
+      cursor: pointer;
+      float: right;
+      line-height: 14px;
+    }
+  }
+  .line-content{
+    width: 156px;
+    font-size: 14px;
+    color: #464646;
+    letter-spacing: 0;
+    align-items: center;
+    display: inline-block;
+    margin-bottom: 20px;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 20px;
+  }
+}
+
+.priceData-input {
+  padding: 0 8px;
+  margin-bottom: 20px;
+  span {
+    text-align: center;
+    color: #00bedc;
+    cursor: pointer;
+    line-height: 47px;
+    padding-left: 10px;
+  }
+}
+
+.priceData-bg {
+  background: rgba(0, 190, 220, .05);
+}
+
+.selected{
+  color:$colorb
+}
+.priceHeightClose{
+  height: 246px;
+}
+.positionHeightColse{
+  height: 95px;
+}
+.overflow{
+  overflow:hidden;
+}

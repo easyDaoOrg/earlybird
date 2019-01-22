@@ -1,0 +1,284 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+@mixin searchair(){
+  height: 32px;
+  line-height: 32px;
+}
+
+@mixin backgcolor(){
+  background-color: hsla(0,0%,100%,.2);
+}
+
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+$colorg:#8c8c8c;
+$colorq:#969696;
+
+.flights-index{
+  &-airport{
+    margin-bottom: 8px;
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+  &-addbutton{
+    clear: both;
+    &-addadress{
+      width: calc(100% - 50px);
+      height: 46px;
+      line-height: 46px;
+      border: 1px dashed $colorg;
+      text-align: center;
+      font-weight: bold;
+      color: $colorw;
+      cursor: pointer;
+      @include transparent();
+      &:hover{
+        border-color: $colorw;
+      }
+      span{
+        font-size: 12px;
+        color: #8c8c8c;
+      }
+    }
+  }
+  &-search-input{
+    clear: both;
+    &-left{
+      width: 65%;
+      position: relative;
+      &-change{
+        position: absolute;
+        left: calc(50% - 12px);
+        color: #969696;
+        text-align: center;
+        cursor: pointer;
+        z-index: 2;
+        margin-top: 8px;
+        @include transparent();
+        i{
+          font-size: 24px;
+          position: relative;
+          top: -5px;
+        }
+        &:hover{
+          color: $colorw;
+        }
+      }
+    }
+    &-right{
+      width: 35%;
+    }
+    &-city{
+      width: calc(100% - 20px);
+      background: $colorw;
+      border-radius: 3px;
+      height: 44px;
+      line-height: 44px;
+      padding-left: 12px;
+      // position: relative;
+      &-close{
+        position: absolute;
+        top: -12px;
+        padding: 0;
+        width: 45px;
+        right: 7px;
+        border: 1px solid #fff;
+        border-radius: 22px;
+        text-align: center;
+        cursor: pointer;
+        -webkit-transition: all linear .3s;
+        transition: all linear .3s;
+        height: 24px;
+        line-height: 24px;
+        color: $colorw;
+        @include transparent();
+        &:hover{
+          background: $colorw;
+          color: $colorh;
+        }
+      }
+      &-tab{
+        height: 40px;
+        background: $colorb;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        min-width: 300px;
+        ol{
+          padding-right: 100px;
+          li{
+            padding: 0px 15px;
+            color: $colorw;
+            margin-right: 4px;
+            background: transparent;
+            border-radius: 4px;
+            display: inline-block;
+            cursor: pointer;
+            @include transparent();
+            &:hover{
+              background: $colorw;
+              color: $colorh;
+            }
+          }
+        }
+      }
+      &-list{
+        padding: 15px 0 10px 5px;
+        margin-bottom: 5px;
+        overflow: hidden;
+        // min-width: 500px;
+        // overflow: hidden;
+        ul{
+          font-size: 14px;
+          border-right: 1px solid #ccc;
+          display: inline-block;
+          padding: 0 10px;
+          float: left;
+          li{
+            line-height: 26px;
+            color: $colorh;
+            cursor: pointer;
+            @include transparent();
+            padding-right: 10px;
+            &:hover{
+              color: $colorb;
+            }
+          }
+        }
+      }
+      i{
+        color: $colorq;
+        @include fontsize(20px);
+      }
+      span{
+        width: 80%;
+        margin-left: 10px;
+      }
+      &-date{
+        width: calc(100% - 60px);
+        margin-left: 10px;
+      }
+    }
+    &-button{
+      width: 44px;
+      height: 44px;
+      position: relative;
+      background: transparent;
+      text-align: center;
+      color: $colorw;
+      border-radius: 3px;
+      @include fontsize(28px);
+      @include transparent();
+      cursor: pointer;
+      left: 5px;
+      &:hover{
+        background: $colorb;
+      }
+    }
+  }
+}
+
+
+.col-10{
+  width: 50%;
+}
+.cursort{
+  cursor: pointer;
+  position: relative;
+  right: 12px;
+  top: -2px;
+}
+
+
+.flights-index-search-input-disabled{
+  background: $colorg;
+}
+
+.flights-index-search-input-delete{
+  color: $colorg;
+  font-size: 20px;
+  line-height: 40px;
+  margin-left: 10px;
+  @include transparent();
+  cursor: pointer;
+  &:hover{
+    color: $colorw;
+  }
+}
+
+.flights-index-search-input-city-tab-active{
+  background: $colorw;
+  color: $colorh;
+}
+
+.timelineActive{
+  .flights-index-search-input-city{
+    @include searchair();
+    @include backgcolor();
+    i{
+      line-height: 28px;
+    }
+  }
+  .flights-index-text{
+    @include searchair();
+    background-color: transparent;
+  }
+  .flights-index-search-input-left-change{
+    margin-top: 2px;
+  }
+
+  .flights-index-search-input-button{
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #0096ff;
+    float: right;
+    position: relative;
+    top: 2px;
+    i{
+      font-size: 20px;
+      position: relative;
+      top: -10px;
+    }
+  }
+  .flights-index-begin{
+    display: block;
+  }
+  .flights-index-search-input-city-date{
+    width: calc(100% - 160px)
+  }
+  .flights-index-search-input-left{
+    width: 52%;
+  }
+  .flights-index-search-input-right{
+    width: 48%;
+  }
+}
+
+.flights-index-begin{
+  width: 105px;
+  text-align: center;
+  padding: 0;
+  color: #fff;
+  margin-left: 10px;
+  display: none;
+  cursor: pointer;
+  @include transparent();
+  &:hover{
+    color: $colorb;
+  }
+}

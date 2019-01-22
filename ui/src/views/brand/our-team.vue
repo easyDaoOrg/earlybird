@@ -26,7 +26,7 @@
         <h2 class="brand-title">团队介绍</h2>
 
         <section class='container-carousel'>
-            <Carousel v-model="value1" loop style='height:100%' dots='outside' arrow='never' :radius-dot="radiusDot" :easing='easing'>
+            <Carousel v-model="value1" autoplay loop style='height:100%' dots='outside' arrow='never' :radius-dot="radiusDot" :easing='easing'>
                 <CarouselItem v-for='(item,index) in seniorMember' :key='index'>
                   <div class='container-carousel-bg demo-carousel'>
                      <p>

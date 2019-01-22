@@ -3,7 +3,7 @@
 </style>
 
 <template>
-  <div>
+  <div class='hewderWrap'>
     <Row type="flex" justify="space-between" class="header">
       <i-col class="header-list">
         <div class="header-list-menu">
@@ -17,7 +17,9 @@
               <router-link :to="{path:'/hotel'}">
                 <li>酒店</li>
               </router-link>
+              <router-link :to="{path:'/member/user/my-booking'}">
               <li>订单查询</li>
+              </router-link>
               <router-link :to="{path:'/news'}">
                 <li>媒体中心</li>
               </router-link>
@@ -33,14 +35,16 @@
       </i-col>
 
       <i-col class="header-logo">
-        <router-link :to="{path:'/home'}">
-          <img src="../../assets/images/igola-logo-v3.png" alt>
+        <router-link :to="{path:'/'}">
+          <img src="../../assets/images/yidao-logo-1.png" alt width="90">
         </router-link>
       </i-col>
 
       <i-col class="header-right">
         <div class="header-right-login">
-          <span class="header-right-login-icon"><Icon type="ios-person-outline"/></span>登录
+          <router-link :to="{path:'/member/account/sign-in'}">
+            <span class="header-right-login-icon"><Icon type="ios-person-outline"/></span>登录
+          </router-link>
         </div>
         <div class="header-right-side">
           <span class="header-right-side-languagebtn">

@@ -41,7 +41,7 @@ const Util = {
     const times = `${year}${month}${day}`
     return times
   },
-  timeStampLite (time) {
+  timeStampLite (time, type) {
     const date = new Date(parseInt(time, 0))
     const year = date.getFullYear()
     let month = date.getMonth() + 1
@@ -55,7 +55,13 @@ const Util = {
       day = zero + day
     }
     const line = '-'
-    return year + line + month + line + day
+    let str = ''
+    if (type === 'yyyy年MM月dd日') {
+      str = year + '年' + month + '月' + day + '日'
+    } else {
+      str = year + line + month + line + day
+    }
+    return str
   },
   timeStampLiteAdd (time) {
     const date = new Date(parseInt(time, 0))
@@ -98,6 +104,34 @@ const Util = {
         break
     }
     return baseURL
+  },
+  differDays (updateTime, createTime) {
+    let up = new Date(updateTime.replace(/-/g, '/')) // 开始时间
+    let cr = new Date(createTime.replace(/-/g, '/')) // 开始时间
+    var date3 = up.getTime() - cr.getTime() // 时间差的毫秒数
+    // 计算出相差天数
+    var days = Math.floor(date3 / (24 * 3600 * 1000))
+    // 计算出小时数
+    var leave1 = date3 % (24 * 3600 * 1000) // 计算天数后剩余的毫秒数
+    var hours = Math.floor(leave1 / (3600 * 1000))
+    // 计算相差分钟数
+    var leave2 = leave1 % (3600 * 1000) // 计算小时数后剩余的毫秒数
+    var minutes = Math.floor(leave2 / (60 * 1000))
+    // 计算相差秒数
+    var leave3 = leave2 % (60 * 1000) // 计算分钟数后剩余的毫秒数
+    var seconds = Math.round(leave3 / 1000)
+    // str=" 相差 " + days + "天 " + hours + "小时 " + minutes + " 分钟" + seconds + " 秒"
+    var returnStr = seconds + '秒'
+    if (minutes > 0) {
+      returnStr = minutes + '分' + returnStr
+    }
+    if (hours > 0) {
+      returnStr = hours + '小时' + returnStr
+    }
+    if (days > 0) {
+      returnStr = days + '天' + returnStr
+    }
+    return returnStr
   }
 }
 

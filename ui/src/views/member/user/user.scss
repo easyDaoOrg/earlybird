@@ -1,0 +1,75 @@
+.user {
+  clear: both;
+
+  &-header {
+    height: 140px;
+    background: url(https://content.igola.com/static/WEB/images/member/user-panel-bg.jpg) no-repeat top;
+
+    &-img {
+      display: block;
+      background-image: url(https://content.igola.com/static/COMMON/images/avatar-man.png);
+      background-repeat: no-repeat;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+      position: relative;
+      top: 25px;
+      cursor: pointer;
+
+      span {
+        padding: 2px 10px;
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.3);
+        color: #fff;
+        border-radius: 3px;
+        position: absolute;
+        top: -5px;
+        left: -9px;
+        width: 80px;
+        text-align: center;
+      }
+    }
+
+    &-tel {
+      margin-top: 27px;
+      color: #fff;
+      font-weight: 600;
+      text-align: center;
+      font-size: 14px;
+    }
+  }
+
+  &-content {
+    width: 970px;
+    height: auto;
+    margin: 0 auto;
+    padding-left: 235px;
+
+    &-left {
+      width: 233px;
+      margin-left: -235px;
+      margin-bottom: 100px;
+    }
+
+    &-right {
+      padding-left: 15px;
+      padding-top: 15px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .user-content {
+    width: 750px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .user-content {
+    width: 992px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .user-content {
+    width: 1170px;
+  }
+}

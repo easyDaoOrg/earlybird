@@ -53,7 +53,7 @@
     <div class="join-us-part">
       <div class="join-us-part-list fl">
         <ul>
-          <li v-for="(item,index) in partList" :key="index" v-bind:class="{joinactive: item.name == partName}" @click="joinPart(item.name)">{{item.name}}</li>
+          <li v-for="(item,index) in partList" :key="index" :class="{joinactive: item.name == partName}" @click="joinPart(item.name)">{{item.name}}</li>
         </ul>
       </div>
       <div class="join-us-part-content fl">

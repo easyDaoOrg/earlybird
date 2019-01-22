@@ -1,4 +1,35 @@
 
+  @mixin displayinline{
+    display: inline-block;
+  }
+
+  @mixin transparent{
+    -webkit-transition: all linear .3s;
+    -moz-transition: all linear .3s;
+    transition: all linear .3s;
+  }
+
+  @mixin fontsize($px){
+    font-size: $px;
+  }
+
+  @mixin searchair(){
+    height: 32px;
+    line-height: 32px;
+  }
+
+  @mixin backgcolor(){
+    background-color: hsla(0,0%,100%,.2);
+  }
+
+
+  $colorw:#fff;
+  $colorb:#0096ff;
+  $colorh:#323232;
+  $colorg:#8c8c8c;
+  $colorq:#969696;
+
+
   .flights-index-search-input-city-date .ivu-input{
     font-size: 14px;
     border: 0 none;
@@ -41,4 +72,223 @@
 
   .flights-index .ivu-select-dropdown{
     padding: 0;
+  }
+
+  .sign-up .ivu-tabs-bar{
+    border-bottom: 0 none;
+  }
+
+  .sign-up .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+    margin-right: 0;
+    border: 0 none;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    padding: 0;
+    width: 185px;
+    text-align: center;
+    background-color: rgba(0,0,0,.3);
+    color: #fff;
+    border-radius: 0;
+  }
+
+  .sign-up .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
+      background-color: rgba(0,0,0,.6);
+      color: #fff;
+  }
+
+  .sign-up .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container{
+    height: 40px;;
+  }
+
+  .sign-up .ivu-tabs-bar{
+    margin-bottom: 1px;
+  }
+
+  .sign-up .sign-up-content-tab .ivu-tabs-nav{
+    margin-left: calc(50% - 75px);
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  .sign-up .sign-up-content-tab .ivu-tabs-nav .ivu-tabs-tab-active{
+    color: #ffffff;
+  }
+
+  .sign-up .sign-up-content-tab .ivu-tabs-bar{
+    margin-bottom: 15px;
+  }
+
+  .sign-up .sign-up-content-tab .ivu-tabs{
+    overflow: inherit;
+  }
+
+  .sign-up .sign-up-public .ivu-btn-primary{
+    font-size: 16px;
+  }
+
+  .sign-up .sign-up-content-tab .ivu-form-inline .ivu-form-item{
+    margin-right: 0;
+  }
+
+  .sign-up .sign-up-content-tab .ivu-select{
+    width: 150px!important;
+  }
+
+
+  .sign-up .sign-up-content-tab-phone .ivu-input-wrapper{
+    width: 175px!important;
+  }
+
+  .search-bar .ivu-select-dropdown{
+    padding: 0;
+  }
+
+  .timelineActive .ivu-input{
+    background: transparent;
+    height: 32px;
+    padding: 0;
+  }
+
+  .flights-index-text input{
+    border: 0 none;
+    height: 40px;
+    font-size: 16px;
+    color: #0096ff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+    top: -2px;
+  }
+
+  .flights-index-search-input-city .ivu-tabs-nav-scroll{
+    height: 40px;
+    background: #0096ff;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color:#ffffff;
+    padding-right: 100px;
+  }
+
+  .flights-index-search-input-city .ivu-tabs-nav .ivu-tabs-tab-active,
+  .flights-index-search-input-city .ivu-tabs-nav .ivu-tabs-tab:hover{
+    color: #0096ff;
+    background: #ffffff;
+    border-radius: 4px;
+    @include transparent();
+  }
+
+  .flights-index-search-input-city .ivu-tabs-ink-bar{
+    background: transparent;
+  }
+
+  .flights-index-search-input-city .ivu-tabs-nav .ivu-tabs-tab{
+    padding: 10px 16px;
+  }
+
+  .flights-index-search-input-city .ivu-dropdown-menu{
+    margin-top: -20px;
+  }
+
+  .flights-index-org input{
+    color: orange;
+  }
+  .booking-left .ivu-steps{
+    position: relative;
+    top: 7px;
+  }
+  .booking-left .ivu-steps .ivu-steps-head,
+  .booking-left .ivu-steps .ivu-steps-title{
+    background: transparent;
+  }
+  .booking-left .ivu-steps .ivu-steps-tail{
+    opacity: 0;;
+  }
+  .booking-left .ivu-steps-status-process .ivu-steps-title{
+    color: #fff!important;
+  }
+  .booking-left .ivu-steps-title{
+    line-height: 27px;
+  }
+  .booking-left .ivu-steps-item.ivu-steps-status-wait .ivu-steps-head-inner{
+    background-color: #323232;
+    color: #969696;
+    border: 0 none
+  }
+  .booking-left .ivu-steps-item{
+    width: 130px!important;
+  }
+
+  .booking-tablist-content .ivu-tabs-bar{
+    width: 120px;
+    height: 100%;
+    background-color: #f0f0f0;
+    position: absolute;
+    left: -121px;
+    top: 0;
+    border-bottom: 0 none;
+    float: left;
+    margin-bottom: 0;
+  }
+  .booking-tablist-content .ivu-tabs{
+    overflow: inherit;
+  }
+  .booking-tablist-content .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container{
+    height: auto;
+  }
+  .booking-tablist-content .ivu-tabs-nav-scrollable{
+    padding: 0;
+  }
+  .booking-tablist-content .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
+    margin: 0;
+    height: 56px;
+    padding: 6px 12px 0;
+    border: 0 none;
+    border-radius: 0;
+    transition: all .3s ease-in-out;
+    border-bottom: 1px solid #c8c8c8;
+    width: 100%;
+    float: left;
+    font-size: 16px;
+  }
+  .booking-tablist-content .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab::after{
+    content: '新旅客';
+    position: absolute;
+    color: #969696;
+    bottom: 0;
+    font-size: 14px;
+    left: 10px;
+    line-height: 30px;
+  }
+  .booking-tablist-content .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active {
+    height: 56px;
+    padding-bottom: 0;
+    background: #fff;
+    transform: translateZ(0);
+    font-size: 16px;
+}
+  .booking-tablist-content .ivu-tabs-nav{
+    float: none;
+  }
+
+  .ivu-affix{
+    z-index: 9999;
+  }
+
+  .user-content-right .ivu-tabs-bar{
+    border-bottom: 0 none
+  }
+
+  .user-content-right .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active{
+    background: #0096ff!important;
+    color: #fff;
+    border: 0 none;
+  }
+
+  .user-content-right .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+    border: 0 none;
+    background: transparent;
+    margin-right: 20px;
+    border-radius: 30px;
   }

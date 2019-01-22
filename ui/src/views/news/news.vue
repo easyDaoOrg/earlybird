@@ -16,7 +16,7 @@
           <Col span="10">
             <div class="news-padding">
               <div class="news-desc-content">
-                <h2>iGola骑鹅旅行斩获龙雀奖“最佳出境旅游服务机构”</h2>
+                <h2>易到旅行斩获龙雀奖“最佳出境旅游服务机构”</h2>
                 <span class="news-title-icons">
                   <Icon type="ios-camera" size="35" color="#fff"/>
                 </span>

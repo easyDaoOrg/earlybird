@@ -33,6 +33,9 @@ npm test
 酒店      hotel/index
 
 订单查询   member/account/order-inquirey
+登录       member/account/sign-in
+注册       member/account/sign-up
+忘记密码   member/account/forgot-password
 
 媒体中心   news
 

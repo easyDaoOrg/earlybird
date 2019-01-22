@@ -1,0 +1,58 @@
+
+.my-cashback{
+  &-title{
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 20px;
+    b{
+      color: #3391eb;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    i{
+      font-size: 20px;
+      cursor: pointer;
+      &:hover{
+        color: #3391eb;
+      }
+    }
+  }
+  &-content{
+    padding: 20px;
+    &-balance{
+      margin: 35px 0;
+      font-weight: bold;
+    }
+    &-info{
+      height: 40px;
+      line-height: 40px;
+      b{
+        font-size: 40px;
+        color: #ff7800;
+        margin-right: 60px;
+      }
+    }
+  }
+  &-question{
+    padding: 10px 0;
+    &-title{
+      text-align: center;
+      padding-bottom: 15px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    &-list{
+      dl{
+        line-height: 24px;
+        margin-bottom: 25px;
+        font-size: 14px;
+        dt{
+          margin-bottom: 7px;
+          color: #000;
+        }
+        &:last-child{
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

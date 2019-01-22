@@ -1,0 +1,64 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+$colorg:#8c8c8c;
+$colorq:#969696;
+
+.booking{
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background-image: url(https://content.igola.com/static/WEB/images/background/timelinebg03_common.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  padding: 20px 10px;
+  &-left{
+    width: calc(100% - 300px);
+  }
+  &-right{
+    background-color: #fff;
+    border-radius: 3px;
+    width: 300px;
+    top: 70px;
+    position: fixed;
+    right: 10px;
+    padding: 0;
+    z-index: 110;
+  }
+  &-box{
+    border: 1px solid #c8c8c8;
+    border-radius: 0 0 3px 3px;
+    background-color: #fff;
+    margin-bottom: 12px;
+    padding: 10px 20px;
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+  &-tips{
+    height: 60px;
+    line-height: 60px;
+    color: #969696;
+    text-align: center;
+    border: 1px solid #ccc;
+    background: #fff;
+    margin-top: -15px;
+  }
+}

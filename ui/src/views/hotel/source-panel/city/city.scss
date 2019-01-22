@@ -1,13 +1,14 @@
 $colorw:#00bedc;
 
 .main {
-  width: 100%;
-  height: 100%;
-}
-
-.city {
   width: 225px;
-
+  height: 100%;
+  float:left;
+}
+.top70{
+  top:70px!important;
+}
+.city {
   &-picker {
     position: absolute;
     width: 100%;
@@ -17,7 +18,6 @@ $colorw:#00bedc;
     &-panel {
       font-size: 14px;
       width: 100%;
-      ;
       background: #fff;
       box-shadow: 0 0 6px 0 hsla(0, 0%, 71%, .7);
       z-index: 3;
@@ -30,7 +30,8 @@ $colorw:#00bedc;
     flex-direction: row;
     flex-wrap: wrap;
     padding-top: 15px;
-
+    max-height: 206px;
+    overflow-y: auto;
     li {
       text-overflow: ellipsis;
       white-space: nowrap;

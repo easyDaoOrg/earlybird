@@ -1,0 +1,195 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+@mixin public(){
+  background-color: rgba(0,0,0,.6);
+  padding: 10px 20px 0 20px;
+  color: $colorw;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+$colorg:#8c8c8c;
+$colorq:#969696;
+$colorz:#f0f0f0;
+$colorl:#8ecf01;
+
+
+.timeline-list{
+  background: $colorz;
+  &-card{
+    min-height: 64px;
+    z-index: 3;
+    border-bottom: 9px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+    &-header{
+      padding: 6px 20px;
+      &-tips{
+        @include displayinline();
+        color:$colorq;
+        font-size: 12px;
+      }
+      &-score{
+        color: $colorl;
+      }
+    }
+    &-body{
+      position: relative;
+      padding: 0 20px;
+      height: 48px;
+      &-box{
+        width: 144px;
+        float: left;
+        overflow: hidden;
+        height: 48px;
+        line-height: 48px;
+        margin-top: -2px;
+      }
+      &-sted{
+        float: left;
+        font-size: 14px;
+        min-width: 340px;
+        margin-left: 0;
+        height: 48px;
+        width: auto;
+        &-block{
+          padding-right: 0;
+          width: 150px;
+          display: inline-block;
+          &:first-child{
+            text-align: right;
+          }
+          &-time{
+            color: $colorb;
+            b{
+              font-weight: bold;
+            }
+
+          }
+          &-address{
+            b{
+              font-weight: bold;
+            }
+          }
+        }
+        &-mid{
+          display: inline-block;
+          vertical-align: top;
+          font-size: 12px;
+          position: relative;
+          padding: 0;
+          width: 85px;
+          margin: 0 20px;
+          &-change{
+            padding-top: 0;
+            height: 16px;
+            font-size: 11px;
+            color: #969696;
+            text-align: center;
+            margin: -5px 0 5px;
+          }
+          &-alltime{
+            height: 2px;
+            width: 100%;
+            background-color: #00648c;
+            position: relative;
+            text-align: center;
+          }
+          &-stopover{
+            display: inline-block;
+            overflow: hidden;
+            padding: 4px 0;
+            width: 100%;
+            height: 20px;
+            color: #00648c;
+            cursor: pointer;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    &-duration{
+      line-height: 38px;
+      margin-right: 25px;
+      min-width: 75px;
+      padding-left: 10px;
+      color: #969696;
+    }
+    &-footer{
+      padding: 0 15px;
+      border-top: 1px solid #ececec;
+      border-bottom: 1px solid #dcdcdc;
+      height: 61px;
+      transition: all .2s ease-in-out;
+      &-box{
+        padding: 10px 0 18px;
+      }
+      &-chosen{
+        padding: 0 10px;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+      }
+      &-price{
+        height: 50px;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 4px;
+        padding: 0 10px;
+        text-align: right;
+        font-size: 16px;
+        p{
+          text-overflow: ellipsis;
+          color: #323232;
+          font-size: 22px;
+          line-height: 32px;
+          display: inline-block;
+          margin: 0;
+          font-weight: 700;
+          min-width: 70px;
+          padding-left: 27px;
+          display: block;
+          b{
+            font-size: 12px;
+            position: relative;
+            top: -5px;
+            margin-right: 3px;
+          }
+        }
+        span{
+          overflow: hidden;
+          color: #969696;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-style: normal;
+          line-height: 20px;
+          font-size: 12px;
+          position: relative;
+          top: -10px;
+        }
+      }
+    }
+  }
+}
+
+.backlist .timeline-list-card-body-sted-block-time{
+  color: orange;
+}
+.backlist .timeline-list-card-body-sted-mid-alltime{
+  background: #965a00;
+}

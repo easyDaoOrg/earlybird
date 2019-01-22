@@ -3,7 +3,7 @@
 @import "./city.scss";
 </style>
 <style>
-.ivu-input {
+.cityWrap .ivu-input {
   width: 184px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -14,11 +14,11 @@
   color: #323232;
   outline: none;
 }
-.ivu-tabs-nav {
+.cityWrap .ivu-tabs-nav {
   height: 45px;
   line-height: 31px;
 }
-.ivu-tabs-ink-bar {
+.cityWrap .ivu-tabs-ink-bar {
   width: 30px !important;
   height: 6px;
   position: absolute;
@@ -26,16 +26,22 @@
   border-radius: 61px;
   margin-left: 18px;
 }
-.ivu-tabs-nav .ivu-tabs-tab-active {
+.cityWrap .ivu-tabs-nav .ivu-tabs-tab-active {
   color: #00bedc !important;
 }
-.ivu-tabs-tab {
+.cityWrap .ivu-tabs-tab {
   color: #323232 !important;
+}
+.cityWrap .cityWrap input{
+  border:none!important;
+}
+.cityWrap .ivu-tabs-bar{
+  margin-bottom:0
 }
 </style>
 
 <template>
-  <div class="main" @click='$event.stopPropagation();'>
+  <div class="main cityWrap" @click='$event.stopPropagation();'>
     <!-- 城市 -->
     <section class="city row-item">
       <Input
@@ -46,7 +52,7 @@
         @on-change="getCitySearchData()"
       />
     </section>
-    <div class="city-picker">
+    <div class="city-picker" :class="{'top70':type=='result-list'}">
       <div class="city-picker-panel" v-if="cityOpen.whole">
         <Tabs :animated="false">
           <TabPane :label="item.label" v-for="(item,index) in cityWholeList" :key="index">
@@ -89,6 +95,12 @@
 import axios from 'axios/dist/axios.min'
 export default {
   components: {},
+  props: {
+    type: {
+      default: 'hotel',
+      type: String
+    }
+  },
   data () {
     return {
       citySelected: '',
@@ -131,28 +143,16 @@ export default {
         city: '城市',
         neighbor: '周边'
       }
-      // cityType: [{
-      //   name: '酒店',
-      //   type: 'Hotel'
-      // }, {
-      //   name: '城市',
-      //   type: 'city'
-      // }, {
-      //   name: '周边',
-      //   type: 'neighbor'
-      // }]
     }
   },
   mounted () {
-    this.$bus.on('overall-close', () => {
-      this.cityOpen.whole = false
-      this.cityOpen.search = false
-    })
+    this.$bus.on('overall-close', this.clear)
   },
   methods: {
     // 城市
     // 获取所有数据
     getCityWholeData () {
+      this.$emit('other-close', 'city')
       if (!this.citySelected) {
         let self = this
         axios
@@ -207,6 +207,10 @@ export default {
       } else if (data.type === 'neighbor') {
         // 地点
       }
+    },
+    clear () {
+      this.cityOpen.whole = false
+      this.cityOpen.search = false
     }
   }
 }

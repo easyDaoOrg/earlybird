@@ -1,0 +1,81 @@
+.history {
+  font-size: 14px;
+  color: #464646;
+  letter-spacing: 0;
+  line-height: 14px;
+  position: absolute;
+  width: 117px;
+  height:auto;
+  top: 120px;
+  display: inline-block;
+  transition: all .2s linear;
+  text-align: left;
+  opacity: .8;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  left: 0;
+  &-title{
+    padding-left: 20px;
+    height:40px;
+    line-height: 40px;
+    span{
+      font-size: 12px;
+      color: #fff;
+      letter-spacing: 0;
+      width: 16px;
+      line-height: 16px;
+      background: #464646;
+      display: inline-block;
+      border-radius: 16px;
+      text-align: center;
+      align-items: center;
+      margin-left: 10px;
+    }
+  }
+}
+.noClick{
+  height: 40px;
+}
+.click{
+  width: 400px;
+  transition: all .2s linear;
+  max-height: 433px;
+}
+.history-content{
+  margin: 0 20px;
+  width: 360px;
+  border-bottom: .5px solid #787878;
+  cursor: pointer;
+  position: relative;
+  span{
+    font-size: 14px;
+    color: #464646;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    letter-spacing: 0;
+    line-height: 14px;
+    margin: 20px 10px 20px 0;
+    display: inline-block;
+    &:first-child{
+      max-width: 182px;
+    }
+  }
+}
+.close{
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
+.clear-history{
+  font-size: 14px;
+  color: #464646;
+  letter-spacing: 0;
+  line-height: 14px;
+  text-align: center;
+  padding: 20px 0;
+  cursor: pointer;
+  margin: 0;
+}

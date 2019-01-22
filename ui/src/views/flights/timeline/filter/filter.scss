@@ -1,0 +1,254 @@
+@mixin displayinline{
+  display: inline-block;
+}
+
+@mixin transparent{
+  -webkit-transition: all linear .3s;
+  -moz-transition: all linear .3s;
+  transition: all linear .3s;
+}
+
+@mixin fontsize($px){
+  font-size: $px;
+}
+
+@mixin public(){
+  background-color: rgba(0,0,0,.6);
+  padding: 10px 20px 0 20px;
+  color: $colorw;
+}
+
+@mixin tipspub(){
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+$colorw:#fff;
+$colorb:#0096ff;
+$colorh:#323232;
+$colorg:#8c8c8c;
+$colorq:#969696;
+
+.filter{
+  margin-bottom: 4px;
+  &-active{
+    .filter-fill-go{
+      width: 10%;
+    }
+    .filter-fill-back{
+      width: 90%;
+    }
+  }
+  //自由搭配header
+  &-fill{
+    background-color: #00b4ff;
+    border-radius: 4px 4px 0 0;
+    height: 40px;
+    color: $colorw;
+    overflow: hidden;
+    .filter-bar-title{
+      line-height: 40px;
+      padding-left: 10px;
+    }
+    &-go{
+      width: 90%;
+      float: left;
+      @include transparent();
+      &-tips{
+        @include tipspub;
+      }
+    }
+    &-back{
+      width: 10%;
+      float: left;
+      background: #ffa000;
+      border-radius: 0 4px 0 0;
+      @include transparent();
+      &-tips{
+        @include tipspub;
+      }
+    }
+    span{
+      color: #fff;
+      i{
+        font-size: 16px;
+      }
+    }
+  }
+  //航班组合header
+  &-bar{
+    height: 40px;
+    background-color: rgba(0,0,0,.4);
+    border-radius: 4px 4px 0 0;
+    padding: 6px 10px;
+    box-sizing: border-box;
+    &-title{
+      display: block;
+      float: left;
+      line-height: 28px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      span{
+        color: #fff;
+        i{
+          font-size: 16px;
+        }
+      }
+      &-info{
+        display: inline-block;
+        padding-left: 8px;
+        span{
+          color: $colorw;
+          &:first-child{
+            color: $colorb;
+          }
+          &:last-child{
+            color: orange;
+          }
+        }
+      }
+    }
+  }
+  &-panel{
+    position: relative;
+    padding: 15px;
+    padding-top: 2px;
+    background-color: #fff;
+    color: #323232;
+    width: 100%;
+    border-radius: 0 0 4px 4px;
+    transition: all .3s;
+    box-sizing: border-box;
+    &-box{
+      position: relative;
+      display: block;
+      min-height: 36px;
+      width: 100%;
+      top: 14px;
+      margin-bottom: 10px;
+      &-stop{
+        float: left;
+        padding-top: 7px;
+        padding-right: 9px;
+        small{
+          color: #969696;
+        }
+      }
+      &-item{
+        margin-top: 1px;
+        margin-right: 8px;
+        position: relative;
+        float: left;
+        line-height: 26px;
+        padding: 2px 8px;
+        cursor: pointer;
+        small{
+          color: #969696;
+          padding-left: 10px;
+        }
+      }
+      &-airports{
+        margin-right: 4px;
+        float: left;
+        text-decoration: none;
+        line-height: 26px;
+        color: #323232;
+        padding: 2px 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        position: relative;
+        top: 1px;
+        cursor: pointer;
+        &-title{
+          padding: 10px 16px;
+          color: $colorb;
+          font-weight: bold;
+          cursor: pointer;
+        }
+        &-content{
+          min-width: 440px;
+          padding-bottom: 15px;
+          overflow: hidden;
+        }
+        &-play{
+          min-width: 650px;
+          padding: 10px;
+          &-dl{
+            border-bottom: 1px solid #ececec;
+            overflow: hidden;
+            padding: 10px 0;
+            &:last-child{
+              border-bottom: 0 none;
+            }
+            &-dt{
+              width: 210px;
+              float: left;
+            }
+            &-dd{
+              width: 420px;
+              float: left;
+              li{
+                width: 210px;
+                float: left;
+                clear: inherit;
+              }
+              small{
+                color: #969696;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        &-time{
+          width: 660px;
+          &-c{
+            width: 300px;
+            float: left;
+            margin: 15px;
+            border-right: 1px solid #ececec;
+            &-top{
+              color: $colorg;
+              padding-bottom: 10px;
+            }
+            &-drop{
+              margin-bottom: 20px;
+            }
+          }
+        }
+      }
+      &-clear{
+        line-height: 32px;
+        padding: 0 15px;
+        cursor: pointer;
+        @include transparent();
+        float: left;
+        &:hover{
+          color: $colorb;
+        }
+      }
+    }
+  }
+}
+
+.none{
+  padding: 0;
+}
+
+.orange{
+  color: orange;
+}
+
+.filter-fill .filter-bar-title span{
+  color: $colorw;
+}
+
+.arrow-down {
+  width:0;
+  height:0;
+  border-left:20px solid transparent;
+  border-right:20px solid transparent;
+  border-top:20px solid #0066cc;
+}
+

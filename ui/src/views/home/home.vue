@@ -7,7 +7,7 @@
     <Header></Header>
     <div class='home-content'>
         <router-view/>
-        <Footer></Footer>
+        <Footer v-if='footer'></Footer>
     </div>
   </div>
 </template>
@@ -17,13 +17,30 @@ import Header from '../header/header'
 import Footer from '../footer/footer'
 export default {
   data () {
-    return {}
+    return {
+      routerData: ['result-list'],
+      footer: true
+    }
   },
   components: {
     Header,
     Footer
   },
-  methods: {},
-  mounted () {}
+  watch: {
+    $route () {
+      this.onShowFooter()
+    }
+  },
+  methods: {
+    onShowFooter () {
+      this.footer = true
+      if (!this.$route.meta.footer) {
+        this.footer = false
+      }
+    }
+  },
+  mounted () {
+    this.onShowFooter()
+  }
 }
 </script>
