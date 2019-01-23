@@ -95,7 +95,7 @@ export default {
           position: '创始人',
           positionSystem: 'CEO',
           url: 'https://content.igola.com/igola-cms/prod/our-team/834401bbb2d34d54b3215e7a1d1553cd.png',
-          data: '张岩，iGola创始人、CEO。张岩毕业于广州华南理工大学，获得计算机软件学士学位。他先后在Unisys、Cisco Systems、Google任职，带领中国区的团队创造每年过亿美金的销售佳绩。有感于自己在国际机票预订中遇到的各种不便，2014年创办iGola——一款引领更好旅行预订体验的产品，让用户少花时间搜索、多花时间探索。'
+          data: '张岩，易道创始人、CEO。张岩毕业于广州华南理工大学，获得计算机软件学士学位。他先后在Unisys、Cisco Systems、Google任职，带领中国区的团队创造每年过亿美金的销售佳绩。有感于自己在国际机票预订中遇到的各种不便，2014年创办易道——一款引领更好旅行预订体验的产品，让用户少花时间搜索、多花时间探索。'
         },
         {
           name: '朱雷博士',

@@ -25,7 +25,7 @@
       <div class="contact-us-content-list">
         <dl>
           <dt>意见建议</dt>
-          <dd>请告诉iGola我们如何更好地为您服务！iGola非常欢迎您提出意见建议。</dd>
+          <dd>请告诉易道我们如何更好地为您服务！易道非常欢迎您提出意见建议。</dd>
           <button @click="handleQuestion('意见建议')">Go</button>
         </dl>
         <dl>
@@ -35,7 +35,7 @@
         </dl>
         <dl>
           <dt>招贤纳士</dt>
-          <dd>觉得自己有才？发份简历给我们吧！iGola招贤纳士进行中。</dd>
+          <dd>觉得自己有才？发份简历给我们吧！易道招贤纳士进行中。</dd>
           <button @click="handleQuestion('招贤纳士')">Go</button>
         </dl>
 
@@ -58,12 +58,12 @@
 
         <dl>
           <dt>合作伙伴</dt>
-          <dd>无论是大公司还是小团队，无论是旅行、航空还是旅游局，iGola对合作伙伴随时敞开大门。</dd>
+          <dd>无论是大公司还是小团队，无论是旅行、航空还是旅游局，易道对合作伙伴随时敞开大门。</dd>
           <button @click="handleQuestion('合作伙伴')">Go</button>
         </dl>
         <dl>
           <dt>市场营销</dt>
-          <dd>如果你有好创意或媒介资源，让iGola成功面向更多用户，欢迎发封邮件给我们聊聊看。</dd>
+          <dd>如果你有好创意或媒介资源，让易道成功面向更多用户，欢迎发封邮件给我们聊聊看。</dd>
           <button @click="handleQuestion('市场营销')">Go</button>
         </dl>
         <dl>
