@@ -15,7 +15,7 @@
           客服部：
         </span>
         <span>
-          <a href="mailto:?subject='联系-'&amp;body='您好易到:'">
+          <a href="mailto:?subject='联系-'&amp;body='您好易道:'">
           hr@yidao.com<br>
           mkt@yidao.com<br>
           bdteam@yidao.com<br>

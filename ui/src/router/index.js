@@ -34,7 +34,7 @@ export default new Router({
           path: '/brand',
           name: 'brand',
           meta: {
-            title: '易到'
+            title: '易道'
           },
           component: () => import('@/views/brand/brand'),
           children: [
@@ -42,7 +42,7 @@ export default new Router({
               path: '/brand/about-us',
               name: 'about-us',
               meta: {
-                title: '关于易到',
+                title: '关于易道',
                 footer: true
               },
               component: () => import('@/views/brand/about-us')

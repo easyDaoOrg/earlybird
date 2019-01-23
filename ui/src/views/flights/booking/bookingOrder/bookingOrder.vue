@@ -33,7 +33,7 @@
     </div>
     <div class="booking-order-price">
       <div class="booking-order-price-exchange">
-        <span>兑换后约为： £ 110.67 </span>（此金额为估算值，易到订单以人民币交易，接受外币支付，成交金额需按实际交易汇率结算。）
+        <span>兑换后约为： £ 110.67 </span>（此金额为估算值，易道订单以人民币交易，接受外币支付，成交金额需按实际交易汇率结算。）
       </div>
     </div>
     <div class="booking-order-total clearfix">
@@ -54,7 +54,7 @@
     <div class="booking-order-firm">
       <!-- <div class="booking-order-firm-gz">退改签规则</div> -->
       <div class="booking-order-firm-gz">
-        <Checkbox v-model="single">已阅读并同意<span @click="modelClause = true">易到服务条款</span></Checkbox>
+        <Checkbox v-model="single">已阅读并同意<span @click="modelClause = true">易道服务条款</span></Checkbox>
       </div>
       <router-link :to="{path:'/member/user/my-booking'}">
         <Button type="primary" shape="circle">提交订单</Button>
@@ -65,7 +65,7 @@
       <div class="booking-order-clause">
         <div class="booking-order-clause-title">法律声明</div>
         <div class="booking-order-clause-content">
-          <p>易到是一家互联网信息服务提供商。</p>
+          <p>易道是一家互联网信息服务提供商。</p>
         </div>
       </div>
     </Modal>

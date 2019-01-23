@@ -8,7 +8,7 @@
       <ul>
         <router-link :to="{path:'/brand/about-us'}">
           <li :class="{brandactive: isActive == '/brand/about-us'}">
-            <b>关于易到</b>
+            <b>关于易道</b>
             <span style="background-image: url(&quot;https://content.igola.com/static/WEB/images/brand/aboutus/brand_aboutus_bannerbg.jpg&quot;); opacity: 1;"></span>
           </li>
         </router-link>

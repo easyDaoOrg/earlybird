@@ -18,11 +18,11 @@
     </div>
     <Modal v-model="modelQuestion" footer-hide :width="700">
       <div class="my-cashback-question">
-        <div class="my-cashback-question-title">易到返现活动Q&A</div>
+        <div class="my-cashback-question-title">易道返现活动Q&A</div>
         <div class="my-cashback-question-list">
           <dl>
             <dt>Q1. 如何参与返现活动？</dt>
-            <dd>答：即日起，易到会员登录易到官网或客户端，购买参与返现的国际机票且订单完成后即可获得返现。</dd>
+            <dd>答：即日起，易道会员登录易道官网或客户端，购买参与返现的国际机票且订单完成后即可获得返现。</dd>
           </dl>
           <dl>
             <dt>Q2. 返现金额能用来做什么？</dt>

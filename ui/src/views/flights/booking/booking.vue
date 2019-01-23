@@ -31,7 +31,7 @@
         <bookingSubtitle :subTitle="3"></bookingSubtitle>
       </div>
 
-      <div class="booking-tips">易到是一家国际机票搜索引擎，辅助订购为您提供便捷订购通道，但是出票和退改签服务仍由第三方供应商提供</div>
+      <div class="booking-tips">易道是一家国际机票搜索引擎，辅助订购为您提供便捷订购通道，但是出票和退改签服务仍由第三方供应商提供</div>
     </div>
 
     <div class="booking-right">

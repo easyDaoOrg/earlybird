@@ -57,7 +57,7 @@
             <span class="header-right-side-media-wx"><i class="iconfont icon-travel-wechat" />
               <div class="header-right-side-media-weixin">
                 <img src="../../assets/images/weixin.jpg">
-                <p>易到旅行</p>
+                <p>易道旅行</p>
               </div>
             </span>
           </span>

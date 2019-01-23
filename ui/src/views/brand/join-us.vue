@@ -5,7 +5,7 @@
 <template>
   <div class="join-us">
     <div class="blank01"></div>
-    <div class="join-us-title">为什么选择 易到 ？</div>
+    <div class="join-us-title">为什么选择 易道 ？</div>
     <div class="join-us-content">
       <div class="join-us-content-choose">
         <dl>

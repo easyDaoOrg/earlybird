@@ -9,7 +9,7 @@
     <div v-if="subTitle == 2">
       <div class="booking-subtitle-title">报销凭证</div>
       <div class="booking-subtitle-tips">
-        <p>如需报销凭证，可在出行后15天内，在易到的订单详情内申请补开，或者联系客服获取。</p>
+        <p>如需报销凭证，可在出行后15天内，在易道的订单详情内申请补开，或者联系客服获取。</p>
       </div>
     </div>
     <div v-if="subTitle == 3">
