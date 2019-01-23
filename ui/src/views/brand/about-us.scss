@@ -37,8 +37,11 @@ $colorh:#323232;
       }
     }
     &-img{
-      height: 400px;
       margin: 32px auto;
+      img{
+        display: block;
+        margin: 0 auto;
+      }
     }
   }
 
