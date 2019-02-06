@@ -61,34 +61,34 @@ export default {
   data () {
     return {
       formInline: {
-          user: '',
-          select: '+86',
+        user: '',
+        select: '+86'
       },
       formItem: {
-          email: '',
+        email: ''
       },
       ruleInline: {
-          user: [
-              { required: true, message: '用户名不能为空', trigger: 'blur' }
-          ],
-          email: [
-              { required: true, message: '邮箱不能为空', trigger: 'blur' }
-          ],
-      },
+        user: [
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: '邮箱不能为空', trigger: 'blur' }
+        ]
+      }
     }
   },
   components: {
 
   },
   methods: {
-    handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-            if (valid) {
-                this.$Message.success('Success!');
-            } else {
-                this.$Message.error('Fail!');
-            }
-        })
+    handleSubmit (name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          this.$Message.success('Success!')
+        } else {
+          this.$Message.error('Fail!')
+        }
+      })
     }
   },
   mounted () {}

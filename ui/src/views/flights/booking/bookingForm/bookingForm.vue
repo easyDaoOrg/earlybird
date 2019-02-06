@@ -3,56 +3,55 @@
 @import "./bookingForm.scss";
 </style>
 <style>
-  .ivu-form-item{
+  .booking-form .ivu-form-item{
     width: calc(50% - 20px);
     margin-right: 20px;
     float: left;
   }
-  .ivu-form-item .ivu-form-item-label{
+  .booking-form .ivu-form-item .ivu-form-item-label{
     font-size: 14px;
     color: #0096ff;
   }
-  .booking-form-card .ivu-select{
+  .booking-form .booking-form-card .ivu-select{
     width: 100px!important;
     float: left;
   }
-  .booking-form-date .ivu-select{
+  .booking-form .booking-form-date .ivu-select{
     width: 32%!important;
     float: left;
     margin-right: 1%;
   }
-  .booking-form-card .ivu-input-wrapper{
+  .booking-form .booking-form-card .ivu-input-wrapper{
     width: calc(100% - 110px);
     margin-left: 10px;
     float: left;
   }
-  .booking-form-tel .ivu-select{
+  .booking-form .booking-form-tel .ivu-select{
     width: 160px!important;
     float: left;
   }
-  .booking-form-tel .ivu-input-wrapper{
+  .booking-form .booking-form-tel .ivu-input-wrapper{
     width: calc(100% - 170px);
     margin-left: 10px;
     float: left;
   }
-  .booking-form-travel{
+  .booking-form .booking-form-travel{
     width: 50%;
     float: left;
   }
-  .booking-form-travel .ivu-form-item:last-child{
+  .booking-form .booking-form-travel .ivu-form-item:last-child{
     margin-right: 0;
   }
-  .booking-form-travel .ivu-form-item{
+  .booking-form .booking-form-travel .ivu-form-item{
     margin-bottom: 2px;
   }
-  .booking-form-e .ivu-form-item{
+  .booking-form .booking-form-e .ivu-form-item{
     margin-bottom: 0;
   }
-  .ivu-form-item-label{
+  .booking-form .ivu-form-item-label{
     height: 24px;
   }
 </style>
-
 
 <template>
   <div class="booking-form clearfix">
@@ -139,7 +138,6 @@
             </FormItem>
           </div>
 
-
           <FormItem label="手机号">
             <div class="booking-form-tel">
               <bselect :bookingFormModel="'modelTelCountry'" :bookingFormList="formTop.telCountryList" :bookingFormPlaceholder="'请选择'"></bselect>
@@ -156,91 +154,90 @@
 import bselect from './select/select'
 import binput from './input/input'
 
-
 export default {
   props: ['bookingForm'],
   data () {
     return {
       formTop: {
-          modelXing: '',
-          modelMing: '',
-          modelXing2: '',
-          modelMing2: '',
-          modelCard: '',
-          modelNumber: '',
-          modelAddress: '',
-          modelYear: '',
-          modelMonth:'',
-          modelDay: '',
-          modelYear2: '',
-          modelMonth2:'',
-          modelDay2: '',
-          modelCountry: '',
-          modelEmail: '',
-          modelTelCountry: '',
-          modelTel: '',
-          modelAge: '',
-          cardList: [
-            {
-                value: '护照',
-                label: '护照'
-            },
-            {
-                value: '身份证',
-                label: '身份证'
-            },
-            {
-                value: '回乡证',
-                label: '回乡证'
-            },
-            {
-                value: '台胞证',
-                label: '台胞证'
-            },
-            {
-                value: '港澳台居民居住证',
-                label: '港澳台居民居住证'
-            },
-          ],
-          addressList: [
-            {
-                value: '中国',
-                label: '中国'
-            },
-          ],
-          yearList: [
-            {
-              value: '2019',
-              label: '2019'
-            }
-          ],
-          monthList: [
-            {
-              value: '1',
-              label: '1'
-            }
-          ],
-          monthList: [
-            {
-              value: '1',
-              label: '1'
-            }
-          ],
-          telCountryList: [
-            {
-              value: '中国大陆（+86）',
-              label: '中国大陆（+86）'
-            }
-          ]
+        modelXing: '',
+        modelMing: '',
+        modelXing2: '',
+        modelMing2: '',
+        modelCard: '',
+        modelNumber: '',
+        modelAddress: '',
+        modelYear: '',
+        modelMonth: '',
+        modelDay: '',
+        modelYear2: '',
+        modelMonth2: '',
+        modelDay2: '',
+        modelCountry: '',
+        modelEmail: '',
+        modelTelCountry: '',
+        modelTel: '',
+        modelAge: '',
+        cardList: [
+          {
+            value: '护照',
+            label: '护照'
+          },
+          {
+            value: '身份证',
+            label: '身份证'
+          },
+          {
+            value: '回乡证',
+            label: '回乡证'
+          },
+          {
+            value: '台胞证',
+            label: '台胞证'
+          },
+          {
+            value: '港澳台居民居住证',
+            label: '港澳台居民居住证'
+          }
+        ],
+        addressList: [
+          {
+            value: '中国',
+            label: '中国'
+          }
+        ],
+        yearList: [
+          {
+            value: '2019',
+            label: '2019'
+          }
+        ],
+        monthList: [
+          {
+            value: '1',
+            label: '1'
+          }
+        ],
+        monthList: [
+          {
+            value: '1',
+            label: '1'
+          }
+        ],
+        telCountryList: [
+          {
+            value: '中国大陆（+86）',
+            label: '中国大陆（+86）'
+          }
+        ]
       },
       ruleInline: {
-          // user: [
-          //     { required: true, message: 'Please fill in the user name', trigger: 'blur' }
-          // ],
-          // password: [
-          //     { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-          //     { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
-          // ]
+        // user: [
+        //     { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+        // ],
+        // password: [
+        //     { required: true, message: 'Please fill in the password.', trigger: 'blur' },
+        //     { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+        // ]
       }
     }
   },
@@ -255,8 +252,8 @@ export default {
 
   },
   mounted () {
-    this.$bus.on('on-selectchange', (key,data) => {
-      this.formTop[key] = data;
+    this.$bus.on('on-selectchange', (key, data) => {
+      this.formTop[key] = data
       console.log(this.formTop)
     })
   }
