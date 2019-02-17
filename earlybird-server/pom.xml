@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.easydao.earlybird</groupId>
+    <artifactId>earlybird-server</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>earlybird-rest-api</module>
+        <module>earlybird-fuen</module>
+    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <java_source_version>1.8</java_source_version>
+        <java_target_version>1.8</java_target_version>
+        <spark.version>2.3.0</spark.version>
+        <hadoop.version>3.1.0</hadoop.version>
+        <scala.version>2.11.8</scala.version>
+        <spring.boot.version>2.1.1.RELEASE</spring.boot.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
+
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>dev</id>
+            <properties>
+                <dss.host>dev.dss.tendcloud.com</dss.host>
+                <dss.port>80</dss.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <dss.host>test.dss.tendcloud.com</dss.host>
+                <dss.port>80</dss.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <dss.host>dss.tendcloud.com</dss.host>
+                <dss.port>80</dss.port>
+            </properties>
+        </profile>
+    </profiles>
+</project>
