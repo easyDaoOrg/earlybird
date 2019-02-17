@@ -11,7 +11,7 @@
       <div class="user-header-tel">18655554567</div>
     </div>
     <div class="user-content">
-      <div class="user-content-left fl">
+      <div class="user-content-left">
         <usernav></usernav>
       </div>
       <div class="user-content-right">

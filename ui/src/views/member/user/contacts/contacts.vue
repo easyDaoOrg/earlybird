@@ -19,10 +19,14 @@
 .inputRight .ivu-input{
   border-radius:  0 3px 3px!important;
 }
+.contacts .ivu-form-item{
+  width:100%;
+}
 </style>
 
 <template>
 <main class="contacts">
+
     <h2>常用联系人</h2>
     <p class='contacts-shops'>
       <span>总计</span>
@@ -54,47 +58,107 @@
     </section>
     <section v-if='!open' class='form'>
       <header>
-        <h5>新增</h5>
+        <h5>{{emitorOpen?'编辑':'新增'}}</h5>
         <div>
           <p>
             <span @click='onOk()'>保存</span>
             <span @click='onCancel()'>取消</span>
           </p>
-          <b v-if='removeIoin' @click='onRemove()'><Icon type="ios-close-circle-outline"/>删除</b>
+          <b v-if='emitorOpen' @click='onRemove()'><Icon type="ios-close-circle-outline"/>删除</b>
         </div>
       </header>
-      <div class="form-group">
-          <label for="">名字</label>
-          <Input v-model="comeObj.lastName" placeholder="姓（中文/拼音）" style="width: 50%;" class='inputLeft borderRightNone'/>
-          <Input v-model="comeObj.firstName" placeholder="名（中文/拼音）" style="width: 50%" class='inputRight'/>
-      </div>
-       <div class="form-group paddingRight">
-          <label for="">邮箱</label>
-          <Input v-model="comeObj.email" placeholder="邮箱" style="width: 100%;" class='inputLeft'/>
-      </div>
 
-       <div class="form-group">
-          <label for="">手机</label>
-          <Dropdown style='width:50%' @on-click='onPhone'>
-              <div class='phone'>
-                  {{comeObj.areaCode || '请选择'}}
-                  <Icon type="ios-arrow-down"></Icon>
-              </div>
-              <DropdownMenu slot="list">
-                  <DropdownItem v-for='(item,index) in phoneList' :key='index' :name='item.value'>{{item.label}}</DropdownItem>
-              </DropdownMenu>
-          </Dropdown>
-          <!-- <Input v-model="value" placeholder="姓（中文/拼音）" style="width: 50%;" class='inputLeft borderRightNone'/> -->
-          <Input v-model="comeObj.mobile" placeholder="手机" style="width: 50%" class='inputRight'/>
-      </div>
+      <Form ref="formInlineRef" :model="comeObj" :rules="ruleCustom" :label-width="0">
+         <Row>
+              <Col span="12">
+                    <div class="form-group">
+                        <label for="">名字</label>
+                        <FormItem prop="lastName">
+                          <Input v-model="comeObj.lastName" placeholder="姓（中文/拼音）" style="width: 100%;" class='inputLeft borderRightNone'/>
+                        </FormItem>
+                        <FormItem prop="firstName">
+                          <Input v-model="comeObj.firstName" placeholder="名（中文/拼音）" style="width: 100%" class='inputRight'/>
+                        </FormItem>
+                    </div>
+              </Col>
+              <Col span="12">
+                      <div class="form-group paddingRight">
+                          <label for="">邮箱</label>
+                          <FormItem prop="email">
+                              <Input v-model="comeObj.email" placeholder="邮箱" style="width: 100%;" class='inputLeft'/>
+                          </FormItem>
+                      </div>
+              </Col>
+        </Row>
+        <Row>
+              <Col span="12">
+                    <div class="form-group">
+                        <label for="">手机</label>
+                        <FormItem>
+                             <Dropdown style='width:100%' @on-click='onPhone()'>
+                                <div class='phone'>
+                                    {{comeObj.areaCode || '请选择'}}
+                                    <Icon type="ios-arrow-down"></Icon>
+                                </div>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem v-for='(item,index) in phoneList' :key='index' :name='item.value'>{{item.label}}</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </FormItem>
+                        <FormItem prop="mobile">
+                             <Input v-model="comeObj.mobile" placeholder="手机" style="width: 100%" class='inputRight'/>
+                        </FormItem>
+                    </div>
+              </Col>
+        </Row>
+
+      </Form>
+
     </section>
+
 </main>
 </template>
-
 <script>
 
 export default {
   data () {
+    const empty = '必填项'
+    const _familyNameZh = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(empty))
+      } else {
+        let reg = /^[\u4e00-\u9fa5a-zA-Z]+$/
+        if (!reg.test(value)) {
+          callback(new Error('请输入中文或拼音'))
+        }
+        callback()
+      }
+    }
+    // 邮箱
+    const _email = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(empty))
+      } else {
+        let reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+        if (!reg.test(value)) {
+          callback(new Error('请输入正确的邮箱'))
+        }
+        callback()
+      }
+    }
+     // 手机号
+    const _phone = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(empty))
+      } else {
+        let reg =/^1[0-9][0-9]\d{4,8}$/
+        if (!reg.test(value)) {
+          callback(new Error('手机号码长度为7-11位'))
+        }
+        callback()
+      }
+    }
+    
     return {
       contactsList: [
         {
@@ -145,7 +209,7 @@ export default {
         }
       ],
       open: true,
-      removeIoin: false,
+      emitorOpen: false,
       phoneList: [
         {
           label: '中国大陆 (+86)',
@@ -166,7 +230,36 @@ export default {
         email: '',
         areaCode: '中国大陆 (+86)',
         mobile: ''
-      }
+      },
+      ruleCustom: {
+        //  'guid': 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
+        //   'familyNameZh': '刘',
+        //   'givenNameZh': '鹏飞',
+        //   'familyName': 'DEI',
+        //   'givenName': 'BU',
+        //   'middleName': '',
+        //   'nationality': 'CN',
+        //   'gender': 'MALE',
+        //   'birthday': '1995-01-27',
+        //   'primary': false,
+        lastName: [{ validator: _familyNameZh, trigger: 'blur' }],
+        firstName: [{ validator: _familyNameZh, trigger: 'blur' }],
+        email: [{ validator: _email, trigger: 'blur' }],
+        mobile:[{ validator: _phone, trigger: 'blur' }],
+        // // 国籍
+        // nationality: [{ validator: _onEmpty, trigger: 'change' }],
+        // // 英文名
+        // familyName: [{ validator: _familyName, trigger: 'blur' }],
+        // givenName: [{ validator: _familyName, trigger: 'blur' }],
+        // // 中间名
+        // middleName: [{ validator: _familyName, trigger: 'blur' }],
+        // // 出生日期
+        // birthday: [{ validator: _onEmpty, type: 'date' }],
+        // // 男女
+        // gender: [{ validator: _onEmpty, trigger: 'blur' }]
+        // middleName: [{ validator: validateAge, trigger: 'blur' }],
+
+      },
     }
   },
   components: {
@@ -180,8 +273,12 @@ export default {
       this.comeObj.areaCode = data
     },
     onOk () {
-      this.contactsList.push(this.comeObj)
-      this.onCancel()
+      this.$refs['formInlineRef'].validate(valid => {
+        if (valid) {
+           this.contactsList.push(this.comeObj)
+           this.onCancel()
+        }
+      })
     },
     onCancel () {
       this.comeObj = {
@@ -191,7 +288,7 @@ export default {
         areaCode: '中国大陆 (+86)',
         mobile: ''
       }
-      this.removeIoin = false
+      this.emitorOpen = false
       this.open = true
     },
     // 编辑
@@ -203,11 +300,12 @@ export default {
         areaCode: data.areaCode,
         mobile: data.mobile
       }
-      this.removeIoin = true
+      this.emitorOpen = true
       this.open = false
     },
     // 添加
     onAdd () {
+      this.emitorOpen = false
       this.open = false
     },
     onRemove () {
