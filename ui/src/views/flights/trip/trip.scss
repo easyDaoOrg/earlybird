@@ -36,7 +36,6 @@ $colorq:#969696;
     }
   }
   &-addbutton{
-    clear: both;
     &-addadress{
       width: calc(100% - 50px);
       height: 46px;
@@ -46,6 +45,8 @@ $colorq:#969696;
       font-weight: bold;
       color: $colorw;
       cursor: pointer;
+      position: relative;
+      z-index: 3;
       @include transparent();
       &:hover{
         border-color: $colorw;
@@ -57,7 +58,7 @@ $colorq:#969696;
     }
   }
   &-search-input{
-    clear: both;
+
     &-left{
       width: 65%;
       position: relative;
