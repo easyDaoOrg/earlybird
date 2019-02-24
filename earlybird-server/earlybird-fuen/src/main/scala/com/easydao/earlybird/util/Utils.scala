@@ -4,11 +4,12 @@ import java.io._
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
-import com.google.api.client.http.GenericUrl
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.api.client.http.javanet.NetHttpTransport
-import com.google.api.client.http.json.JsonHttpContent
-import com.google.api.client.json.JsonObjectParser
-import com.google.api.client.json.jackson2.JacksonFactory
+import com.google.api.client.http.{ByteArrayContent, GenericUrl}
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
+
 
 object Utils {
   def tryWithResource[R <: Closeable, T](createResource: => R)(f: R => T): T = {
@@ -26,13 +27,13 @@ object Utils {
     MD5Hash.toLowerCase
   }
 
-  def httpPost(url: String, json: java.util.Map[String, Object])(handler: java.util.Map[String, Object] => java.util.Map[String, Object]): java.util.Map[String, Object] = {
+  def httpPost(url: String, data: java.util.Map[String, Object])(handler: JValue => JValue): JValue = {
+    val json = new ObjectMapper().writeValueAsString(data)
     val factory = new NetHttpTransport().createRequestFactory()
-    val request = factory.buildPostRequest(new GenericUrl(url), new JsonHttpContent(new JacksonFactory(), json))
+    val request = factory.buildPostRequest(new GenericUrl(url), ByteArrayContent.fromString("application/json", json))
     request.setConnectTimeout(10 * 1000)
     request.setReadTimeout(10 * 1000)
-    request.setParser(new JsonObjectParser(new JacksonFactory()))
-    val res = request.execute.parseAs(classOf[java.util.Map[String, Object]])
+    val res = parse(request.execute().parseAsString())
     handler.apply(res)
   }
 }

@@ -1,16 +1,19 @@
 package com.easydao.earlybird.vendor.fuen
 
 import com.easydao.earlybird.util.Utils
+import com.easydao.earlybird.vendor.fuen.bean.{FlightInfo, Passenger}
 import com.google.api.client.http.HttpResponseException
+import org.json4s.{DefaultFormats, JValue}
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.ListMap
 
 
 class FuenProxy(host: String, userName: String, password: String, token: String) {
+  implicit val formats = DefaultFormats
 
   @throws[HttpResponseException]("非200抛出异常")
-  def search(dpt: String, arr: String, date: String): java.util.Map[String, Object] = {
+  def search(dpt: String, arr: String, date: String): JValue = {
     val url = host + FuenProxy.FLIGHT_SEARCH_API
     val param = FuenProxy.createSysParam(password, token, userName)
     param += "params" -> Map[String, String]("dpt" -> dpt, "arr" -> arr, "date" -> date).asJava
@@ -18,7 +21,7 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
-  def price(dpt: String, arr: String, date: String, flightNum: String): java.util.Map[String, Object] = {
+  def price(dpt: String, arr: String, date: String, flightNum: String): JValue = {
     val url = host + FuenProxy.FLIGHT_PRICE_API
     val param = FuenProxy.createSysParam(password, token, userName)
     param += "params" -> Map[String, String]("dpt" -> dpt, "arr" -> arr, "date" -> date, "flightNum" -> flightNum).asJava
@@ -26,13 +29,12 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
-  def book(pid: String, cid: String): java.util.Map[String, Object] = {
+  def book(pid: String, cid: String): JValue = {
     val url = host + FuenProxy.FLIGHT_BOOK_API
     val param = FuenProxy.createSysParam(password, token, userName)
     param += "params" -> Map[String, String]("pid" -> pid, "cid" -> cid).asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
   }
-
 
   /**
     *
@@ -71,34 +73,69 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
     * @return
     */
   @throws[HttpResponseException]("非200抛出异常")
-  def order(cid: String, flyFund: Boolean = false, isUseBonus: Boolean = false,
-            fuelTax: Int, childFuelTax: Int, constructionFee: Int,
-            printPrice: Double, yPrice: Double, childPrintPrice: Double,
-            discount: Int, `type`: String = "", contact: String,
-            contactPreNum: String, contactMob: String, contactEmail: String,
-            invoiceType: Int, receiverTitle: String, receiverType: Int,
-            taxpayerId: String, sjr: String, sjrPhone: String,
-            address: String, xcd: String, xcdMethod: String = "",
-            xcdPrice: Int, bxInvoice: Object, flightInfo: Object,
+  //  def order(cid: String, flyFund: Boolean = false, isUseBonus: Boolean = false,
+  //            fuelTax: Int, childFuelTax: Int, constructionFee: Int,
+  //            printPrice: Double, yPrice: Double, childPrintPrice: Double,
+  //            discount: Int, `type`: String = "", contact: String,
+  //            contactPreNum: String, contactMob: String, contactEmail: String,
+  //            invoiceType: Int, receiverTitle: String, receiverType: Int,
+  //            taxpayerId: String, sjr: String, sjrPhone: String,
+  //            address: String, xcd: String, xcdMethod: String = "",
+  //            xcdPrice: Int, bxInvoice: String, flightInfo: FlightInfo,
+  //            passengerCount: Int,
+  //            passengers: List[Passenger], bookingTag: String, xth: String
+  //
+  //           ): JValue = {
+  def order(cid: String,
+            printPrice: Double, yPrice: Double,
+            contact: String,
+            contactPreNum: String, contactMob: String,
+            invoiceType: Int,
+            sjr: String,
+            address: String,
+            flightInfo: FlightInfo,
             passengerCount: Int,
-            passengers: List[Object], bookingTag: String, xth: String
+            passengers: List[Passenger], bookingTag: String
 
-           ): java.util.Map[String, Object] = {
-    val url = host + FuenProxy.FLIGHT_BOOK_API
+           ): JValue = {
+    val url = host + FuenProxy.FLIGHT_ORDER_API
     val param = FuenProxy.createSysParam(password, token, userName)
-    param += "params" -> Map[String, String]("pid" -> pid, "cid" -> cid).asJava
+    param += "params" -> Map[String, Any](
+      //flyFund 从booking都传什么过来，要求固定false
+      "cid" -> cid, "flyFund" -> false, "isUseBonus" -> false,
+      //非必填项，但是值从booking来，看看需不需要传递，感觉需要
+      //      "fuelTax" -> fuelTax, "childFuelTax" -> childFuelTax, "constructionFee" -> constructionFee,
+      "printPrice" -> printPrice, "yPrice" -> yPrice,
+      //非必填，只有discount在bookink返回中
+      //      "childPrintPrice" -> childPrintPrice, "discount" -> discount, "type" -> "",
+      "contact" -> contact, "contactPreNum" -> contactPreNum, "contactMob" -> contactMob,
+      //非必填
+      //      "contactEmail" -> contactEmail,
+      "invoiceType" -> invoiceType,
+      //非必填
+      //      "receiverTitle" -> receiverTitle, "receiverType" -> receiverType, "taxpayerId" -> taxpayerId,
+      "sjr" -> sjr, "address" -> address,
+      //非必填
+      //      "sjrPhone" -> sjrPhone,
+      "xcd" -> "", "xcdMethod" -> "",
+      //非必填
+      //      "xcdPrice" -> 0,
+      "bxInvoice" -> "", "flightInfo" -> flightInfo, "passengerCount" -> passengerCount,
+      "passengers" -> passengers.asJava, "bookingTag" -> bookingTag
+      //不知道填什么，不传递了
+      //      "xth" -> xth
+    ).asJava
+    val x = param.asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
   }
-
-
 }
 
 object FuenProxy {
+  implicit val formats = DefaultFormats
   val FLIGHT_SEARCH_API = "/flights/search"
   val FLIGHT_PRICE_API = "/flights/price"
   val FLIGHT_BOOK_API = "/flights/book"
   val FLIGHT_ORDER_API = "/orders/order"
-
 
   /**
     *
@@ -140,21 +177,51 @@ object FuenProxy {
       "sign" -> genSign(createTime, password, token, userName))
   }
 
-  def responseHandler(response: java.util.Map[String, Object]): java.util.Map[String, Object] = {
-    response.get("code").toString.toInt match {
+  def responseHandler(response: JValue): JValue = {
+    val code = (response \ "code").extractOrElse[Int](-1)
+    val message = (response \ "message").extractOrElse[String](null)
+    code match {
       case 0 => {
-        val res = response.get("result")
-        if (res == null) throw new RuntimeException("返回值为空") else res.asInstanceOf[java.util.Map[String, Object]]
+        val res = (response \ "result")
+        if (res == null) throw new RuntimeException("返回值为空") else res
       }
-      case 2002 => throw new RuntimeException("参数错误")
-      case _ => throw new RuntimeException("请求错误")
+      case 2002 => throw new RuntimeException(s"参数错误: ${message}")
+      case _ => throw new RuntimeException(s"请求错误: ${message}")
     }
   }
 
-
   def main(args: Array[String]): Unit = {
+    import org.json4s.jackson.JsonMethods._
+
     val proxy = FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
-    val res = proxy.book("Vma/KC3/v9FG2M3TO/nM1BGxIUZniqz+kjG5zy57LmeAgsnfM4rpw6sM+uee/AjbNRW988jPQWAVtKTKuNdqt8iyWoNQb2/GJCfdx5hh3z7MYLxKmAoK/JlhsvQAD3zuR3slxgcdL1uJdITRxzIzRXAxrDgZxv0o2cE0YcVvDNWhqi+dl9YvUkUexvgRszkX8U4Za4+xoy/c48jZqJDUBx/tpKU/cA4bqIu8RNf0i2ufNpiFHGO9bpzkU4PiaHyxhHlBLQxsJs6MSd5KVB/oecoIqaSz/PCCMGJaeMPDZl83mO48n5fVzCtxRPQGGUmIRYApJopWqCVYwR0vVti5FXvzmUQew2g+k8GrHYDR7vQF4o6jp0tUFe/0II06eHwPQSqiJf8Eaa4E4NZmK/vwvnqd4RTNJrVB1NRx+r/fbX+XdIqsVQQpU2jJA+iQcP/P/EJcs59zVk1c9y1UpOPST5HnurIUCotMEJVyK4xqL8zasCepsH5r5WDDOufzs0rsQdIiYzE7kr+WlANUB6pENdW5tCPqr8L4QIzqM5qrVEbyHAsmJVNXh+02JqTbyelXh1fGM4F3S9CXW3EBJd/BbG2xmTeG2F2QowilZ9csTx7gmsgw9eVxSzDlLCIApLR9HfV16nQrioLH+2mHmdDw5AQE6vzAHJ08tvw0PlhZTgJ4U0AmInBj0a+T0IqY8yl4pHHc1rtPeMN41bHLjNs8xeVNQo+86JiQ/2s1NoliIxxMJUddJmvd9GhqGblzMhGNJ20xoqR0UtZ/pS8o1sSKr4q8eohpQaoo5GOetMHXLFeaNjW8XWp8q+ln/VYac6Kt2h6LNmVx8hrNvBghqrlion0ufuJm1VOsfkZ+3WO/0glu1VGU28hxH0OW/r2VmYwUne5p03EXGKTlcFqFdVjoy0eB//3k502YZa7mxtuTX7DpVkriddTcUAFuNUliHLrTA9oqNs1Vle0J8z7GV5OeXFKk9Dbq/f4aGYvkNsUXJP4jEBlEYK9mT+MJ6eu5ySZsGwbWWLIvUOukW2PDn3I6LxP4qYBgTOTH2ui3Bh0WBAqG2GUFGoIsz1uxod7cNp15Er2fMVd+KjnvuWbYSAXj+w4Cwo9PWdWiTEe/QdQ9ymxNGfkQkVGJp1ExaaV2oWLkZSX3TFIluojTEWmMocwsMqMy5vCV0nf4znOSHZIKHBZljb37RnM3472QhVE3U+yO+Yf1kwkreb6q8o3z7k7Bkl2aQJ4PkwNgnGOfGw9yhd4SwwyJGBFbYg/IjtjsO+wnMCd3qClQYBKmRylQkCPfclYAXfQtigAfA/+e2nPS43M/gxO/ftHZVwqvztHrqsNDzugBx6AMh0yfGQTwxDa+N56lCbRknQzZt3xGSMTjPpzXatXHHbnElvRmvlHw6gZkSYbbffphN5+EbI0hRcYVwtOaCbF9uus+heAKCKR/Qj9+FY+XAvP8FOVr66cz8b7NJCACOUQ/BGKnSGfLmJ3i7KFVK2z+d5gNBl6GemFcfKBsdkibHZDhxgPKgKbSxUYt4SvOP41zYqTlSopkapdk8FiAbJYO3Dzil6uhBNg8eoX8lakRosP1WYno3k/WAPtr", "5424b435d85b0ae903a26d761f1ea7e0ff0e6090aa34325053955b7537ff0c311ccbca3b10b2743745fe4ef0a576c089859d8c9989e7f368d5953ae047b7d2eeda86b7c82f813921cb59f9aeaf385013c45bb4b0f0cd1c2b2a569b1555a7b06892fdd533b659b94352c8ea8b4dfc6adf7eacb20dcb66516612438c2a95501af798457a59f76d5e7711a337e34ab48be83e242bf1dd864de46aeba8a5ba0e4242fe83ce4dbb36c94b67fe1485ab7ba143ddced297495747f5ce85359ba68724129fee715ff7e9917e63c603567d2034d1572215a6bc88dbadc6bbeff2e168789c4ac77827b2ea187a04328bcb698e6c26cd4d56fef12ee44a238ed20d7bfc6f5039f52757a5c19dd5667bd83daae85c347f398fc81ea1b425eb3f9c27d605af6fbbce9e77502747c7d99b0180bc3dfce4e602cf36283b5e71df7f34def1da26cf8d68c7554217d291dc7f51d02765a6bf1a5433be93a0246b38a617beaea6e2e4efabdd339dd9721fa16128c1f5712a661f7265612e630bc9ee8aedaa2ebb2196")
-    println(res)
+    val price = proxy.price("PEK", "CTU", "2019-10-01", "CA1415")
+    println(compact(render(price)))
+
+    val pid = ((price \ "vendors") (0) \ "pid").extract[String]
+    val cid = ((price \ "vendors") (0) \ "cid").extract[String]
+    val book = proxy.book(pid, cid)
+    println(compact(render(book)))
+
+    {
+      val printPrice = ((book \ "priceInfo" \ "priceTag" \ "ADU") (0) \ "viewPrice").extract[Double]
+      val yPrice = (book \ "extInfo" \ "ticketPrice").extract[String].toDouble
+      val contact = "姜磊"
+      val contactPreNum = "86"
+      val contactMob = "18600994598"
+      val invoiceType = (book \ "expressInfo" \ "id").extract[Int]
+      val sjr = "jiangjiang"
+      val address = "addresssss"
+      val xcd = ""
+      val xcdMethod = ""
+      val bxInvoice = ""
+      val flightInfo = FlightInfo.create()
+      val passengerCount = 1
+      val passengers = List[Passenger](Passenger.create())
+      val bookingTag = (book \ "bookingTag").extract[String]
+
+      val newCid = (book \ "extInfo" \ "cid").extract[String]
+      val ordered = proxy.order(newCid, printPrice, yPrice, contact, contactPreNum, contactMob, invoiceType, sjr, address, flightInfo, passengerCount, passengers, bookingTag)
+      println(compact(render(ordered)))
+    }
   }
 }
