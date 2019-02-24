@@ -72,7 +72,6 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
     * @throws
     * @return
     */
-  @throws[HttpResponseException]("非200抛出异常")
   //  def order(cid: String, flyFund: Boolean = false, isUseBonus: Boolean = false,
   //            fuelTax: Int, childFuelTax: Int, constructionFee: Int,
   //            printPrice: Double, yPrice: Double, childPrintPrice: Double,
@@ -86,6 +85,7 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   //            passengers: List[Passenger], bookingTag: String, xth: String
   //
   //           ): JValue = {
+  @throws[HttpResponseException]("非200抛出异常")
   def order(cid: String,
             printPrice: Double, yPrice: Double,
             contact: String,
@@ -128,6 +128,14 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
     val x = param.asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
   }
+
+  @throws[HttpResponseException]("非200抛出异常")
+  def pay(orderNo: String): JValue = {
+    val url = host + FuenProxy.FLIGHT_PAY_API
+    val param = FuenProxy.createSysParam(password, token, userName)
+    param += "params" -> Map[String, String]("orderNo" -> orderNo, "curId" -> "CNY").asJava
+    Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
+  }
 }
 
 object FuenProxy {
@@ -136,6 +144,7 @@ object FuenProxy {
   val FLIGHT_PRICE_API = "/flights/price"
   val FLIGHT_BOOK_API = "/flights/book"
   val FLIGHT_ORDER_API = "/orders/order"
+  val FLIGHT_PAY_API = "/pay/pay"
 
   /**
     *
@@ -191,37 +200,6 @@ object FuenProxy {
   }
 
   def main(args: Array[String]): Unit = {
-    import org.json4s.jackson.JsonMethods._
 
-    val proxy = FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
-    val price = proxy.price("PEK", "CTU", "2019-10-01", "CA1415")
-    println(compact(render(price)))
-
-    val pid = ((price \ "vendors") (0) \ "pid").extract[String]
-    val cid = ((price \ "vendors") (0) \ "cid").extract[String]
-    val book = proxy.book(pid, cid)
-    println(compact(render(book)))
-
-    {
-      val printPrice = ((book \ "priceInfo" \ "priceTag" \ "ADU") (0) \ "viewPrice").extract[Double]
-      val yPrice = (book \ "extInfo" \ "ticketPrice").extract[String].toDouble
-      val contact = "姜磊"
-      val contactPreNum = "86"
-      val contactMob = "18600994598"
-      val invoiceType = (book \ "expressInfo" \ "id").extract[Int]
-      val sjr = "jiangjiang"
-      val address = "addresssss"
-      val xcd = ""
-      val xcdMethod = ""
-      val bxInvoice = ""
-      val flightInfo = FlightInfo.create()
-      val passengerCount = 1
-      val passengers = List[Passenger](Passenger.create())
-      val bookingTag = (book \ "bookingTag").extract[String]
-
-      val newCid = (book \ "extInfo" \ "cid").extract[String]
-      val ordered = proxy.order(newCid, printPrice, yPrice, contact, contactPreNum, contactMob, invoiceType, sjr, address, flightInfo, passengerCount, passengers, bookingTag)
-      println(compact(render(ordered)))
-    }
   }
 }
