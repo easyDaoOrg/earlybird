@@ -28,6 +28,7 @@
           v-model="citySelected"
           :placeholder="cityObj.name"
           @on-focus="getCityWholeData()"
+          @on-change="getCitySearchData()"
         />
       </section>
       <Dropdown trigger="custom" :visible="cityOpen.whole"  placement="bottom-start">
@@ -49,7 +50,9 @@
 
     <Dropdown trigger="custom" :visible="cityOpen.search"  placement="bottom-start">
       <DropdownMenu slot="list">
-        <div class="search-panel">
+
+
+        <!-- <div class="search-panel">
           <div class="list-panel" v-if="!cityOpen.searchLoading">
             <div
               class="inline-item"
@@ -64,12 +67,12 @@
               </div>
             </div>
           </div>
-          <div class="tip-panel" v-if="cityOpen.searchLoading">正在加载城市列表...</div>
+          <div class="tip-panel" v-if="cityOpen.searchLoading"><Spin fix></Spin></div>
           <div
             class="tip-panel"
             v-if="!cityWholeSearchList.length&&!cityOpen.searchLoading&&citySelected"
           >抱歉未找到您搜索的结果</div>
-        </div>
+        </div> -->
       </DropdownMenu>
     </Dropdown>
     </span>
@@ -132,8 +135,7 @@ export default {
     })
   },
   methods: {
-    // 城市
-    // 获取所有数据
+    // 城市获取所有数据
     getCityWholeData () {
       let self = this
       axios
@@ -154,9 +156,7 @@ export default {
       this.cityOpen.whole = false
       this.cityOpen.search = true
       this.cityOpen.searchLoading = true
-      let url = `https://www.igola.com/web-gateway/api-hotel-static/geo/city-search?key=${
-        this.citySelected
-      }&lang=ZH`
+      let url = `https://www.igola.com/web-gateway/api-data-service/data/find-airport?text=5YyX5Lqs&lang=Wkg=&timestamp=1548289539465`
       let self = this
       axios
         .get(url)

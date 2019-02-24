@@ -29,9 +29,9 @@
     height: 40px;
     line-height: 40px
 }
-.form .ivu-row{
+/* .form .ivu-row{
   height: 60px;
-}
+} */
 .form-group .ivu-radio-wrapper{
   height: 40px;
   line-height: 40px;
@@ -131,7 +131,7 @@
             <!-- 第二行 -->
             <Row>
               <Col span="12">
-                    <div class="form-group">
+                    <div class="form-group" style='padding-bottom:0'>
                         <label for="">英文名</label>
                         <FormItem prop="familyName">
                           <Input v-model="formCustom.familyName" placeholder="姓（拼音/英文）" style="width: 100%;" class='inputLeft borderRightNone'/>
@@ -145,7 +145,7 @@
                     </div>
               </Col>
               <Col span="12">
-                  <div class="form-group">
+                  <div class="form-group" style='padding-bottom:0'>
                     <label for="">出生日期</label>
                     <FormItem prop="birthday">
                         <DatePicker type="date" placeholder="请选择" style="width:50%" v-model="formCustom.birthday" format="yyyy年MM月dd日" :disabled='editorOpen'></DatePicker>
@@ -260,7 +260,7 @@ export default {
       } else {
         let reg = /^[\u4e00-\u9fa5]+$/
         if (!reg.test(value)) {
-          callback(new Error('请正确填写证件中的中文'))
+          callback(new Error('请输入中文或拼音'))
         }
         callback()
       }
@@ -272,7 +272,7 @@ export default {
       } else {
         let reg = /^[_a-zA-Z]+$/
         if (!reg.test(value)) {
-          callback(new Error('请正确填写证件中的中文'))
+          callback(new Error('请输入英文或拼音'))
         }
         callback()
       }
@@ -296,15 +296,40 @@ export default {
         callback()
       }
     }
-
+     // 护照
+    const _passport = (rule, value, callback) => {
+      var reg = /^([a-zA-z]|[0-9]){5,17}$/;
+      if (value === '') {
+        callback(new Error(empty))
+      } else if (!reg.test(value)) {
+        callback(new Error("您填写的证件号可能有误，请仔细核对"))
+      } else {
+        callback()
+      }
+    }
+    // 台胞证
+    const _taiwan_compatriots = (rule, value, callback) => {
+      var reg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;
+      if (value === '') {
+        callback(new Error(empty))
+      } else if (!reg.test(value)) {
+        callback(new Error("您填写的证件号可能有误，请仔细核对"))
+      } else {
+        callback()
+      }
+    }
     return {
       open: false,
       editorOpen: false,
       emptyNews: '必填项',
       middleNameOpen: false, // 中间名
       modal1: false, // 删除
+      // 证件 验证
       id_number: idNumber,
       onEmpty: _onEmpty,
+      passport:_passport,
+      taiwan_compatriots:_taiwan_compatriots,
+      //
       formCustom: {
         guid: 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
         familyNameZh: '刘',
@@ -526,9 +551,13 @@ export default {
   methods: {
     // 证件号码的校验
     identificationNumberType (type) {
-      if (type === 'ID') {
+      if (type === 'ID') { // 身份证
         return this.id_number
-      } else {
+      } else if(type === 'PP'){ //护照
+        return this.passport
+      }else if(type === 'TB'){// 台胞证
+        return this.taiwan_compatriots
+      }else {
         return this.onEmpty
       }
     },

@@ -44,7 +44,7 @@
     height: auto;
     margin: 0 auto;
     padding-left: 235px;
-
+    display: flex;
     &-left {
       width: 233px;
       margin-left: -235px;
@@ -54,6 +54,7 @@
     &-right {
       padding-left: 15px;
       padding-top: 15px;
+      width:100%;
     }
   }
 }
