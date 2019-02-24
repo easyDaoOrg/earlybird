@@ -8,10 +8,10 @@ import org.json4s.jackson.JsonMethods._
 
 class FuenProxyTest extends FunSuite {
   implicit val formats = DefaultFormats
+  val proxy = FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
 
   test("Price, Book, Order 接口测试") {
     //Price接口
-    val proxy = FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
     val price = proxy.price("PEK", "CTU", "2019-10-01", "CA1415")
     println(compact(render(price)))
 
@@ -46,9 +46,14 @@ class FuenProxyTest extends FunSuite {
   }
 
   test("Pay 接口测试") {
-    val proxy = FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
     val orderNo = "3962f00561dd4bb684a2b69c077a8d44"
     val payed = proxy.pay(orderNo)
     println(compact(render(payed)))
+  }
+
+  test("OrderDetail 接口测试") {
+    val orderNo = "3962f00561dd4bb684a2b69c077a8d44"
+    val detail = proxy.orderDetail(orderNo)
+    println(compact(render(detail)))
   }
 }
