@@ -3,19 +3,19 @@
 
 const overviewData = {
   state: {
-    errorListLoading: false,
+    errorListLoading: false
   },
   mutations: {
-    SET_ERROR_OVIER_LIST_LOADING(state, data) {
-      state.errorListLoading = data;
-    },
+    SET_ERROR_OVIER_LIST_LOADING (state, data) {
+      state.errorListLoading = data
+    }
   },
   actions: {
-    updateErrorOvierDataList({ commit }, params) {
-      console.log(params);
-      commit('SET_ERROR_OVIER_LIST_LOADING', params);
-    },
-  },
-};
+    updateErrorOvierDataList ({ commit }, params) {
+      console.log(params)
+      commit('SET_ERROR_OVIER_LIST_LOADING', params)
+    }
+  }
+}
 
-export default overviewData;
+export default overviewData

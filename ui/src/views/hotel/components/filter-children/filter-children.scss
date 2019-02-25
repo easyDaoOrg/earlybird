@@ -118,7 +118,8 @@ $colorb:#00bedc;
 // 选中
 .selectedColor {
 
-  color: $colorb !important
+  color: $colorb !important;
+  font-weight:bold !important;
 }
 
 .priceData-button {
@@ -133,6 +134,7 @@ $colorb:#00bedc;
   color: $colorb;
   text-decoration: none;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .openPriceHeight {
@@ -148,13 +150,36 @@ $colorb:#00bedc;
 .priceData-input {
  
   padding: 0 8px;
-
+  position: relative;
+  strong{
+    color: #464646;
+    position: absolute;
+    left: 94px;
+    top: -1px;
+  }
+  p{
+    float: left;
+    width:83px;
+    &:first-child{
+      margin-right:15px;
+    }
+    input{
+      width: 80px;
+      height: 25px;
+      outline: none;
+      text-align: center;
+      border: .5px solid #d2d2d2;
+      color: #00bedc;
+      border-radius: 5px;
+    }
+  }
   span {
     display: block;
     text-align: center;
-    color: $colorb;
+    color: #00bedc;
     cursor: pointer;
-    line-height: 47px;
+    line-height: 43px;
+    font-weight: bold;
   }
 }
 
@@ -230,4 +255,18 @@ $colorb:#00bedc;
       }
     }
   }
+}
+
+.otherSrueStyle{
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  font-size: 14px;
+  color: #3ecfe5;
+  border: .5px solid #00bedc;
+  background: rgba(0,190,220,.05);
+  line-height: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
 }

@@ -23,7 +23,7 @@ $colorb:#00bedc;
     }
 
     &-search {
-      padding: 0px 20px 20px;
+      padding: 0px 20px 0px;
       height: calc(100% - 52px);
       overflow-y: auto;
     }
@@ -175,7 +175,14 @@ $colorb:#00bedc;
       cursor: pointer;
       float: right;
       line-height: 14px;
+      font-weight: bold;
     }
+  }
+  &-sure-mark{
+    width: 100%;
+    height: 40px;
+    z-index: 2;
+    text-align: right;
   }
   .line-content{
     width: 156px;
@@ -193,15 +200,41 @@ $colorb:#00bedc;
   }
 }
 
+
 .priceData-input {
-  padding: 0 8px;
+  padding: 12px 8px 0;
   margin-bottom: 20px;
+  height: 50px;
+  position: relative;
+  strong{
+    color: #464646;
+    position: absolute;
+    left: 94px;
+    top: 13px;
+  }
+  p{
+    float: left;
+    width:83px;
+    &:first-child{
+      margin-right:15px;
+    }
+    input{
+      width: 80px;
+      height: 25px;
+      outline: none;
+      text-align: center;
+      border: .5px solid #d2d2d2;
+      color: #00bedc;
+      border-radius: 5px;
+    }
+  }
   span {
     text-align: center;
     color: #00bedc;
     cursor: pointer;
-    line-height: 47px;
+    line-height: 26px;
     padding-left: 10px;
+    font-weight: bold;
   }
 }
 
@@ -215,9 +248,22 @@ $colorb:#00bedc;
 .priceHeightClose{
   height: 246px;
 }
-.positionHeightColse{
+.heightColse{
   height: 95px;
 }
 .overflow{
   overflow:hidden;
+}
+.otherSrueStyle{
+  font-size: 14px;
+  color: #fff;
+  background: #00bedc;
+  line-height: 14px;
+  cursor: pointer;
+  padding: 6px 11px;
+  border-radius: 4px;
+  border: .5px solid #00bedc;
+}
+.borderNone{
+  border:none
 }

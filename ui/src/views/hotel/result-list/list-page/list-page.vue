@@ -5,7 +5,7 @@
 <template>
   <main class="listPage">
     <div class="listPage-content">
-      <filter-children :data="data"></filter-children>
+      <filter-children :filterData="filterData" ref='filterChildren'></filter-children>
       <section class="listPage-content-hotel">
          <Affix :offset-top="70">
            <hotel-rate></hotel-rate>
@@ -41,7 +41,6 @@
 import filterChildren from '../../components/filter-children/filter-children'
 import hotelCard from '../../components/hotel-card/hotel-card'
 import hotelRate from '../../components/hotel-rate/hotel-rate'
-import axios from 'axios/dist/axios.min'
 import { setTimeout } from 'timers'
 import {welcome} from '../../../../assets/json/welcome.js'
 export default {
@@ -50,16 +49,22 @@ export default {
     hotelCard,
     hotelRate
   },
+  props: {
+    filterData: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
   data () {
     return {
-      data: [],
       modal1: false,
       map: null,
       cardData: []
     }
   },
   mounted () {
-    this.getPositionData()
     this.getCardData()
   },
   methods: {
@@ -76,19 +81,6 @@ export default {
       //   .catch(error => {
       //     console.log(error)
       //   })
-    },
-    getPositionData () {
-      let self = this
-      axios
-        .get(
-          'https://www.igola.com/web-gateway/api-hotel-static/geo/pois?city=771&lan=ZH'
-        )
-        .then(data => {
-          self.data = data.data.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
     },
     onMap (data) {
       let lat = data.lat
@@ -116,6 +108,7 @@ export default {
       }, 0)
     },
     onMapPattern () {
+      this.$refs.filterChildren.onStorageVuex()
       this.$emit('on-map-pattern', false)
     }
   }
