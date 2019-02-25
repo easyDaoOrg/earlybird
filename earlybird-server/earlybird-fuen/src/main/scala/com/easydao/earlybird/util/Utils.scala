@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.http.{ByteArrayContent, GenericUrl}
 import org.json4s._
@@ -28,7 +30,9 @@ object Utils {
   }
 
   def httpPost(url: String, data: java.util.Map[String, Object])(handler: JValue => JValue): JValue = {
-    val json = new ObjectMapper().writeValueAsString(data)
+    val mapper = new ObjectMapper()  with ScalaObjectMapper
+    mapper.registerModule(DefaultScalaModule)
+    val json = mapper.writeValueAsString(data)
     val factory = new NetHttpTransport().createRequestFactory()
     val request = factory.buildPostRequest(new GenericUrl(url), ByteArrayContent.fromString("application/json", json))
     request.setConnectTimeout(10 * 1000)

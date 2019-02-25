@@ -2,13 +2,19 @@ package com.easydao.earlybird.vendor.fuen
 
 import com.easydao.earlybird.vendor.fuen.bean.{FlightInfo, Passenger}
 import org.json4s.DefaultFormats
-import org.scalatest.FunSuite
 import org.json4s.jackson.JsonMethods._
+import org.scalatest.FunSuite
 
 
 class FuenProxyTest extends FunSuite {
   implicit val formats = DefaultFormats
   val proxy = FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
+
+  test("Search接口 接口测试") {
+    //Search接口
+    val search = proxy.search("PEK", "LXA", "2019-10-02")
+    println(compact(render(search)))
+  }
 
   test("Price, Book, Order 接口测试") {
     //Price接口
@@ -46,7 +52,7 @@ class FuenProxyTest extends FunSuite {
   }
 
   test("Pay, PayValidate 接口测试") {
-    val orderNo = "72614999a8104204ad9e2ce50545b6aa"
+    val orderNo = "900033058c3b463c97382221667934de"
     val payValidate = proxy.payValidate(orderNo)
     println(compact(render(payValidate)))
 
@@ -55,8 +61,33 @@ class FuenProxyTest extends FunSuite {
   }
 
   test("OrderDetail 接口测试") {
-    val orderNo = "3962f00561dd4bb684a2b69c077a8d44"
+    val orderNo = "900033058c3b463c97382221667934de"
     val detail = proxy.orderDetail(orderNo)
     println(compact(render(detail)))
+
+    {
+      val name = ((detail \ "passengers") (0) \ "name").extract[String]
+      val ageType = ((detail \ "passengerTypes") (0) \ "ageType").extract[String]
+      val cardType = ((detail \ "passengers") (0) \ "cardType").extract[String]
+      val cardNum = ((detail \ "passengers") (0) \ "cardNum").extract[String]
+      val ticketNo = ((detail \ "passengers") (0) \ "ticketNo").extract[String]
+      val passenger = RefundApplyPassenger(name, ageType, cardType, cardNum, ticketNo)
+
+      val dptAirportCode = ((detail \ "flightInfo") (0) \ "dptAirportCode").extract[String]
+      val arrAirportCode = ((detail \ "flightInfo") (0) \ "arrAirportCode").extract[String]
+      val flightNum = ((detail \ "flightInfo") (0) \ "flightNum").extract[String]
+      val deptTime = ((detail \ "flightInfo") (0) \ "deptTime").extract[String].substring(0, 11)
+      val carrier = ((detail \ "flightInfo") (0) \ "flightNum").extract[String].substring(0, 2)
+      val cabin = ((detail \ "flightInfo") (0) \ "cabin").extract[String]
+      // price 接口返回
+      val cabinType = "0"
+      // price 接口返回
+      val codeShare = false
+      // price 接口返回 actCode
+      val actFlightNum = null
+      val flight = RefundApplyFlightInfo(dptAirportCode, arrAirportCode, flightNum, deptTime, carrier, cabin, cabinType, codeShare, actFlightNum)
+      val refundApply = proxy.refundApply(orderNo, List(passenger), flight, "1")
+      println(compact(render(refundApply)))
+    }
   }
 }

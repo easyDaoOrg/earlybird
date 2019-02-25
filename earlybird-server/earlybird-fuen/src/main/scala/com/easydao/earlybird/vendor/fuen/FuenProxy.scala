@@ -152,6 +152,29 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
     param += "params" -> Map[String, String]("orderNo" -> orderNo).asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
   }
+
+  /**
+    *
+    * @param orderNo
+    * @param passengers
+    * @param flightInfo
+    * @param refundOrderType 退票原单类型：
+    *                        1：正常订单退票
+    *                        2：改期订单退票
+    * @throws
+    * @return
+    */
+  @throws[HttpResponseException]("非200抛出异常")
+  def refundApply(orderNo: String, passengers: List[RefundApplyPassenger], flightInfo: RefundApplyFlightInfo, refundOrderType: String): JValue = {
+    val url = host + FuenProxy.FLIGHT_REFUND_APPLY_API
+    val param = FuenProxy.createSysParam(password, token, userName)
+    param += "params" -> Map[String, Any](
+      "orderNo" -> orderNo, "passengers" -> passengers, "flightInfo" -> flightInfo,
+      "refundOrderType" -> refundOrderType, "refundCauseType" -> "1"
+
+    ).asJava
+    Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
+  }
 }
 
 object FuenProxy {
@@ -163,6 +186,8 @@ object FuenProxy {
   val FLIGHT_PAY_API = "/pay/pay"
   val FLIGHT_ORDER_DETAIL_API = "/orders/orderDetail"
   val FLIGHT_PAY_VALIDATE_API = "/pay/payValidate"
+  val FLIGHT_REFUND_APPLY_API = "/refund/apply"
+
 
   /**
     *
@@ -215,9 +240,5 @@ object FuenProxy {
       case 2002 => throw new RuntimeException(s"参数错误: ${message}")
       case _ => throw new RuntimeException(s"请求错误: ${message}")
     }
-  }
-
-  def main(args: Array[String]): Unit = {
-
   }
 }
