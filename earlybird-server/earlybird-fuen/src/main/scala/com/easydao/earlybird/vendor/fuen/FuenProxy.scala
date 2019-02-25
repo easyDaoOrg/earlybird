@@ -176,10 +176,12 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
   }
 
+  //TODO 未测试
   @throws[HttpResponseException]("非200抛出异常")
-  def refundNotice(orderNo: String, passengers: List[RefundApplyPassenger], refundOrderType: String, refundCauseType: String,
+  def refundNotice(orderNo: String, passengers: List[RefundNoticePassenger], refundOrderType: String, refundCauseType: String,
                    refundCause: String, remark: String, isEmergent: Int
                   ): JValue = {
+    //TODO
     val refundBackUrl = null
     val url = host + FuenProxy.FLIGHT_REFUND_NOTICE_API
     val param = FuenProxy.createSysParam(password, token, userName)
@@ -188,6 +190,17 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
       "refundCauseType" -> refundCauseType, "refundCause" -> refundCause, "remark" -> remark,
       "isEmergent" -> isEmergent, "refundBackUrl" -> refundBackUrl
 
+    ).asJava
+    Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
+  }
+
+  //TODO 未测试
+  @throws[HttpResponseException]("非200抛出异常")
+  def refundOrderDetail(refundOrderNo: String): JValue = {
+    val url = host + FuenProxy.FLIGHT_REFUND_ORDER_DETAIL_API
+    val param = FuenProxy.createSysParam(password, token, userName)
+    param += "params" -> Map[String, Any](
+      "refundOrderNo" -> refundOrderNo
     ).asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
   }
@@ -204,6 +217,7 @@ object FuenProxy {
   val FLIGHT_ORDER_DETAIL_API = "/orders/orderDetail"
   val FLIGHT_REFUND_APPLY_API = "/refund/apply"         //查看退票费用，退回费用
   val FLIGHT_REFUND_NOTICE_API = "/refund/notice"       //执行退票操作
+  val FLIGHT_REFUND_ORDER_DETAIL_API = "/refund/orderDetails"       //执行退票操作
 
 
   /**
