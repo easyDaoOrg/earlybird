@@ -45,8 +45,11 @@ class FuenProxyTest extends FunSuite {
     }
   }
 
-  test("Pay 接口测试") {
-    val orderNo = "3962f00561dd4bb684a2b69c077a8d44"
+  test("Pay, PayValidate 接口测试") {
+    val orderNo = "72614999a8104204ad9e2ce50545b6aa"
+    val payValidate = proxy.payValidate(orderNo)
+    println(compact(render(payValidate)))
+
     val payed = proxy.pay(orderNo)
     println(compact(render(payed)))
   }
