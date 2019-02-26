@@ -1,1 +1,64 @@
-{"message":null,"detail":{"orderNo":"7a4f35680d8542fc8d2fa6d6a6b9af95","statusCode":3,"status":"出票完成","pnr":"","parentOrderStatus":null,"parentOrderNo":null,"agentLastTicketTime":"2019-03-05 11:34:34","childrenOrderInfos":[]},"xcd":{"needXcd":"","company":null,"orderNumber":null,"sjr":"jiangjiang","address":"addresssss","isPosted":"null","sendTime":null},"other":null,"contacterInfo":{"email":null,"name":"姜磊","telephone":"86","mobile":"18600994598"},"flightInfo":[{"dptCity":"北京","arrCity":"成都","deptTime":"2019-10-01-09:55-13:00","cabin":"Y","flightNum":"CA1415","dptAirportCode":"PEK","arrAirportCode":"CTU"}],"passengers":[{"name":"姜磊","type":"0","cardNum":"110104198904123517","cardType":"NI","insurance":[],"ticketNo":"e5e8ca6d3e7a40b4a9320385e1af102b","passengerStatus":null}],"passengerTypes":[{"ageType":"0","insurance":0,"insuranceCount":0,"realPrice":1468.0,"constructionFee":50,"fuelTax":0,"allPrices":1518,"count":1,"printPrice":1480}]}
+{
+  "message": null,
+  "detail": {
+    "orderNo": "7a4f35680d8542fc8d2fa6d6a6b9af95",
+    "statusCode": 3,
+    "status": "出票完成",
+    "pnr": "",
+    "parentOrderStatus": null,
+    "parentOrderNo": null,
+    "agentLastTicketTime": "2019-03-05 11:34:34",
+    "childrenOrderInfos": []
+  },
+  "xcd": {
+    "needXcd": "",
+    "company": null,
+    "orderNumber": null,
+    "sjr": "jiangjiang",
+    "address": "addresssss",
+    "isPosted": "null",
+    "sendTime": null
+  },
+  "other": null,
+  "contacterInfo": {
+    "email": null,
+    "name": "姜磊",
+    "telephone": "86",
+    "mobile": "18600994598"
+  },
+  "flightInfo": [
+    {
+      "dptCity": "北京",
+      "arrCity": "成都",
+      "deptTime": "2019-10-01-09:55-13:00",
+      "cabin": "Y",
+      "flightNum": "CA1415",
+      "dptAirportCode": "PEK",
+      "arrAirportCode": "CTU"
+    }
+  ],
+  "passengers": [
+    {
+      "name": "姜磊",
+      "type": "0",
+      "cardNum": "110104198904123517",
+      "cardType": "NI",
+      "insurance": [],
+      "ticketNo": "e5e8ca6d3e7a40b4a9320385e1af102b",
+      "passengerStatus": null
+    }
+  ],
+  "passengerTypes": [
+    {
+      "ageType": "0",
+      "insurance": 0,
+      "insuranceCount": 0,
+      "realPrice": 1468.0,
+      "constructionFee": 50,
+      "fuelTax": 0,
+      "allPrices": 1518,
+      "count": 1,
+      "printPrice": 1480
+    }
+  ]
+}

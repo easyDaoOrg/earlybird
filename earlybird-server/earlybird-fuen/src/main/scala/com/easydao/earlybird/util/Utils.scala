@@ -30,7 +30,7 @@ object Utils {
   }
 
   def httpPost(url: String, data: java.util.Map[String, Object])(handler: JValue => JValue): JValue = {
-    val mapper = new ObjectMapper()  with ScalaObjectMapper
+    val mapper = new ObjectMapper() with ScalaObjectMapper
     mapper.registerModule(DefaultScalaModule)
     val json = mapper.writeValueAsString(data)
     val factory = new NetHttpTransport().createRequestFactory()
@@ -39,5 +39,10 @@ object Utils {
     request.setReadTimeout(10 * 1000)
     val res = parse(request.execute().parseAsString())
     handler.apply(res)
+  }
+
+  def toJson(json: JValue): Map[String, Any] = {
+    implicit val formats = DefaultFormats
+    json.extract[Map[String, Any]]
   }
 }

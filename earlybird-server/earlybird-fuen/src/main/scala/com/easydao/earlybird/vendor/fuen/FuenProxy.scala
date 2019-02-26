@@ -13,6 +13,10 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   implicit val formats = DefaultFormats
 
   @throws[HttpResponseException]("非200抛出异常")
+  def search(searchParam: SearchParam): JValue = {
+    search(searchParam.dpt, searchParam.arr, searchParam.date)
+  }
+
   def search(dpt: String, arr: String, date: String): JValue = {
     val url = host + FuenProxy.FLIGHT_SEARCH_API
     val param = FuenProxy.createSysParam(password, token, userName)
@@ -21,11 +25,21 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
+  def price(priceParam: PriceParam): JValue = {
+    price(priceParam.dpt, priceParam.arr, priceParam.date, priceParam.flightNum)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
   def price(dpt: String, arr: String, date: String, flightNum: String): JValue = {
     val url = host + FuenProxy.FLIGHT_PRICE_API
     val param = FuenProxy.createSysParam(password, token, userName)
     param += "params" -> Map[String, String]("dpt" -> dpt, "arr" -> arr, "date" -> date, "flightNum" -> flightNum).asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
+  def book(bookParam: BookParam): JValue = {
+    book(bookParam.pid, bookParam.cid)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
@@ -86,6 +100,15 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   //
   //           ): JValue = {
   @throws[HttpResponseException]("非200抛出异常")
+  def order(param: OrderParam): JValue = {
+    order(param.cid, param.printPrice, param.yPrice,
+      param.contact, param.contactPreNum, param.contactMob,
+      param.invoiceType, param.sjr, param.address,
+      param.flightInfo, param.passengerCount, param.passengers,
+      param.bookingTag)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
   def order(cid: String,
             printPrice: Double, yPrice: Double,
             contact: String,
@@ -96,7 +119,6 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
             flightInfo: FlightInfo,
             passengerCount: Int,
             passengers: List[Passenger], bookingTag: String
-
            ): JValue = {
     val url = host + FuenProxy.FLIGHT_ORDER_API
     val param = FuenProxy.createSysParam(password, token, userName)
@@ -130,6 +152,11 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
+  def pay(param: PayParam): JValue = {
+    pay(param.orderNo)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
   def pay(orderNo: String): JValue = {
     val url = host + FuenProxy.FLIGHT_PAY_API
     val param = FuenProxy.createSysParam(password, token, userName)
@@ -138,11 +165,21 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
+  def payValidate(param: PayParam): JValue = {
+    payValidate(param.orderNo)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
   def payValidate(orderNo: String): JValue = {
     val url = host + FuenProxy.FLIGHT_PAY_VALIDATE_API
     val param = FuenProxy.createSysParam(password, token, userName)
     param += "params" -> Map[String, String]("orderNo" -> orderNo).asJava
     Utils.httpPost(url, param.asJava)(FuenProxy.responseHandler)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
+  def orderDetail(param: OrderDetailParam): JValue = {
+    orderDetail(param.orderNo)
   }
 
   @throws[HttpResponseException]("非200抛出异常")
@@ -165,7 +202,13 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
     * @return
     */
   @throws[HttpResponseException]("非200抛出异常")
-  def refundApply(orderNo: String, passengers: List[RefundApplyPassenger], flightInfo: RefundApplyFlightInfo, refundOrderType: String): JValue = {
+  def refundApply(param: RefundApplyParam): JValue = {
+    refundApply(param.orderNo, param.passengers, param.flightInfo, param.refundOrderType)
+  }
+
+  @throws[HttpResponseException]("非200抛出异常")
+  def refundApply(orderNo: String, passengers: List[RefundApplyPassenger],
+                  flightInfo: RefundApplyFlightInfo, refundOrderType: String): JValue = {
     val url = host + FuenProxy.FLIGHT_REFUND_APPLY_API
     val param = FuenProxy.createSysParam(password, token, userName)
     param += "params" -> Map[String, Any](
@@ -215,9 +258,9 @@ object FuenProxy {
   val FLIGHT_PAY_VALIDATE_API = "/pay/payValidate"
   val FLIGHT_PAY_API = "/pay/pay"
   val FLIGHT_ORDER_DETAIL_API = "/orders/orderDetail"
-  val FLIGHT_REFUND_APPLY_API = "/refund/apply"         //查看退票费用，退回费用
-  val FLIGHT_REFUND_NOTICE_API = "/refund/notice"       //执行退票操作
-  val FLIGHT_REFUND_ORDER_DETAIL_API = "/refund/orderDetails"       //执行退票操作
+  val FLIGHT_REFUND_APPLY_API = "/refund/apply" //查看退票费用，退回费用
+  val FLIGHT_REFUND_NOTICE_API = "/refund/notice" //执行退票操作
+  val FLIGHT_REFUND_ORDER_DETAIL_API = "/refund/orderDetails" //执行退票操作
 
 
   /**
@@ -230,6 +273,10 @@ object FuenProxy {
     */
   def apply(host: String, userName: String, password: String, token: String): FuenProxy = {
     new FuenProxy(host, userName, password, token)
+  }
+
+  def apply(): FuenProxy = {
+    new FuenProxy("http://39.98.66.62:7777/", "TEST@Inter", "k74JRHynOTCSGK0Q", "ynOTCSGK0QX49lpQ")
   }
 
   /**
