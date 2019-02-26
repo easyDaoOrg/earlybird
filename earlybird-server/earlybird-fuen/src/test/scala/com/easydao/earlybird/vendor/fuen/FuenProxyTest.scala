@@ -12,13 +12,13 @@ class FuenProxyTest extends FunSuite {
 
   test("Search接口 接口测试") {
     //Search接口
-    val search = proxy.search("PEK", "LXA", "2019-10-02")
+    val search = proxy.search("PEK", "PVG", "2019-10-02")
     println(compact(render(search)))
   }
 
   test("Price, Book, Order 接口测试") {
     //Price接口
-    val price = proxy.price("PEK", "CTU", "2019-10-01", "CA1415")
+    val price = proxy.price("PEK", "PVG", "2019-10-01", "MU5152")
     println(compact(render(price)))
 
     //Book接口
@@ -37,9 +37,6 @@ class FuenProxyTest extends FunSuite {
       val invoiceType = (book \ "expressInfo" \ "id").extract[Int]
       val sjr = "jiangjiang"
       val address = "addresssss"
-      val xcd = ""
-      val xcdMethod = ""
-      val bxInvoice = ""
       val flightInfo = FlightInfo.create()
       val passengerCount = 1
       val passengers = List[Passenger](Passenger.create())
@@ -52,7 +49,7 @@ class FuenProxyTest extends FunSuite {
   }
 
   test("Pay, PayValidate 接口测试") {
-    val orderNo = "900033058c3b463c97382221667934de"
+    val orderNo = "7a4f35680d8542fc8d2fa6d6a6b9af95"
     val payValidate = proxy.payValidate(orderNo)
     println(compact(render(payValidate)))
 
@@ -61,7 +58,7 @@ class FuenProxyTest extends FunSuite {
   }
 
   test("OrderDetail 接口测试") {
-    val orderNo = "900033058c3b463c97382221667934de"
+    val orderNo = "7a4f35680d8542fc8d2fa6d6a6b9af95"
     val detail = proxy.orderDetail(orderNo)
     println(compact(render(detail)))
 
