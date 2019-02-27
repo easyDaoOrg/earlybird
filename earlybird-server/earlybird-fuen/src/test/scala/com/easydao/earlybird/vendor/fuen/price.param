@@ -1,9 +1,13 @@
- {
+{
 
 	"dpt":"PEK", "arr":"CTU", "date":"2019-10-10", "flightNum": "CA1415"
 }
 
+四个参数
 
-来源
+参数来源
 search.json
-flightInfos 数组下的 flightNum
+
+dpt                 flightInfos -> dpt
+arr                 flightInfos -> arr
+flightNum           flightInfos -> flightNum

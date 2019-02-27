@@ -5,6 +5,8 @@
 	"cabinType": 0
 }
 
-来源
+三个参数
+
+参数来源
 price.json
 vendors数组下的pid, cid, cabinType

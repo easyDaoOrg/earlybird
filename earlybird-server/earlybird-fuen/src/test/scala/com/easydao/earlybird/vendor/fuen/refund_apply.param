@@ -1,0 +1,36 @@
+四个参数
+
+
+orderNo             订单号
+
+------------------------------------------------------
+
+passengers
+
+name: String,               姓名
+ageType: String,            0-成人,1-儿童，2-婴儿
+cardType: String,           NI:身份证,PP:护照,ID:其他
+cardNo: String,             证件号码
+ticketNo: String            后端会提前传递
+
+
+------------------------------------------------------
+
+flightInfo
+
+dpt: String,                待定
+arr: String,                待定
+flightNum: String,          待定
+flightDate: String,         待定
+carrier: String,            待定
+cabin: String,              待定
+cabinType: String,          待定
+codeShare: Boolean,         待定
+actFlightNum: String        待定
+
+
+------------------------------------------------------
+
+refundOrderType             1：正常订单退票
+                            2：改期订单退票
+
