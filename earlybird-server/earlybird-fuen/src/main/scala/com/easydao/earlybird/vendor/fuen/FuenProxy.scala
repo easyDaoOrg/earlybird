@@ -1,7 +1,6 @@
 package com.easydao.earlybird.vendor.fuen
 
 import com.easydao.earlybird.util.Utils
-import com.easydao.earlybird.vendor.fuen.bean.{FlightInfo, Passenger}
 import com.google.api.client.http.HttpResponseException
 import org.json4s.{DefaultFormats, JValue}
 
@@ -116,9 +115,9 @@ class FuenProxy(host: String, userName: String, password: String, token: String)
             invoiceType: Int,
             sjr: String,
             address: String,
-            flightInfo: FlightInfo,
+            flightInfo: OrderFlightInfo,
             passengerCount: Int,
-            passengers: List[Passenger], bookingTag: String
+            passengers: List[OrderPassenger], bookingTag: String
            ): JValue = {
     val url = host + FuenProxy.FLIGHT_ORDER_API
     val param = FuenProxy.createSysParam(password, token, userName)

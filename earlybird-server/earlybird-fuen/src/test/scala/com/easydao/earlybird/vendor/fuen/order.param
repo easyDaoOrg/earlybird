@@ -1,0 +1,86 @@
+{
+
+}
+
+
+来源：
+book.json
+供13个参数
+
+------------------------------------------------------------------------------------------
+
+cid = (json \ "extInfo" \ "cid")
+
+------------------------------------------------------------------------------------------
+
+printPrice = ((book \ "priceInfo" \ "priceTag" \ "ADU")  \ "viewPrice")
+             priceTag是一个对象：ADU(成人)，CHI(儿童)，INF(婴儿)
+             注：未返回CHI与INF，则表示不支持儿童和婴儿票
+             ADU/CHI/INF是一个数组，代表多组价格，使用用户选择价格的viewPrice
+
+             同等级别的tag会被下面passengers参数中引用
+
+------------------------------------------------------------------------------------------
+
+yPrice = (book \ "extInfo" \ "ticketPrice")  并转型成double传递
+
+------------------------------------------------------------------------------------------
+
+contact = "姜磊"
+contactPreNum = "86"
+contactMob = "18600994598"
+val sjr = "姜磊"
+val address = "地址"
+订单联系人， sjr是收件人的意思
+
+------------------------------------------------------------------------------------------
+
+invoiceType = (book \ "expressInfo" \ "id")
+
+------------------------------------------------------------------------------------------
+
+flightInfo = OrderFlightInfo("CA1415", 1, 0, "PEK", "CTU", "北京", "成都", "2019-10-01", "0955", "1300", "Y", "Y", "", false)
+
+@JsonProperty("flightNum") flightNum: String,                   flightInfo -> flightNum
+@JsonProperty("flightType") flightType: Int,                    extInfo -> flightType
+@JsonProperty("stopInfo") stopInfo: Int,                        flightInfo -> stops
+@JsonProperty("deptAirportCode") deptAirportCode: String,       flightInfo -> dpt
+@JsonProperty("arriAirportCode") arriAirportCode: String,       flightInfo -> arr
+@JsonProperty("deptCity") deptCity: String,                     flightInfo -> dptCity
+@JsonProperty("arriCity") arriCity: String,                     flightInfo -> arrCity
+@JsonProperty("deptDate") deptDate: String,                     flightInfo -> dptDate
+@JsonProperty("deptTime") deptTime: String,                     flightInfo -> dptTime 去掉冒号  11:30 -> 1130
+@JsonProperty("arriTime") arriTime: String,                     flightInfo -> arrTime 去掉冒号  11:30 -> 1130
+@JsonProperty("cabin") cabin: String,                           flightInfo -> cabin
+@JsonProperty("childCabin") childCabin: String,                 flightInfo -> childCabin  当book中的值为null时，必需设置此字段为Y
+@JsonProperty("actFlightNum") actFlightNum: String,             flightInfo -> actFlightNum
+@JsonProperty("codeShare") codeShare: Boolean                   flightInfo -> codeShare
+
+
+
+------------------------------------------------------------------------------------------
+
+val passengerCount = 1
+乘机人个数
+
+------------------------------------------------------------------------------------------
+
+passengers = 是一个乘机人列表
+
+@JsonProperty("name") name: String,                             姓名
+@JsonProperty("ageType") ageType: Int,                          0：成人；1：儿童；2：婴儿
+@JsonProperty("cardType") cardType: String,                     NI:身份证,PP:护照,ID:其他
+@JsonProperty("cardNo") cardNo: String,                         号码
+@JsonProperty("sex") sex: Int,                                  0: 女，1: 男
+@JsonProperty("birthday") birthday: String,                     如1986-10-19
+@JsonProperty("passengerPriceTag") passengerPriceTag: String,   见printPrice中的描述
+@JsonProperty("bx") bx: Boolean,                                目前固定传false
+@JsonProperty("flightDelayBx") flightDelayBx: Boolean,          目前固定传false
+@JsonProperty("tuipiaoBx") tuipiaoBx: Boolean)                  目前固定传false
+
+
+------------------------------------------------------------------------------------------
+
+
+bookingTag = (book \ "bookingTag")
+

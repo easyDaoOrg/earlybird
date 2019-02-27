@@ -33,15 +33,20 @@ public class FlightController {
         return Utils.toJson(proxy.price(param));
     }
 
-    @RequestMapping(value = "price", method = RequestMethod.POST)
+    @RequestMapping(value = "book", method = RequestMethod.POST)
     public Object book(@RequestBody BookParam param) throws HttpResponseException {
         FuenProxy proxy = FuenProxy.apply();
+//        todo
+//        param.cabinType();
         return Utils.toJson(proxy.book(param));
     }
 
     @RequestMapping(value = "order", method = RequestMethod.POST)
     public Object book(@RequestBody OrderParam param) throws HttpResponseException {
         FuenProxy proxy = FuenProxy.apply();
+//        todo
+//        param.flightInfo().actFlightNum()
+//        param.flightInfo().codeShare()
         return Utils.toJson(proxy.order(param));
     }
 

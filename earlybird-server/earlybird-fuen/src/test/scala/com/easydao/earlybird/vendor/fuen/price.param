@@ -1,0 +1,9 @@
+ {
+
+	"dpt":"PEK", "arr":"CTU", "date":"2019-10-10", "flightNum": "CA1415"
+}
+
+
+来源
+search.json
+flightInfos 数组下的 flightNum

@@ -1,6 +1,5 @@
 package com.easydao.earlybird.vendor.fuen
 
-import com.easydao.earlybird.vendor.fuen.bean.{FlightInfo, Passenger}
 import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods._
 import org.scalatest.FunSuite
@@ -14,6 +13,7 @@ class FuenProxyTest extends FunSuite {
     //Search接口
     val search = proxy.search("PEK", "PVG", "2019-10-02")
     println(compact(render(search)))
+    "CA1415"
   }
 
   test("Price, Book, Order 接口测试") {
@@ -37,9 +37,9 @@ class FuenProxyTest extends FunSuite {
       val invoiceType = (book \ "expressInfo" \ "id").extract[Int]
       val sjr = "jiangjiang"
       val address = "addresssss"
-      val flightInfo = FlightInfo.create()
+      val flightInfo = OrderFlightInfo("CA1415", 1, 0, "PEK", "CTU", "北京", "成都", "2019-10-01", "0955", "1300", "Y", "Y", "", false)
       val passengerCount = 1
-      val passengers = List[Passenger](Passenger.create())
+      val passengers = List[OrderPassenger](OrderPassenger("姜磊", 0, "NI", "110104198904123517", 1, "1989-04-12", "OPL4", false, false, false))
       val bookingTag = (book \ "bookingTag").extract[String]
 
       val newCid = (book \ "extInfo" \ "cid").extract[String]

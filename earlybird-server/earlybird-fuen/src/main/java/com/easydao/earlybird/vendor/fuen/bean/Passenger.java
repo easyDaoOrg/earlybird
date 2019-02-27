@@ -3,21 +3,7 @@ package com.easydao.earlybird.vendor.fuen.bean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Passenger {
-    public static Passenger create() {
-        Passenger passenger = new Passenger();
-        passenger.name = "姜磊";
-        passenger.ageType = 0;
-        passenger.cardType = "NI";
-        passenger.cardNo = "110104198904123517";
-        passenger.sex = 1;
-        passenger.birthday = "1989-04-12";
-        passenger.passengerPriceTag = "OPL4";
-        passenger.bx = false;
-        passenger.flightDelayBx = false;
-        passenger.tuipiaoBx = false;
-        return passenger;
-    }
-
+   
     @JsonProperty
     public String name = null;
     //接口传入    0：成人；1：儿童；2：婴儿
@@ -54,84 +40,4 @@ public class Passenger {
     public boolean tuipiaoBx = false;
     //Booking返回   退票险产品编码
 //    public String tuipiaoCode = null;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAgeType() {
-        return ageType;
-    }
-
-    public void setAgeType(int ageType) {
-        this.ageType = ageType;
-    }
-
-    public String getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
-    }
-
-    public String getCardNo() {
-        return cardNo;
-    }
-
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
-    }
-
-    public int getSex() {
-        return sex;
-    }
-
-    public void setSex(int sex) {
-        this.sex = sex;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getPassengerPriceTag() {
-        return passengerPriceTag;
-    }
-
-    public void setPassengerPriceTag(String passengerPriceTag) {
-        this.passengerPriceTag = passengerPriceTag;
-    }
-
-    public boolean isBx() {
-        return bx;
-    }
-
-    public void setBx(boolean bx) {
-        this.bx = bx;
-    }
-
-    public boolean isFlightDelayBx() {
-        return flightDelayBx;
-    }
-
-    public void setFlightDelayBx(boolean flightDelayBx) {
-        this.flightDelayBx = flightDelayBx;
-    }
-
-    public boolean isTuipiaoBx() {
-        return tuipiaoBx;
-    }
-
-    public void setTuipiaoBx(boolean tuipiaoBx) {
-        this.tuipiaoBx = tuipiaoBx;
-    }
 }
