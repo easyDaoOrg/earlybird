@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
 import hotel from './modules/hotel'
+import airport from './modules/airport'
 import overviewerrors from './modules/overviewerrors'
 import VueBus from 'vue-bus'
 
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
   state: {},
   modules: {
     hotel,
-    overviewerrors
+    overviewerrors,
+    airport
   },
   getters
 })

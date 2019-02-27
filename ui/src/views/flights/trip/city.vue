@@ -10,11 +10,11 @@
 .cityWrap .ivu-tabs-tab {
   color: #323232 !important;
 }
-.cityWrap .cityWrap input{
-  border:none!important;
+.cityWrap .cityWrap input {
+  border: none !important;
 }
-.cityWrap .ivu-tabs-bar{
-  margin-bottom:0
+.cityWrap .ivu-tabs-bar {
+  margin-bottom: 0;
 }
 </style>
 
@@ -25,7 +25,7 @@
       <!-- 城市 -->
       <section class="flights-index-text" :class=[cityObj.classInput]>
         <Input
-          v-model="citySelected"
+          v-model="cityObj.citySelected"
           :placeholder="cityObj.name"
           @on-focus="getCityWholeData()"
           @on-change="getCitySearchData()"
@@ -40,7 +40,7 @@
                   v-for="(option,i) in cityWholeObj[item.key]"
                   :key="i"
                   @click="onCitySelection(option)"
-                >{{option['city-ZH']}}</li>
+                >{{option['d']}}</li>
               </ul>
             </TabPane>
           </Tabs>
@@ -50,29 +50,37 @@
 
     <Dropdown trigger="custom" :visible="cityOpen.search"  placement="bottom-start">
       <DropdownMenu slot="list">
-
-
-        <!-- <div class="search-panel">
+        <div class="search-panel" v-if="cityOpen.search">
           <div class="list-panel" v-if="!cityOpen.searchLoading">
             <div
               class="inline-item"
               v-for="(item,index) in cityWholeSearchList"
               :key="index"
-              @click="onCitySearchSelection(item)"
             >
-              <div class="item-type">{{cityType[item.type]}}</div>
-              <div class="item-panel">
-                <b>{{item.fullNameZh}}</b>
-                <span>{{item.addressCn?item.addressCn:item.fullNameLang}}</span>
+              <div class="item-city">
+                <dl>
+                  <dt @click="onCitySearchSelection(item,1)"> {{item.ct}},<span v-if="item.s">所有机场,</span> {{item.cy}}({{item.c}})</dt>
+                  <dd v-if="item.s">
+                    <ul>
+                      <li
+                        v-for="(option,i) in item.s"
+                        :key="i"
+                        @click="onCitySearchSelection(option,2)"
+                      >
+                      ┊┈ {{option.ct}},{{option.d}},{{option.cy}}({{option.c}})
+                      </li>
+                    </ul>
+                  </dd>
+                </dl>
               </div>
             </div>
           </div>
-          <div class="tip-panel" v-if="cityOpen.searchLoading"><Spin fix></Spin></div>
+          <div class="tip-panel" v-if="cityOpen.searchLoading">正在加载搜索信息...</div>
           <div
             class="tip-panel"
-            v-if="!cityWholeSearchList.length&&!cityOpen.searchLoading&&citySelected"
+            v-if="!cityWholeSearchList.length&&!cityOpen.searchLoading&&cityObj.citySelected"
           >抱歉未找到您搜索的结果</div>
-        </div> -->
+        </div>
       </DropdownMenu>
     </Dropdown>
     </span>
@@ -80,37 +88,39 @@
 </template>
 
 <script>
-import axios from 'axios/dist/axios.min'
+import axios from "axios/dist/axios.min";
+import { findAirport } from "../../../assets/json/findAirport.js";
+import { searchAirport } from "../../../assets/json/searchAirport.js";
+
 export default {
-  props: ['cityObj'],
+  props: ["cityObj"],
   components: {},
-  data () {
+  data() {
     return {
-      citySelected: '',
       cityWholeList: [
         {
-          label: '热门目的地',
-          key: 'hot'
+          label: "热门目的地",
+          key: "hot"
         },
         {
-          label: '亚洲',
-          key: 'asia'
+          label: "亚洲",
+          key: "asia"
         },
         {
-          label: '美洲',
-          key: 'america'
+          label: "美洲",
+          key: "america"
         },
         {
-          label: '欧洲',
-          key: 'europe'
+          label: "欧洲",
+          key: "europe"
         },
         {
-          label: '大洋洲',
-          key: 'oceania'
+          label: "大洋洲",
+          key: "oceania"
         },
         {
-          label: '中东/非洲',
-          key: 'africa'
+          label: "中东/非洲",
+          key: "africa"
         }
       ],
       cityWholeObj: {},
@@ -120,76 +130,80 @@ export default {
         wholeLoading: false,
         search: false,
         searchLoading: false
-      },
-      cityType: {
-        Hotel: '酒店',
-        city: '城市',
-        neighbor: '周边'
       }
-    }
+    };
   },
-  mounted () {
-    this.$bus.on('overall-close', () => {
-      this.cityOpen.whole = false
-      this.cityOpen.search = false
-    })
+  mounted() {
   },
   methods: {
     // 城市获取所有数据
-    getCityWholeData () {
-      let self = this
-      axios
-        .get(
-          'https://www.igola.com/web-gateway/api-hotel-management/getHotCitys'
-        )
-        .then(data => {
-          this.cityOpen.whole = true
-          self.cityWholeObj = data.data.result
-        })
-        .catch(error => {
-          this.cityOpen.whole = true
-          console.log(error)
-        })
+    getCityWholeData() {
+      if (!this.cityObj.citySelected) {
+        let self = this;
+        axios
+          .get(
+            "https://www.igola.com/web-gateway/api-hotel-management/getHotCitys"
+          )
+          .then(data => {
+            this.cityOpen.whole = true;
+            // self.cityWholeObj = data.data.result
+            self.cityWholeObj = findAirport.result;
+          })
+          .catch(error => {
+            this.cityOpen.whole = true;
+            console.log(error);
+          });
+      } else {
+        this.getCitySearchData();
+      }
     },
     // 获取搜索信息
-    getCitySearchData () {
-      this.cityOpen.whole = false
-      this.cityOpen.search = true
-      this.cityOpen.searchLoading = true
-      let url = `https://www.igola.com/web-gateway/api-data-service/data/find-airport?text=5YyX5Lqs&lang=Wkg=&timestamp=1548289539465`
-      let self = this
+    getCitySearchData() {
+      this.cityOpen.whole = false;
+      this.cityOpen.search = true;
+      this.cityOpen.searchLoading = true;
+      let url = `https://www.igola.com/web-gateway/api-data-service/data/find-airport?text=5YyX5Lqs&lang=Wkg=&timestamp=1548289539465`;
+      let self = this;
       axios
         .get(url)
         .then(data => {
-          self.cityWholeSearchList = data.data.result
-          this.cityOpen.searchLoading = false
+          // self.cityWholeSearchList = data.data.result;
+          self.cityWholeSearchList = searchAirport.result;
+          this.cityOpen.searchLoading = false;
         })
         .catch(error => {
-          this.cityOpen.searchLoading = false
-          self.cityWholeSearchList = []
-          console.log(error)
-        })
+          this.cityOpen.searchLoading = false;
+          self.cityWholeSearchList = [];
+          console.log(error);
+        });
     },
     // 选中城市
-    onCitySelection (data) {
-      this.citySelected = data['city-ZH']
-      this.cityOpen.whole = false
-      this.cityOpen.search = false
+    onCitySelection(data) {
+      this.cityObj.citySelected = data["d"] + "(" + data["c"] + ")";
+      this.cityObj.cityName = data["d"];
+      this.cityObj.cityCode = data["c"];
+      this.cityOpen.whole = false;
+      this.cityOpen.search = false;
     },
-    closeCity () {
-      this.cityOpen.whole = false
-      this.cityOpen.search = false
+    closeCity() {
+      this.cityOpen.whole = false;
+      this.cityOpen.search = false;
     },
-    onCitySearchSelection (data) {
-      this.cityOpen.search = false
-      if (data.type === 'city') {
-        this.citySelected = data.city
-      } else if (data.type === 'Hotel') {
-        // 酒店
-      } else if (data.type === 'neighbor') {
-        // 地点
+    onCitySearchSelection(data,index) {
+      switch (index){
+        case 1:
+          this.cityObj.citySelected = data["ct"] + "(" + data["c"] + ")";
+          this.cityObj.cityName = data["ct"];
+          this.cityObj.cityCode = data["c"];
+          break;
+        case 2:
+          this.cityObj.citySelected = data["d"] + "(" + data["c"] + ")";
+          this.cityObj.cityName = data["d"];
+          this.cityObj.cityCode = data["c"];
+          break;
       }
+      this.cityOpen.search = false;
     }
   }
-}
+};
 </script>
