@@ -1,0 +1,13 @@
+
+调用流程
+
+1   search          搜索机票                http://123.206.254.186:8080/flight/search           POST
+2   price           查询指定航班价格         http://123.206.254.186:8080/flight/price            POST
+3   book            预订指定渠道的航班       http://123.206.254.186:8080/flight/book             POST
+4   order           下单                   http://123.206.254.186:8080/flight/order             POST
+5   pay             支付                   http://123.206.254.186:8080/flight/pay               POST
+6   order_detail    订单详情                http://123.206.254.186:8080/flight/order_detail      POST
+7   refund_apply    退票费用查询            http://123.206.254.186:8080/flight/refund_apply       POST
+
+
+
