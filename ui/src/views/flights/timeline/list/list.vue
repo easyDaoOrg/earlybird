@@ -16,17 +16,18 @@
   }
 </style>
 
+
 <template>
   <div class="timeline-list">
-    <Scroll :on-reach-edge="handleReachEdge" height="1000">
-        <Card dis-hover v-for="(item, index) in list3" :key="index">
+    <Scroll  height="1000">
+        <Card dis-hover v-for="(item, index) in airportList" :key="index">
             <div class="timeline-list-card">
               <div class="timeline-list-card-header">
-                <div class="timeline-list-card-header-tips">海南航空 HU7611 , 机型: 789</div>
-                <div class="timeline-list-card-header-score fr">
+                <div class="timeline-list-card-header-tips">{{item.flightTypeFullName}} , 机型: {{item.planetype}}</div>
+                <!-- <div class="timeline-list-card-header-score fr">
                   <i class="iconfont icon-travel-zan"></i>
                   <b>9.9</b>
-                </div>
+                </div> -->
               </div>
               <div class="timeline-list-card-body" :class="{'backlist' : tripBoolean}">
                 <div class="timeline-list-card-body-box">
@@ -36,10 +37,10 @@
                   <div class="timeline-list-card-body-sted-block">
                     <div class="timeline-list-card-body-sted-block-time">
                       <i class="iconfont icon-travel-setsail"></i>
-                      <b>08:01</b>
+                      <b>{{item.dptTime}}</b>
                     </div>
                     <div class="timeline-list-card-body-sted-block-address">
-                      首都机场 <b>T1</b>
+                      {{item.dptAirport}} <b>{{item.dptTerminal}}</b>
                     </div>
                   </div>
                   <div class="timeline-list-card-body-sted-mid">
@@ -56,31 +57,32 @@
                   <div class="timeline-list-card-body-sted-block">
                     <div class="timeline-list-card-body-sted-block-time">
                       <i class="iconfont icon-travel-jiangla"></i>
-                      <b>10:15</b>
+                      <b>{{item.arrTime}}</b>
                     </div>
                     <div class="timeline-list-card-body-sted-block-address">
-                      浦东机场机场 <b>T2</b>
+                      {{item.arrAirport}} <b>{{item.arrTerminal}}</b>
                     </div>
                   </div>
                 </div>
                 <div class="timeline-list-card-duration">
                   <i class="iconfont icon-travel-clock"></i>
-                  <small>2h 5m</small>
+                  <small>{{item.flightTimes}}</small>
                 </div>
               </div>
               <div class="timeline-list-card-footer">
                 <div class="timeline-list-card-footer-chosen fr">
-                  <Button type="primary" v-if="!tripBoolean"  @click="goTripModel()">选择去程</Button>
-                  <Button  type="warning" v-if="tripBoolean"  @click="backTripModel(true)">选择返程</Button>
+                  <!-- <Button type="primary" v-if="!tripBoolean"  @click="goTripModel()">选择去程</Button>
+                  <Button  type="warning" v-if="tripBoolean"  @click="backTripModel(true)">选择返程</Button> -->
+                  <Button  type="primary" @click="backTripModel(true)">选择去程</Button>
                 </div>
                 <div class="timeline-list-card-footer-price fr">
                   <p>
-                    <b>£</b>144
+                    <b>¥</b>{{item.barePrice}}
                   </p>
-                  <span>含税总价</span>
+                  <span>销售价（不含税）</span>
                 </div>
                 <div class="timeline-list-card-footer-box">
-                  <Button @click="airDetailModel()">航程详情</Button>
+                  <Button @click="airDetailModel(item)">航程详情</Button>
                 </div>
 
               </div>
@@ -91,22 +93,43 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import { airportListData } from "../../../../assets/json/airportListData.js";
+
 
 export default {
+  computed: {
+    ...mapGetters(['airport_list'])
+  },
   data () {
     return {
       tripBoolean: false,
-      list3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      airportList: []
     }
   },
   components: {
 
   },
   watch: {
-
+    airport_list: {
+      handler: function (val, oldVal) {
+        if(val){
+          this.initData(JSON.parse(JSON.stringify(val)))
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
-    airDetailModel(){
+    ...mapActions(['chooseAirportTimeData']),
+    //初始化
+    initData(data){
+      // this.airportList = data;
+      this.airportList = airportListData.flightInfos
+      console.log(airportListData)
+    },
+    airDetailModel(data){
+      this.chooseAirportTimeData(data);
       this.$bus.emit('on-airdetail',false)
     },
     goTripModel() {
@@ -116,24 +139,6 @@ export default {
     backTripModel(bool) {
       this.$bus.emit('on-airdetail',bool)
     },
-    handleReachEdge (dir) {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                if (dir > 0) {
-                    const first = this.list3[0];
-                    for (let i = 1; i < 11; i++) {
-                        this.list3.unshift(first - i);
-                    }
-                } else {
-                    const last = this.list3[this.list3.length - 1];
-                    for (let i = 1; i < 11; i++) {
-                        this.list3.push(last + i);
-                    }
-                }
-                resolve();
-            }, 2000);
-        });
-    }
   },
   mounted () {
     this.$bus.on('on-filtergoback',(bool) => {

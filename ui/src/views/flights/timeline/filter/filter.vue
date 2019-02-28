@@ -87,7 +87,7 @@
               </DropdownMenu>
           </Dropdown>
         </div>
-        <div class="filter-panel-box-airports">
+        <!-- <div class="filter-panel-box-airports">
           <Dropdown placement="bottom-start">
               起飞/到达时间
               <Icon type="ios-arrow-down"></Icon>
@@ -119,7 +119,7 @@
                 </div>
               </DropdownMenu>
           </Dropdown>
-        </div>
+        </div> -->
         <div class="filter-panel-box-airports ">
           <Dropdown placement="bottom-start">
               航司联盟/航空公司

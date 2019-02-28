@@ -148,7 +148,6 @@ $colorq:#969696;
           border-right: 1px solid #ccc;
           display: inline-block;
           padding: 0 10px;
-          float: left;
           li{
             line-height: 26px;
             color: $colorh;
@@ -260,13 +259,13 @@ $colorq:#969696;
     display: block;
   }
   .flights-index-search-input-city-date{
-    width: calc(100% - 160px)
+    width: calc(100% - 60px)
   }
   .flights-index-search-input-left{
-    width: 52%;
+    width: 65%;
   }
   .flights-index-search-input-right{
-    width: 48%;
+    width: 35%;
   }
 }
 

@@ -19,9 +19,9 @@
       <div class="flights-index-search-input-right fl">
           <date :tabIndex="tabIndex" :dateObj="dateObj"></date>
 
-          <div class="flights-index-search-input-city flights-index-begin fl ">
+          <!-- <div class="flights-index-search-input-city flights-index-begin fl ">
             前后3天
-          </div>
+          </div> -->
 
           <div class="flights-index-search-input-button fl" @click="searchFlights(tabIndex)">
             <Icon type="ios-search" />
@@ -33,13 +33,17 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex';
+import axios from "axios/dist/axios.min";
 import city from './city'
 import date from './date'
 
 
 export default {
   props: ['tabIndex', 'searchClass'],
+  computed: {
+    ...mapGetters(['history_list'])
+  },
   data () {
     return {
       startObj: {
@@ -73,11 +77,30 @@ export default {
     date
   },
   watch: {
-
+    history_list: {
+      handler: function (val, oldVal) {
+        if(val.length > 0){
+          this.initData(JSON.parse(JSON.stringify(val)))
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     ...mapActions(['setAirportFilterData']),
-
+    ...mapActions(['searchAirportListData']),
+    //初始化
+    initData(val){
+      let data = val[0];
+      this.startObj.citySelected= data.cityStart + "(" + data.cityStartCode + ")";
+      this.startObj.cityName= data.cityStart;
+      this.startObj.cityCode= data.cityStartCode;
+      this.endObj.citySelected= data.cityEnd + "(" + data.cityEndCode + ")";
+      this.endObj.cityName= data.cityEnd;
+      this.endObj.cityCode= data.cityEndCode;
+      this.dateObj.start= data.cityDate.start;
+      this.dateObj.end= data.cityDate.end;
+    },
     searchFlights(){
       if(this.startObj.citySelected && this.endObj.citySelected && this.dateObj.start){
         //向上传参
@@ -85,27 +108,43 @@ export default {
           cityStart: this.startObj.cityName ? this.startObj.cityName : "",
           cityStartCode: this.startObj.cityCode ? this.startObj.cityCode : "",
           cityEnd: this.endObj.cityName ? this.endObj.cityName : "",
-          cityEndCoce: this.endObj.cityCode ? this.endObj.cityCode : "",
+          cityEndCode: this.endObj.cityCode ? this.endObj.cityCode : "",
           cityDate: this.dateObj,
           tripType: this.tabIndex,
           spaceType: this.spaceType
         };
 
+        //存储搜索信息
         this.setAirportFilterData(this.tripObj)
 
-        //路由跳转
-        if(this.tabIndex == 0 && this.dateObj.end){
-          this.$router.push(`/flights/timeline`);
-        }else{
-          this.$router.push(`/flights/timeline`);
-        };
+        //搜索航班信息
+        this.postAirportSearchData();
       }
-
       console.log(this.tabIndex,'111',this.startObj.citySelected,'222',this.endObj.citySelected,'333',this.dateObj.start,this.dateObj.end)
     },
-    getMsgFromChild (data) {
-      console.log(data)
-    }
+    // 搜索航班信息
+    postAirportSearchData() {
+      let airportData = {
+        dpt: this.startObj.cityCode,
+        arr: this.endObj.cityCode,
+        date: this.dateObj.start
+      }
+      let url = `http://172.30.106.98:8080/flight/search`;
+      let self = this;
+      axios
+        .post(url,airportData)
+        .then(data => {
+          //存储搜索结果
+          this.searchAirportListData(data);
+          //路由跳转
+          this.$router.push(`/flights/timeline`);
+        })
+        .catch(error => {
+          //路由跳转
+          this.$router.push(`/flights/timeline`);
+          console.log(error);
+        });
+    },
   },
   mounted () {
     this.$bus.on('trip-airport-msg', (data) => {

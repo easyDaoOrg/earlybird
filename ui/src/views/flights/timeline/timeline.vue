@@ -44,25 +44,25 @@
 
 <template>
   <div class="timeline">
-    <div class="timeline-tips"><b>6658</b>个结果</div>
+    <div class="timeline-tips"><b>{{timelineTotal}}</b>个结果</div>
     <Affix>
       <div class="demo-affix">
       <search></search>
 
       <div class="timeline-container" :class="{'sort': sortClass}">
         <!--自由搭配&航班组合-->
-        <div class="timeline-container-tab">
+        <!-- <div class="timeline-container-tab">
           <div v-for="(item,index) in tabList" :key="index" :class="{'active':item.actived}" @click="tabTimeline(item,index)">
             <i class="iconfont" :class="item.tabClass"></i>
             <span>{{item.value}}</span>
           </div>
-        </div>
+        </div> -->
 
         <!--选择-->
         <div class="time-container-control">
           <filterBar :pTabIndex="tabIndex"></filterBar>
-          <sortprice v-if="tabIndex == 1"></sortprice>
-          <sortBar v-if="tabIndex == 0"></sortBar>
+          <!-- <sortprice v-if="tabIndex == 1"></sortprice> -->
+          <sortBar v-if="tabIndex == 1"></sortBar>
         </div>
 
       </div>
@@ -74,8 +74,8 @@
     </Affix>
 
     <div class="timeline-container">
-      <list v-if="tabIndex == 0"></list>
-      <grouplist v-if="tabIndex == 1"></grouplist>
+      <list></list>
+      <!-- <grouplist v-if="tabIndex == 1"></grouplist> -->
     </div>
 
     <triplayer></triplayer>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import search from './search/search'
 import list from './list/list'
 import grouplist from './grouplist/grouplist'
@@ -90,13 +91,16 @@ import sortBar from './sortbar/sortbar'
 import filterBar from './filter/filter'
 import sortprice from './sortprice/sortprice'
 import triplayer from './triplayer/triplayer'
-
+import { airportListData } from "../../../assets/json/airportListData.js";
 
 
 export default {
+  computed: {
+    ...mapGetters(['airport_list'])
+  },
   data () {
     return {
-      tabIndex: 0,
+      tabIndex: 1,
       sortClass: false,
       tabList: [
         {
@@ -109,7 +113,8 @@ export default {
           tabClass: "icon-travel-zuhe",
           actived: false
         }
-      ]
+      ],
+      timelineTotal: 0
     }
   },
   components: {
@@ -122,7 +127,14 @@ export default {
     triplayer
   },
   watch: {
-
+    airport_list: {
+      handler: function (val, oldVal) {
+        if(val){
+          this.timelineTotal = airportListData.total;
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
     tabTimeline(item,index){

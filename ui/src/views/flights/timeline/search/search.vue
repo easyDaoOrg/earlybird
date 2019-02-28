@@ -9,7 +9,7 @@
 
     <div class="search-bar">
       <!--切换往返-->
-      <div class="search-bar-change fl">
+      <!-- <div class="search-bar-change fl">
         <Dropdown trigger="click" placement="bottom-start">
             <span>
               <b>{{menuName}}</b>
@@ -23,7 +23,7 @@
               </DropdownItem>
             </DropdownMenu>
         </Dropdown>
-      </div>
+      </div> -->
 
       <div class="search-bar-line fl"></div>
 
@@ -49,7 +49,7 @@ import group from './../../group/group'
 export default {
   data () {
     return {
-      changeIndex: 0,
+      changeIndex: 1,
       searchClass: true,
       queryHistory: true,
       menuList: [

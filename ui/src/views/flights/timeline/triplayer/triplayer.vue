@@ -7,11 +7,11 @@
   <div class="triplayer">
     <Modal v-model="tripModel" width="880" footer-hide>
         <div class="triplayer-title">航程详情</div>
-        <div class="triplayer-wrap" v-for="(item,index) in airpotList" :key="index">
+        <div class="triplayer-wrap">
           <div class="triplayer-wrap-line">
-            <span class="triplayer-wrap-line-departStopColor">{{item.name}}</span>
-            <span  class="triplayer-wrap-line-white">{{item.date}}</span>
-            <span class="fr">{{item.time}}</span>
+            <span class="triplayer-wrap-line-departStopColor">启程</span>
+            <span  class="triplayer-wrap-line-white">{{airpotObj.dptTime}}</span>
+            <span class="fr">{{airpotObj.flightTimes}}</span>
           </div>
           <div class="triplayer-wrap-cont">
             <div class="triplayer-wrap-cont-info">
@@ -23,11 +23,11 @@
               <h4>
                 <span class="st">
                   <i class="iconfont icon-travel-setsail"></i>
-                  <b>18:30</b>
+                  <b>{{airpotObj.dptTime}}</b>
                 </span>
                 <span class="flight-info-text">北京</span>
-                <b> 首都机场</b>
-                <b> T2</b>
+                <b> {{airpotObj.dptAirport}}</b>
+                <b> {{airpotObj.dptTerminal}}</b>
               </h4>
 
               <div class="triplayer-wrap-cont-info-airport">
@@ -35,18 +35,18 @@
                   <img src="https://content.igola.com/static/APP/images/airline_logo/1x/36x36/fm.png">
                 </span>
                 <span>
-                  上海航空 | FM9108 | 机型 : 738
+                  上海航空 | {{airpotObj.actFlightNum}} | 机型 : {{airpotObj.planetype}}
                 </span>
               </div>
 
               <h4>
                 <span class="st">
                   <i class="iconfont icon-travel-setsail"></i>
-                  <b>20:30</b>
+                  <b>{{airpotObj.arrTime}}</b>
                 </span>
                 <span class="flight-info-text">上海</span>
-                <b> 虹桥机场</b>
-                <b> T1</b>
+                <b> {{airpotObj.arrAirport}}</b>
+                <b> {{airpotObj.arrTerminal}}</b>
               </h4>
 
             </div>
@@ -84,31 +84,32 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
+  computed: {
+    ...mapGetters(['airport_time'])
+  },
   data () {
     return {
       tripModel: false,
       tripBuy: false,
-      airpotList: [
-        {
-          name: "启程",
-          date: "2月4日, 周一",
-          time: "2h 10m",
-        },
-        {
-          name: "返程",
-          date: "2月5日, 周二",
-          time: "2h 10m",
-        }
-      ]
+      airpotObj: {}
     }
   },
   components: {
 
   },
   watch: {
-
+    airport_time: {
+      handler: function (val, oldVal) {
+        if(val&&JSON.stringify(val) !==""){
+          debugger
+          this.airpotObj = val;
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
 

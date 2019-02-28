@@ -24,7 +24,7 @@
             <font @click="goTrip()">
               {{item.cityStart}}({{item.cityStartCode}})
               -
-              {{item.cityEnd}}({{item.cityEndCoce}})
+              {{item.cityEnd}}({{item.cityEndCode}})
               {{item.cityDate.start}}
               <span v-if="item.cityDate.end">- {{item.cityDate.end}}</span>,
               {{item.spaceType}}

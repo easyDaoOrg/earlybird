@@ -25,12 +25,12 @@
     </span>
     <span class="fl" v-if="tabIndex === 1 || tabIndex === 2">
       <DatePicker
-        format="MM月dd日"
         type="date"
         confirm
         placeholder="出发日期"
         style="width: 98%;"
         @on-change="handleChange"
+        :value="dateObj.start"
       ></DatePicker>
     </span>
   </div>

@@ -10,9 +10,12 @@
         <div class="flights-index-search-trip-right fl">
           <div class="flights-index-search-trip-right-tab fl">
             <ul>
-              <li @click="changeTravel(0)" :class="{active: changeIndex == 0}"><i class="iconfont icon-travel-wangfan"></i>往返</li>
-              <li @click="changeTravel(1)" :class="{active: changeIndex == 1}"><i class="iconfont icon-travel-find"></i>单程</li>
-              <li @click="changeTravel(2)" :class="{active: changeIndex == 2}"><i class="iconfont icon-travel-list"></i>多程</li>
+              <!-- <li @click="changeTravel(0)" :class="{active: changeIndex == 0}"><i class="iconfont icon-travel-wangfan"></i>往返</li> -->
+              <li @click="changeTravel(1)" :class="{active: changeIndex == 1}"><i class="iconfont icon-travel-find"></i>
+              <!-- 单程 -->
+              请选择要查找的机票信息
+              </li>
+              <!-- <li @click="changeTravel(2)" :class="{active: changeIndex == 2}"><i class="iconfont icon-travel-list"></i>多程</li> -->
             </ul>
           </div>
           <div class="flights-index-search-trip-right-ove fl">
@@ -41,7 +44,7 @@ export default {
     return {
       value7: 1,
       visible: false,
-      changeIndex: 0,
+      changeIndex: 1,
       tripList: [{}],
     }
   },
