@@ -42,7 +42,7 @@ export default {
       value7: 1,
       visible: false,
       changeIndex: 0,
-      tripList: [{}]
+      tripList: [{}],
     }
   },
   components: {
@@ -63,7 +63,7 @@ export default {
         case 2:
           this.tripList.push({})
       }
-    }
+    },
   },
   mounted () {}
 }
