@@ -104,7 +104,6 @@ export default {
     airport_time: {
       handler: function (val, oldVal) {
         if(val&&JSON.stringify(val) !==""){
-          debugger
           this.airpotObj = val;
         }
       },
