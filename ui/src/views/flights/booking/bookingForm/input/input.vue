@@ -9,9 +9,8 @@
 
 <script>
 
-
 export default {
-  props: ['bookingFormModel','bookingFormPlaceholder'],
+  props: ['bookingFormModel', 'bookingFormPlaceholder'],
   data () {
     return {
       value: ''
@@ -24,8 +23,8 @@ export default {
 
   },
   methods: {
-    inputChange(){
-      this.$bus.emit('on-selectchange',this.bookingFormModel,this.value)
+    inputChange () {
+      this.$bus.emit('on-selectchange', this.bookingFormModel, this.value)
     }
   },
   mounted () {}

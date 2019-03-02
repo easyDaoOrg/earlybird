@@ -8,9 +8,41 @@
     border: 1px solid #c8c8c8;
     border-radius: 2px;
     position: relative;
-    padding-left: 121px;
+    min-height: 300px;
+    display: flex;
+    // padding-left: 121px;
   }
   &-pane{
     padding: 20px;
+    width: 100%;
+  }
+}
+.menu{
+  //width:40px;
+  position: relative;
+  p{
+    font-size: 16px;
+    font-weight: 700
+  }
+  &>div{
+    position: absolute;
+    right: 5px;
+    top: 9px;
+    margin-top: -8px;
+    width: 12px;
+    height: 12px;
+    z-index: 99;
+    i{
+      font-size: 15px;
+    }
+  }
+  span{
+    color: #969696;
+    font-weight: 400;
+    max-width: 106px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
   }
 }

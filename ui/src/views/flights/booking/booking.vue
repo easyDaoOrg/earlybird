@@ -9,9 +9,9 @@
       <bookingStep></bookingStep>
       <!--旅客-->
       <div class="booking-box">
-        <bookingSubtitle :subTitle="0"></bookingSubtitle>
-        <bookingPassenger></bookingPassenger>
-        <bookingTabList></bookingTabList>
+        <bookingSubtitle :subTitle="0" ></bookingSubtitle>
+        <bookingPassenger @on-ok='onPeopleOk' ref='bookingPassenger'></bookingPassenger>
+        <bookingTabList :data='passengers' @on-member-change='onMemberChange'></bookingTabList>
       </div>
 
       <!--联系人信息-->
@@ -49,11 +49,10 @@ import bookingForm from './bookingForm/bookingForm'
 import bookingTabList from './bookingTabList/bookingTabList'
 import bookingOrder from './bookingOrder/bookingOrder'
 
-
 export default {
   data () {
     return {
-
+      passengers: []
     }
   },
   components: {
@@ -69,7 +68,12 @@ export default {
 
   },
   methods: {
-
+    onPeopleOk (data) {
+      this.passengers = data
+    },
+    onMemberChange (data) {
+      this.$refs.bookingPassenger.setMember(data)
+    }
   },
   mounted () {}
 }

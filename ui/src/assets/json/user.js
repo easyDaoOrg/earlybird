@@ -7,7 +7,7 @@ export var user = {
     },
     {
       label: '身份证',
-      value: 'ID',
+      value: 'NI',
       open: false
     },
     {

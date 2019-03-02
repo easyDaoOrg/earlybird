@@ -23,3 +23,71 @@
     clear: both;
   }
 }
+
+
+
+.form-group {
+  position: relative;
+  margin-left: 0;
+  margin-bottom: 0;
+  padding-bottom: 16px;
+  display: flex;
+  padding-left: 30px;
+  float: left;
+  width: 100%;
+
+  &>label {
+    color: #0096ff;
+    font-weight: 400;
+    font-size: 14px;
+    white-space: nowrap;
+    line-height: 18px;
+    text-align: left;
+    padding: 0 3px;
+    position: absolute;
+    width: auto;
+    background: #fff;
+    top: -11px;
+    border-radius: 12%;
+    z-index: 2;
+    left: 50px;
+  }
+  &-tips{
+      position: absolute;
+      left:30px;
+      bottom:0;
+      line-height: 20px;
+      color: #969696;
+      font-size: 12px;
+    
+  }
+}
+
+.middleName {
+  color: #409eff;
+  padding-left: 34px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.marginBottom{
+  margin:8px auto 15px;
+}
+.addCertificates{
+  cursor: pointer;
+  display: inline-block;
+  border: 1px dashed #c8c8c8;
+  padding: 8px 16px;
+  margin-left:20px;
+  i{
+    color: #3291eb;
+    font-size: 23px;
+    margin-right:5px;
+    margin-top: -4px;
+  }
+}
+.submitStyle{
+  text-align: center;
+  padding-top: 20px;
+}

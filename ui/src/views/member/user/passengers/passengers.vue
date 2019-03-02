@@ -258,7 +258,7 @@ export default {
       if (value === '') {
         callback(new Error(empty))
       } else {
-        let reg = /^[\u4e00-\u9fa5]+$/
+        let reg = /^[\u4e00-\u9fa5a-zA-Z]+$/
         if (!reg.test(value)) {
           callback(new Error('请输入中文或拼音'))
         }
@@ -296,24 +296,24 @@ export default {
         callback()
       }
     }
-     // 护照
+    // 护照
     const _passport = (rule, value, callback) => {
-      var reg = /^([a-zA-z]|[0-9]){5,17}$/;
+      var reg = /^([a-zA-z]|[0-9]){5,17}$/
       if (value === '') {
         callback(new Error(empty))
       } else if (!reg.test(value)) {
-        callback(new Error("您填写的证件号可能有误，请仔细核对"))
+        callback(new Error('您填写的证件号可能有误，请仔细核对'))
       } else {
         callback()
       }
     }
     // 台胞证
     const _taiwan_compatriots = (rule, value, callback) => {
-      var reg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/;
+      var reg = /^\d{8}|^[a-zA-Z0-9]{10}|^\d{18}$/
       if (value === '') {
         callback(new Error(empty))
       } else if (!reg.test(value)) {
-        callback(new Error("您填写的证件号可能有误，请仔细核对"))
+        callback(new Error('您填写的证件号可能有误，请仔细核对'))
       } else {
         callback()
       }
@@ -327,8 +327,8 @@ export default {
       // 证件 验证
       id_number: idNumber,
       onEmpty: _onEmpty,
-      passport:_passport,
-      taiwan_compatriots:_taiwan_compatriots,
+      passport: _passport,
+      taiwan_compatriots: _taiwan_compatriots,
       //
       formCustom: {
         guid: 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
@@ -354,7 +354,7 @@ export default {
           {
             'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
             'category': '',
-            // 'category': 'ID',
+            // 'category': 'NI',
             // 'number': '130706199201270313',
             'number': '',
             'issueAt': null,
@@ -418,7 +418,7 @@ export default {
           'credentials': [
             {
               'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
-              'category': 'ID',
+              'category': 'NI',
               'number': '130706199201270313',
               'issueAt': null,
               'expiredAt': '',
@@ -480,7 +480,7 @@ export default {
           'credentials': [
             {
               'guid': 'e59059fa-7e51-4fa7-8562-965c938fc8ef',
-              'category': 'ID',
+              'category': 'NI',
               'number': '130706199201270313',
               'issueAt': null,
               'expiredAt': '',
@@ -551,13 +551,13 @@ export default {
   methods: {
     // 证件号码的校验
     identificationNumberType (type) {
-      if (type === 'ID') { // 身份证
+      if (type === 'NI') { // 身份证
         return this.id_number
-      } else if(type === 'PP'){ //护照
+      } else if (type === 'PP') { // 护照
         return this.passport
-      }else if(type === 'TB'){// 台胞证
+      } else if (type === 'TB') { // 台胞证
         return this.taiwan_compatriots
-      }else {
+      } else {
         return this.onEmpty
       }
     },
