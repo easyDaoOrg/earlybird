@@ -79,7 +79,8 @@ $colorq:#969696;
   //航班组合header
   &-bar{
     height: 40px;
-    background-color: rgba(0,0,0,.4);
+    // background-color: rgba(0,0,0,.4);
+    background: #00b4ff;
     border-radius: 4px 4px 0 0;
     padding: 6px 10px;
     box-sizing: border-box;
@@ -101,12 +102,12 @@ $colorq:#969696;
         padding-left: 8px;
         span{
           color: $colorw;
-          &:first-child{
-            color: $colorb;
-          }
-          &:last-child{
-            color: orange;
-          }
+          // &:first-child{
+          //   color: $colorb;
+          // }
+          // &:last-child{
+          //   color: orange;
+          // }
         }
       }
     }

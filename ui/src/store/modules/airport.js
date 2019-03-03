@@ -12,7 +12,8 @@ const global = {
       tabIndex: 0
     },
     airport_list: {},
-    airport_time: {}
+    airport_time: {},
+    book_flight: {}
   },
   mutations: {
     SET_AIRPORT_FILTER_DATA (state, data) {
@@ -28,6 +29,12 @@ const global = {
     },
     SET_AIRPORT_Time_DATA (state, data) {
       state.airport_time = data
+    },
+    SET_CLEAR_FILTER_DATA (state, data) {
+      state.history_list = data
+    },
+    SET_AIRPORT_PRICE_DATA (state, data) {
+      state.book_flight = data
     }
   },
   actions: {
@@ -42,6 +49,12 @@ const global = {
     },
     chooseAirportTimeData ({ commit }, params) {
       commit('SET_AIRPORT_Time_DATA', params)
+    },
+    setClearFilterData ({ commit }, params) {
+      commit('SET_CLEAR_FILTER_DATA', params)
+    },
+    setAirportPriceData ({ commit }, params) {
+      commit('SET_AIRPORT_PRICE_DATA', params)
     }
   }
 }

@@ -37,7 +37,7 @@ $colorw:#0096ff;
   background-color: #fff;
   min-width: 290px;
   .list-panel {
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 15px 10px;
@@ -82,9 +82,8 @@ $colorw:#0096ff;
     }
   }
   .tip-panel{
-    height: 80px;
-    line-height: 80px;
     font-size: 16px;
     padding-left: 20px;
+    padding-bottom: 25px;
   }
 }

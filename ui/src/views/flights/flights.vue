@@ -15,16 +15,16 @@
               <i class="iconfont icon-travel-feiji1"></i>找机票
             </li>
           </router-link>
-          <router-link :to="{path:'/flights/where-to-go'}">
+          <!-- <router-link :to="{path:'/flights/where-to-go'}"> -->
             <li :class="{flightssSearchBaractive: isActive == '/flights/where-to-go'}">
               <i class="iconfont icon-travel-where"></i>飞去哪
             </li>
-          </router-link>
-          <router-link :to="{path:'/flights/when-to-go'}">
+          <!-- </router-link> -->
+          <!-- <router-link :to="{path:'/flights/when-to-go'}"> -->
             <li :class="{flightssSearchBaractive: isActive == '/flights/when-to-go'}">
               <i class="iconfont icon-travel-weibiaoti"></i>何时飞
             </li>
-          </router-link>
+          <!-- </router-link> -->
         </ul>
       </div>
       <div class="flights-content">

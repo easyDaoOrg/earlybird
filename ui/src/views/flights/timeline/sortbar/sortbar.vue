@@ -5,12 +5,16 @@
 <template>
   <div class="sort-bar">
     <ul>
-      <li v-for="(item,index) in sortList" :key="index" :class="{sortbaracitve: item.lbselected}" @click="sortBarChange(item)">
+      <li v-for="(item,index) in sortList" :key="index" :class="{sortbaracitve: item.lbselected}">
         <a>
-          {{item.value}}
+          <font @click="sortBarChange(item,'up')">{{item.value}}</font>
           <span>
-            <i class="arrowup" :class="{active: item.upselected}"><Icon type="ios-arrow-up" /></i>
-            <i class="arrowdown" :class="{active: item.dwselected}"><Icon type="ios-arrow-down" /></i>
+            <i class="arrowup">
+              <Icon type="ios-arrow-up"  :class="{active: item.upselected}"  @click="sortBarChange(item,'up')"/>
+            </i>
+            <i class="arrowdown">
+              <Icon type="ios-arrow-down" :class="{active: item.dwselected}"  @click="sortBarChange(item,'down')"/>
+            </i>
           </span>
         </a>
       </li>
@@ -27,7 +31,7 @@ export default {
           label: 'price',
           value: '价格',
           lbselected: false,
-          upselected: false,
+          upselected: true,
           dwselected: false
         },
         {
@@ -51,13 +55,13 @@ export default {
           upselected: false,
           dwselected: false
         },
-        {
-          label: 'prepare',
-          value: '性价比',
-          lbselected: false,
-          upselected: false,
-          dwselected: false
-        }
+        // {
+        //   label: 'prepare',
+        //   value: '性价比',
+        //   lbselected: false,
+        //   upselected: false,
+        //   dwselected: false
+        // }
       ]
     }
   },
@@ -68,11 +72,22 @@ export default {
 
   },
   methods: {
-    sortBarChange (item) {
+    sortBarChange (item,type) {
       for (let i of this.sortList) {
-        i.lbselected = false
+        i.lbselected = false;
+        i.upselected = false;
+        i.dwselected = false;
       }
-      item.lbselected = item.lbselected == false;
+      item.lbselected = true;
+      switch (type){
+        case 'up':
+          item.upselected = true;
+          break;
+        case 'down':
+          item.dwselected = true;
+          break;
+      }
+      this.$bus.emit('trip-airport-list',item)
     }
   },
   mounted () {}

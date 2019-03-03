@@ -76,6 +76,9 @@ $colorh:#323232;
               color: #fc437a
             }
           }
+          :nth-child(2){
+            pointer-events: none;
+          }
         }
       }
       &-active{

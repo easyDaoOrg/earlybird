@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   props: ['queryHistory'],
@@ -63,6 +63,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setClearFilterData']),
     //初始化
     initData(data){
       this.historyList = data;
@@ -70,10 +71,12 @@ export default {
     //删除历史记录
     deleteHistory(index){
       this.historyList.splice(index,1)
+      this.history_list.splice(index,1)
     },
     //清除所有
     clearHistory(){
-      this.historyList = [];
+      this.historyList = this.historyList.length>0 ? this.historyList[0] : [];
+      this.setClearFilterData(this.historyList[0]);
     },
     //点击查看航程
     goTrip(){

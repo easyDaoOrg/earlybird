@@ -7,7 +7,7 @@
     <div class="flights-index-airport clearfix">
         <div class="flights-index-search-input-left fl">
         <div class="flights-index-search-input-left-change">
-          <i class="iconfont icon-travel-return"></i>
+          <i class="iconfont icon-travel-return" @click="changeTravelData()"></i>
         </div>
         <div class="fl col-10">
           <city :cityObj="startObj"></city>
@@ -69,7 +69,9 @@ export default {
         end: ''
       },
       tripObj: {},
-      spaceType: "经济舱"
+      spaceType: "经济舱",
+      saveStartObj: {},
+      saveEndObj: {}
     }
   },
   components: {
@@ -129,22 +131,31 @@ export default {
         arr: this.endObj.cityCode,
         date: this.dateObj.start
       }
-      let url = `http://172.30.106.98:8080/flight/search`;
+      let url = `http://123.206.254.186:8080/flight/search`;
       let self = this;
       axios
         .post(url,airportData)
         .then(data => {
           //存储搜索结果
-          this.searchAirportListData(data);
+          self.searchAirportListData(data);
           //路由跳转
-          this.$router.push(`/flights/timeline`);
+          self.$router.push(`/flights/timeline`);
         })
         .catch(error => {
-          //路由跳转
-          this.$router.push(`/flights/timeline`);
           console.log(error);
         });
     },
+    //切换
+    changeTravelData(){
+      this.saveStartObj = JSON.parse(JSON.stringify(this.startObj));
+      this.saveEndObj = JSON.parse(JSON.stringify(this.endObj));
+      this.startObj.citySelected = this.saveEndObj.citySelected;
+      this.startObj.cityName = this.saveEndObj.cityName;
+      this.startObj.cityCode = this.saveEndObj.cityCode;
+      this.endObj.citySelected = this.saveStartObj.citySelected;
+      this.endObj.cityName = this.saveStartObj.cityName;
+      this.endObj.cityCode = this.saveStartObj.cityCode;
+    }
   },
   mounted () {
     this.$bus.on('trip-airport-msg', (data) => {

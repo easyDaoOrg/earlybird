@@ -113,18 +113,36 @@ $colorq:#969696;
   &-guide{
     width: 100%;
     background-color: #f5f5f5;
-    font-size: 14px;
+    font-size: 15px;
     height: 40px;
     line-height: 40px;
     text-align: center;
     color: #323232;
   }
   &-book{
-    ul{
+    ol{
+      background: #b3d8fd;
+      height: 40px;
+      margin-top: 10px;
       li{
-        padding: 10px;
-        border-bottom: 1px solid #dcdcdc;
-        overflow: hidden;
+        width: calc(100%/8);
+        float: left;
+        height: 40px;
+        line-height: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+    ul{
+      padding: 10px;
+      border-bottom: 1px solid #dcdcdc;
+      overflow: hidden;
+      li{
+        width: calc(100%/8);
+        float: left;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
       }
     }
     &-img{
@@ -149,6 +167,9 @@ $colorq:#969696;
     text-align: center;
     font-size: 14px;
   }
+}
+.triplayer-book ul li:last-child{
+  border-bottom: 0 none;
 }
 
 // .triplayer-wrap:last-child{

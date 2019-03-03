@@ -31,23 +31,27 @@
           @on-change="getCitySearchData()"
         />
       </section>
-      <Dropdown trigger="custom" :visible="cityOpen.whole"  placement="bottom-start">
-        <DropdownMenu slot="list" v-if="cityOpen.whole">
-          <Tabs :animated="false">
-            <TabPane :label="item.label" v-for="(item,index) in cityWholeList" :key="index">
-              <ul class="city-panel">
-                <li
-                  v-for="(option,i) in cityWholeObj[item.key]"
-                  :key="i"
-                  @click="onCitySelection(option)"
-                >{{option['d']}}</li>
-              </ul>
-            </TabPane>
-          </Tabs>
-          <b class="flights-index-search-input-city-close" @click="closeCity">关闭</b>
-        </DropdownMenu>
-    </Dropdown>
+      <div class="flight-city">
+        <Dropdown trigger="custom" :visible="cityOpen.whole"  placement="bottom-start">
+          <DropdownMenu slot="list" v-if="cityOpen.whole">
+            <Tabs :animated="false">
+              <TabPane :label="item.label" v-for="(item,index) in cityWholeHeaderList" :key="index">
+                <ul class="city-panel">
+                  <li
+                    v-for="(option,i) in cityWholeList"
+                    :key="i"
+                    @click="onCitySelection(option,0)"
+                  >{{option.cityName}}</li>
+                </ul>
+              </TabPane>
+            </Tabs>
+            <b class="flights-index-search-input-city-close" @click="closeCity">关闭</b>
+          </DropdownMenu>
+      </Dropdown>
+      </div>
 
+
+    <div class="flight-inline">
     <Dropdown trigger="custom" :visible="cityOpen.search"  placement="bottom-start">
       <DropdownMenu slot="list">
         <div class="search-panel" v-if="cityOpen.search">
@@ -59,15 +63,15 @@
             >
               <div class="item-city">
                 <dl>
-                  <dt @click="onCitySearchSelection(item,1)"> {{item.ct}},<span v-if="item.s">所有机场,</span> {{item.cy}}({{item.c}})</dt>
-                  <dd v-if="item.s">
+                  <dt @click="onCitySelection(item,1)"> {{item.provinceName}},<span v-if="item.children&&item.children.length > 0">所有机场,</span> {{item.countyType}}({{item.countryCode}})</dt>
+                  <dd v-if="item.children&&item.children.length > 0">
                     <ul>
                       <li
-                        v-for="(option,i) in item.s"
+                        v-for="(option,i) in item.children"
                         :key="i"
-                        @click="onCitySearchSelection(option,2)"
+                        @click="onCitySelection(option,1)"
                       >
-                      ┊┈ {{option.ct}},{{option.d}},{{option.cy}}({{option.c}})
+                      ┊┈ {{option.provinceName}},{{option.cityName}},{{option.airportName}},{{option.countyType}}({{option.countryCode}})
                       </li>
                     </ul>
                   </dd>
@@ -83,6 +87,7 @@
         </div>
       </DropdownMenu>
     </Dropdown>
+    </div>
     </span>
   </div>
 </template>
@@ -97,40 +102,41 @@ export default {
   components: {},
   data() {
     return {
-      cityWholeList: [
+      cityWholeHeaderList: [
         {
-          label: "热门目的地",
+          label: "目的地",
           key: "hot"
         },
-        {
-          label: "亚洲",
-          key: "asia"
-        },
-        {
-          label: "美洲",
-          key: "america"
-        },
-        {
-          label: "欧洲",
-          key: "europe"
-        },
-        {
-          label: "大洋洲",
-          key: "oceania"
-        },
-        {
-          label: "中东/非洲",
-          key: "africa"
-        }
+        // {
+        //   label: "亚洲",
+        //   key: "asia"
+        // },
+        // {
+        //   label: "美洲",
+        //   key: "america"
+        // },
+        // {
+        //   label: "欧洲",
+        //   key: "europe"
+        // },
+        // {
+        //   label: "大洋洲",
+        //   key: "oceania"
+        // },
+        // {
+        //   label: "中东/非洲",
+        //   key: "africa"
+        // }
       ],
-      cityWholeObj: {},
+      cityWholeList: {},
       cityWholeSearchList: [],
       cityOpen: {
         whole: false,
         wholeLoading: false,
         search: false,
         searchLoading: false
-      }
+      },
+      searchBoolean: false
     };
   },
   mounted() {
@@ -138,72 +144,55 @@ export default {
   methods: {
     // 城市获取所有数据
     getCityWholeData() {
-      if (!this.cityObj.citySelected) {
-        let self = this;
-        axios
-          .get(
-            "https://www.igola.com/web-gateway/api-hotel-management/getHotCitys"
-          )
-          .then(data => {
-            this.cityOpen.whole = true;
-            // self.cityWholeObj = data.data.result
-            self.cityWholeObj = findAirport.result;
-          })
-          .catch(error => {
-            this.cityOpen.whole = true;
-            console.log(error);
-          });
+      if (!this.cityObj.citySelected || !this.searchBoolean) {
+        this.cityOpen.whole = true;
+        this.cityWholeList = findAirport.result;
       } else {
         this.getCitySearchData();
       }
     },
     // 获取搜索信息
     getCitySearchData() {
-      this.cityOpen.whole = false;
-      this.cityOpen.search = true;
-      this.cityOpen.searchLoading = true;
-      let url = `https://www.igola.com/web-gateway/api-data-service/data/find-airport?text=5YyX5Lqs&lang=Wkg=&timestamp=1548289539465`;
-      let self = this;
-      axios
-        .get(url)
-        .then(data => {
-          // self.cityWholeSearchList = data.data.result;
-          self.cityWholeSearchList = searchAirport.result;
+      if(!this.cityObj.citySelected){
+        this.cityOpen.whole = true;
+        this.cityOpen.search = false;
+      }else{
+        this.cityOpen.whole = false;
+        this.cityOpen.search = true;
+        this.cityOpen.searchLoading = true;
+        this.cityWholeSearchList = [];
+        for(let item of searchAirport.result){
+          for(let option of item.children){
+            let str = option.cityName + option.airportName + option.countryCode + option.cityenName;
+            if(str.indexOf(this.cityObj.citySelected)>=0){
+              if(str !== ""){
+                this.cityWholeSearchList.push(item)
+              }
+            }
+          }
           this.cityOpen.searchLoading = false;
-        })
-        .catch(error => {
-          this.cityOpen.searchLoading = false;
-          self.cityWholeSearchList = [];
-          console.log(error);
-        });
+        }
+      }
     },
     // 选中城市
-    onCitySelection(data) {
-      this.cityObj.citySelected = data["d"] + "(" + data["c"] + ")";
-      this.cityObj.cityName = data["d"];
-      this.cityObj.cityCode = data["c"];
-      this.cityOpen.whole = false;
+    onCitySelection(data,index) {
+      this.setCityData(data);
+      if(index == 0){
+        this.cityOpen.whole = false;
+      }else{
+        this.searchBoolean = true;
+      }
+    },
+    setCityData(data,index){
+      this.cityObj.citySelected = data.cityName + "(" + data.countryCode + ")";
+      this.cityObj.cityName = data.cityName;
+      this.cityObj.cityCode = data.countryCode;
       this.cityOpen.search = false;
     },
     closeCity() {
       this.cityOpen.whole = false;
       this.cityOpen.search = false;
     },
-    onCitySearchSelection(data,index) {
-      switch (index){
-        case 1:
-          this.cityObj.citySelected = data["ct"] + "(" + data["c"] + ")";
-          this.cityObj.cityName = data["ct"];
-          this.cityObj.cityCode = data["c"];
-          break;
-        case 2:
-          this.cityObj.citySelected = data["d"] + "(" + data["c"] + ")";
-          this.cityObj.cityName = data["d"];
-          this.cityObj.cityCode = data["c"];
-          break;
-      }
-      this.cityOpen.search = false;
-    }
   }
 };
 </script>

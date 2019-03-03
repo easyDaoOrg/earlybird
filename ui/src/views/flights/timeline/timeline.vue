@@ -12,7 +12,8 @@
   .ivu-affix .timeline-container::after{
     content: '';
     width: 100%;
-    height: 137px;
+    /* height: 137px; */
+    height: 45px;
     background: #323232;
     position: fixed;
     left: 0;
@@ -60,7 +61,7 @@
 
         <!--选择-->
         <div class="time-container-control">
-          <filterBar :pTabIndex="tabIndex"></filterBar>
+          <!-- <filterBar :pTabIndex="tabIndex"></filterBar> -->
           <!-- <sortprice v-if="tabIndex == 1"></sortprice> -->
           <sortBar v-if="tabIndex == 1"></sortBar>
         </div>
@@ -130,7 +131,11 @@ export default {
     airport_list: {
       handler: function (val, oldVal) {
         if(val){
-          this.timelineTotal = airportListData.total;
+          console.log(val,"===========")
+          // this.timelineTotal = airportListData.total;
+          if(val&&val.data&&val.data.total){
+            this.timelineTotal = val.data.total;
+          }
         }
       },
       immediate: true

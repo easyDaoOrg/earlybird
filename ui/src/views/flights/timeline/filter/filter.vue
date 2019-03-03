@@ -46,11 +46,11 @@
     <!--航班组合-->
     <div class="filter-bar" v-if="pTabIndex == 1">
       <div class="filter-bar-title">
-        <span>北京 (BJS) <i class="iconfont icon-travel-wangfan"></i> 上海 (SHA) </span>
+        <span>{{fillAirport.cityStart}} ({{fillAirport.cityStartCode}}) <i class="iconfont icon-travel-find"></i> {{fillAirport.cityEnd}} ({{fillAirport.cityEndCode}})  </span>
         <div class="filter-bar-title-info">
-          <span>1月18日, 周五</span>
-          <span> - </span>
-          <span>1月19日, 周六</span>
+          <span>{{fillAirport.cityDate.start}}</span>
+          <!-- <span> - </span>
+          <span>1月19日, 周六</span> -->
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
       <div class="filter-panel-box">
         <div class="filter-panel-box-stop">
           <Checkbox>直飞</Checkbox>
-          <small><b>£</b> 143</small>
+          <!-- <small><b>£</b> 143</small> -->
         </div>
         <div class="filter-panel-box-item">
           <Dropdown>
@@ -202,24 +202,48 @@
   </div>
 </template>
 <script>
-
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   props: ['pTabIndex'],
+  computed: {
+    ...mapGetters(['history_list'])
+  },
   data () {
     return {
       value5: [0, 24],
       fillTabIndex: 0,
-      fillActived: false
+      fillActived: false,
+      fillAirport: {
+        cityStart: "",
+        cityStartCode: "",
+        cityEnd: "",
+        cityEndCode: "",
+        cityDate: {start: ""}
+      },
     }
   },
   components: {
 
   },
   watch: {
-
+    history_list: {
+      handler: function (val, oldVal) {
+        if(val){
+          this.initData(JSON.parse(JSON.stringify(val)))
+        }
+      },
+      immediate: true
+    }
   },
   methods: {
+    //初始化
+    initData(data){
+      if(data&&data.length > 0){
+        this.fillAirport = data[0];
+      }
+
+    },
     fillGoBack(index,bool){
       this.fillTabIndex = index;
       this.fillActived = bool;
