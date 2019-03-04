@@ -16,7 +16,7 @@
         <div class="triplayer-wrap">
           <div class="triplayer-wrap-line">
             <span class="triplayer-wrap-line-departStopColor">启程</span>
-            <span  class="triplayer-wrap-line-white">{{airpotTrip.cityDate.start}},{{airpotObj.dptTime}}</span>
+            <span  class="triplayer-wrap-line-white">{{airpotTrip.date}},{{airpotObj.dptTime}}</span>
             <span class="fr">{{airpotObj.flightTimes}}</span>
           </div>
           <div class="triplayer-wrap-cont">
@@ -31,7 +31,7 @@
                   <i class="iconfont icon-travel-setsail"></i>
                   <b>{{airpotObj.dptTime}}</b>
                 </span>
-                <span class="flight-info-text">{{airpotTrip.cityStart}}</span>
+                <span class="flight-info-text">{{airpotTrip.dptCity}}</span>
                 <b> {{airpotObj.dptAirport}}</b>
                 <b> {{airpotObj.dptTerminal}}</b>
               </h4>
@@ -54,7 +54,7 @@
                   <i class="iconfont icon-travel-setsail"></i>
                   <b>{{airpotObj.arrTime}}</b>
                 </span>
-                <span class="flight-info-text">{{airpotTrip.cityEnd}}</span>
+                <span class="flight-info-text">{{airpotTrip.arrCity}}</span>
                 <b> {{airpotObj.arrAirport}}</b>
                 <b> {{airpotObj.arrTerminal}}</b>
               </h4>
@@ -137,7 +137,6 @@ import { airportBookData } from "../../../../assets/json/airportBookData.js";
 export default {
   computed: {
     ...mapGetters(['airport_time']),
-    ...mapGetters(['history_list']),
     ...mapGetters(['airport_group'])
   },
   data () {
@@ -146,13 +145,14 @@ export default {
       tripBuy: false,
       airpotObj: {},
       airpotTrip: {
-        cityStart: "",
-        cityStartCode: "",
-        cityEnd: "",
-        cityEndCode: "",
-        cityDate: {start: ""}
+        dptCity: this.$route.query.dptCity,
+        dpt: this.$route.query.dpt,
+        arrCity: this.$route.query.arrCity,
+        arr: this.$route.query.arr,
+        date: this.$route.query.date
       },
-      airportPriceObj: {}
+      airportPriceObj: {},
+      saveFlightNum: null
     }
   },
   components: {
@@ -166,26 +166,17 @@ export default {
         }
       },
       immediate: true
-    },
-    history_list: {
-      handler: function (val, oldVal) {
-        if(val){
-          if(val.length > 0){
-            this.airpotTrip = val[0];
-          }
-        }
-      },
-      immediate: true
     }
   },
   methods: {
     //查询指定航班价格
     getAirportPrice(data){
       console.log(data,">>>>>>>>>")
+      debugger
       let airportData = {
         dpt: data.dpt,
         arr: data.arr,
-        date: this.airpotTrip.cityDate.start,
+        date: this.airpotTrip.date,
         flightNum: data.flightNum
       }
       let url = this.baseUrl + `/flight/price`;;
@@ -204,16 +195,18 @@ export default {
     },
     //预定指定渠道的航班
     buyTripBook(item){
+      let airObj = this.airpotTrip;
       this.$router.push({
         path: `/flights/booking`,
         query: {
-          dptCity: this.airpotTrip.cityStart,
-          dpt: this.airpotTrip.cityStartCode,
-          arrCity: this.airpotTrip.cityEnd,
-          arr: this.airpotTrip.cityEndCode,
-          date: this.airpotTrip.cityDate.start,
+          dptCity: airObj.dptCity,
+          dpt: airObj.dpt,
+          arrCity: airObj.arrCity,
+          arr: airObj.arr,
+          date: airObj.date,
           adult: this.airport_group.bigvalue,
           child: this.airport_group.childvalue,
+          flightNum: this.saveFlightNum,
           cabinType: item.cabinType,
           cid: item.cid
         }
@@ -225,6 +218,7 @@ export default {
       this.tripModel = true;
       this.tripBuy = data.type;
       if(data.type){
+        this.saveFlightNum = data.item.flightNum;
         this.getAirportPrice(data.item);
       }
     })
