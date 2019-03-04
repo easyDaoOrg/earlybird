@@ -85,7 +85,7 @@ export default {
       let airportData = {
         dpt: data.cityStartCode,
         arr: data.cityEndCode,
-        date: data.cityDate.end
+        date: data.cityDate.start
       }
       let url = this.baseUrl + `/flight/search`;
       let self = this;
@@ -95,7 +95,14 @@ export default {
           //存储搜索结果
           self.searchAirportListData(data);
           //路由跳转
-          self.$router.push(`/flights/timeline`);
+          self.$router.push({
+            path: `/flights/timeline`,
+            query: {
+              dpt: data.cityStartCode,
+              arr: data.cityEndCode,
+              date: data.cityDate.start
+            }
+          });
         })
         .catch(error => {
           console.log(error);

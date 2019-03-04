@@ -140,7 +140,7 @@ export default {
           //路由跳转
           self.$router.push({
             path: `/flights/timeline`,
-            params: {
+            query: {
               dpt: this.startObj.cityCode,
               arr: this.endObj.cityCode,
               date: this.dateObj.start

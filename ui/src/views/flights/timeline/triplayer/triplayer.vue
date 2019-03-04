@@ -209,7 +209,7 @@ export default {
         cid: data.cid,
         cabinType: data.cabinType
       }
-      let url = this.baseUrl +  + `/flight/book`;;
+      let url = this.baseUrl + `/flight/book`;;
       let self = this;
       this.axios
         .post(url,airportData)
