@@ -39,12 +39,12 @@
             <span class="fr search-bar-prev flights-index-prev">
               <Button type="primary" shape="circle" @click='remove("children")' :disabled='value2==0'>-</Button>
               <InputNumber v-model="value2" readonly></InputNumber>
-              <Button type="primary" shape="circle" @click='add("children")' :disabled='value1 + value2 >= cabinCount'>+</Button>
+              <Button type="primary" shape="circle" @click='add("children")' :disabled='value1 + value2 >= cabinCount||value1*2==value2'>+</Button>
             </span>
             <strong>儿童</strong>
           </DropdownItem>
           <DropdownItem>
-            <font><Button type="primary" @click='visible=false;ok()'>完成</Button></font>
+            <font><Button type="primary" @click='visible=false;ok()' style='float:right'>完成</Button></font>
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
@@ -89,6 +89,9 @@ export default {
       if (data === 'adult') {
         if (this.value1 === 1) return false
         this.value1 = this.value1 - 1
+        if (this.value1 * 2 < this.value2) {
+          this.value2 = this.value1 * 2
+        }
       } else {
         if (this.value2 === 0) return false
         this.value2 = this.value2 - 1

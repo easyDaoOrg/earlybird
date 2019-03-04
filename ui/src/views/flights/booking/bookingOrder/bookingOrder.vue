@@ -33,32 +33,45 @@
     </div>
     <div class="booking-order-price">
       <div class="booking-order-price-exchange">
-        <span>兑换后约为： £ 110.67 </span>（此金额为估算值，易道订单以人民币交易，接受外币支付，成交金额需按实际交易汇率结算。）
+        <span>兑换后约为： £ 110.67</span>（此金额为估算值，易道订单以人民币交易，接受外币支付，成交金额需按实际交易汇率结算。）
       </div>
     </div>
     <div class="booking-order-total clearfix">
       <h4>¥ 966</h4>
-      <p>(≈  £ 110.67)</p>
+      <p>(≈ £ 110.67)</p>
       <b>订单总价</b>
     </div>
     <div class="booking-order-list clearfix">
       <ul>
-        <li><span class="fr">¥ 866.00</span>旅客 x 2</li>
-        <li><span class="fr">¥ 100.00</span>税费</li>
+        <li>
+          <span class="fr">¥ 866.00</span>旅客 x 2
+        </li>
+        <li>
+          <span class="fr">¥ 100.00</span>税费
+        </li>
       </ul>
     </div>
     <div class="booking-order-rice clearfix">
-      <p><span>飞行米</span></p>
-      <p>搭乘航班后奖<span>13.36</span>个.<b>首次支付奖10个</b></p>
+      <p>
+        <span>飞行米</span>
+      </p>
+      <p>
+        搭乘航班后奖
+        <span>13.36</span>个.
+        <b>首次支付奖10个</b>
+      </p>
     </div>
     <div class="booking-order-firm">
       <!-- <div class="booking-order-firm-gz">退改签规则</div> -->
       <div class="booking-order-firm-gz">
-        <Checkbox v-model="single">已阅读并同意<span @click="modelClause = true">易道服务条款</span></Checkbox>
+        <Checkbox v-model="single">
+          已阅读并同意
+          <span @click="modelClause = true">易道服务条款</span>
+        </Checkbox>
       </div>
-      <router-link :to="{path:'/member/user/my-booking'}">
-        <Button type="primary" shape="circle">提交订单</Button>
-      </router-link>
+      <!-- <router-link :to="{path:'/member/user/my-booking'}"> -->
+      <Button type="primary" shape="circle" @click="onPlaceRrder()">提交订单</Button>
+      <!-- </router-link> -->
     </div>
 
     <Modal v-model="modelClause" footer-hide>
@@ -74,7 +87,6 @@
 
 <script>
 
-
 export default {
   data () {
     return {
@@ -89,7 +101,9 @@ export default {
 
   },
   methods: {
-
+    onPlaceRrder () {
+      this.$emit('on-place-rder', true)
+    }
   },
   mounted () {}
 }

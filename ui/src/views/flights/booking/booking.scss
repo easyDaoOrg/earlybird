@@ -22,7 +22,7 @@ $colorq:#969696;
   position: relative;
   height: 100%;
   width: 100%;
-  overflow-x: hidden;
+  //overflow-x: hidden;
   background-image: url(https://content.igola.com/static/WEB/images/background/timelinebg03_common.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -30,7 +30,7 @@ $colorq:#969696;
   background-attachment: fixed;
   padding: 20px 10px;
   &-left{
-    width: calc(100% - 300px);
+    width: calc(100% - 300px - 10px);
   }
   &-right{
     background-color: #fff;

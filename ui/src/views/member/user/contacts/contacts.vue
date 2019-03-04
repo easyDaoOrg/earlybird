@@ -95,7 +95,7 @@
                     <div class="form-group">
                         <label for="">手机</label>
                         <FormItem>
-                             <Dropdown style='width:100%' @on-click='onPhone()'>
+                             <Dropdown style='width:100%' @on-click='onPhone'>
                                 <div class='phone'>
                                     {{comeObj.areaCode || '请选择'}}
                                     <Icon type="ios-arrow-down"></Icon>
@@ -119,6 +119,8 @@
 </main>
 </template>
 <script>
+import {user} from '../../../../assets/json/user.js'
+console.log(user)
 
 export default {
   data () {
@@ -139,26 +141,26 @@ export default {
       if (value === '') {
         callback(new Error(empty))
       } else {
-        let reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+        let reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
         if (!reg.test(value)) {
           callback(new Error('请输入正确的邮箱'))
         }
         callback()
       }
     }
-     // 手机号
+    // 手机号
     const _phone = (rule, value, callback) => {
       if (value === '') {
         callback(new Error(empty))
       } else {
-        let reg =/^1[0-9][0-9]\d{4,8}$/
+        let reg = /^1[0-9][0-9]\d{4,8}$/
         if (!reg.test(value)) {
           callback(new Error('手机号码长度为7-11位'))
         }
         callback()
       }
     }
-    
+
     return {
       contactsList: [
         {
@@ -210,25 +212,12 @@ export default {
       ],
       open: true,
       emitorOpen: false,
-      phoneList: [
-        {
-          label: '中国大陆 (+86)',
-          value: '中国大陆 (+86)'
-        },
-        {
-          label: '中国香港 (+852)',
-          value: '中国香港 (+852)'
-        },
-        {
-          label: '中国澳门 (+853)',
-          value: '中国澳门 (+853)'
-        }
-      ],
+      phoneList: user.phoneList,
       comeObj: {
         lastName: '',
         firstName: '',
         email: '',
-        areaCode: '中国大陆 (+86)',
+        areaCode: '86',
         mobile: ''
       },
       ruleCustom: {
@@ -245,7 +234,7 @@ export default {
         lastName: [{ validator: _familyNameZh, trigger: 'blur' }],
         firstName: [{ validator: _familyNameZh, trigger: 'blur' }],
         email: [{ validator: _email, trigger: 'blur' }],
-        mobile:[{ validator: _phone, trigger: 'blur' }],
+        mobile: [{ validator: _phone, trigger: 'blur' }]
         // // 国籍
         // nationality: [{ validator: _onEmpty, trigger: 'change' }],
         // // 英文名
@@ -259,7 +248,7 @@ export default {
         // gender: [{ validator: _onEmpty, trigger: 'blur' }]
         // middleName: [{ validator: validateAge, trigger: 'blur' }],
 
-      },
+      }
     }
   },
   components: {
@@ -275,8 +264,8 @@ export default {
     onOk () {
       this.$refs['formInlineRef'].validate(valid => {
         if (valid) {
-           this.contactsList.push(this.comeObj)
-           this.onCancel()
+          this.contactsList.push(this.comeObj)
+          this.onCancel()
         }
       })
     },

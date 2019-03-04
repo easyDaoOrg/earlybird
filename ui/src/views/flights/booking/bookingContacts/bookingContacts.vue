@@ -8,7 +8,7 @@
       <Button @click='clear()'>清除</Button>
       <Button icon="ios-close-circle" @click='remove()' :disabled='removeDisabled'>删除</Button>
     </span>
-    常用联系人：
+    常用旅客：
     <Dropdown placement="bottom-start" trigger="custom" :visible="visible" @click.native='$event.stopPropagation();'>
         <Button type="primary" @click.stop='visible=true;'>
             选择
@@ -54,8 +54,8 @@ export default {
           'givenName': 'BU',
           'middleName': '',
           'nationality': 'CN',
-          'gender': 'MALE',
-          'birthday': '1991-01-27',
+          'gender': 1,
+          'birthday': '1991-01-1',
           'primary': false,
           'credentials': [
             {
@@ -116,8 +116,8 @@ export default {
           'givenName': 'R',
           'middleName': '',
           'nationality': 'CN',
-          'gender': 'FEMALE',
-          'birthday': '1904-01-01',
+          'gender': 0,
+          'birthday': '1902-01-01',
           'primary': false,
           'credentials': [
             {
@@ -138,7 +138,7 @@ export default {
           'givenName': 'R',
           'middleName': '',
           'nationality': 'CN',
-          'gender': 'FEMALE',
+          'gender': 0,
           'birthday': '1904-01-01',
           'primary': false,
           'credentials': [

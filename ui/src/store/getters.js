@@ -4,6 +4,7 @@ const getters = {
   history_list: state => state.airport.history_list,
   airport_group: state => state.airport.airport_group,
   airport_list: state => state.airport.airport_list,
-  airport_time: state => state.airport.airport_time
+  airport_time: state => state.airport.airport_time,
+  book_flight: state => state.airport.book_flight
 }
 export default getters
