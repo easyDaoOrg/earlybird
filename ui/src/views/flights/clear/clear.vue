@@ -21,7 +21,7 @@
             <i class="clear-hidstory-air iconfont icon-travel-wangfan" v-if="item.tripType == 0"></i>
             <i class="clear-hidstory-air iconfont icon-travel-find" v-if="item.tripType == 1"></i>
             <i class="clear-hidstory-air iconfont icon-travel-list" v-if="item.tripType == 2"></i>
-            <font @click="goTrip()">
+            <font @click="goFlightsTimeline(item)">
               {{item.cityStart}}({{item.cityStartCode}})
               -
               {{item.cityEnd}}({{item.cityEndCode}})
@@ -38,6 +38,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+
 
 export default {
   props: ['queryHistory'],
@@ -64,6 +65,7 @@ export default {
   },
   methods: {
     ...mapActions(['setClearFilterData']),
+    ...mapActions(['searchAirportListData']),
     //初始化
     initData(data){
       this.historyList = data;
@@ -79,8 +81,25 @@ export default {
       this.setClearFilterData(this.historyList[0]);
     },
     //点击查看航程
-    goTrip(){
-
+    goFlightsTimeline(data){
+      let airportData = {
+        dpt: data.cityStartCode,
+        arr: data.cityEndCode,
+        date: data.cityDate.end
+      }
+      let url = this.baseUrl + `/flight/search`;
+      let self = this;
+      this.axios
+        .post(url,airportData)
+        .then(data => {
+          //存储搜索结果
+          self.searchAirportListData(data);
+          //路由跳转
+          self.$router.push(`/flights/timeline`);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   mounted () {

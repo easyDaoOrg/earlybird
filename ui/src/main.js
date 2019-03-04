@@ -11,6 +11,11 @@ import 'iview/dist/styles/iview.css'
 import './assets/style/index.scss'
 import './assets/font/iconfont.css'
 
+import Util from './lib/utils.js'
+import axios from 'axios/dist/axios.min'
+
+Vue.prototype.baseUrl = Util.baseUrl()
+Vue.prototype.axios = axios
 Vue.use(iView)
 Vue.use(Vuex)
 Vue.config.productionTip = false
@@ -20,6 +25,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

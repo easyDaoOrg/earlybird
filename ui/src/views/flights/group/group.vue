@@ -64,15 +64,27 @@ export default {
       groupList: [{
         label: "经济舱",
         actived: false,
-      },{
-        label: "商务舱",
-        actived: false,
-      },{
-        label: "高端经济舱",
-        actived: false,
+        cabinType: 1
       },{
         label: "头等舱",
         actived: false,
+        cabinType: 1
+      },{
+        label: "商务舱",
+        actived: false,
+        cabinType: 2
+      },{
+        label: "经济舱精选",
+        actived: false,
+        cabinType: 3
+      },{
+        label: "经济舱y舱",
+        actived: false,
+        cabinType: 4
+      },{
+        label: "超值头等舱",
+        actived: false,
+        cabinType: 5
       }],
       groupObj: {},
       bigvalue: 1,

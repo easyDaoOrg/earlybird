@@ -31,7 +31,7 @@
                   <i class="iconfont icon-travel-setsail"></i>
                   <b>{{airpotObj.dptTime}}</b>
                 </span>
-                <span class="flight-info-text">北京</span>
+                <span class="flight-info-text">{{airpotTrip.cityStart}}</span>
                 <b> {{airpotObj.dptAirport}}</b>
                 <b> {{airpotObj.dptTerminal}}</b>
               </h4>
@@ -54,7 +54,7 @@
                   <i class="iconfont icon-travel-setsail"></i>
                   <b>{{airpotObj.arrTime}}</b>
                 </span>
-                <span class="flight-info-text">上海</span>
+                <span class="flight-info-text">{{airpotTrip.cityEnd}}</span>
                 <b> {{airpotObj.arrAirport}}</b>
                 <b> {{airpotObj.arrTerminal}}</b>
               </h4>
@@ -86,7 +86,7 @@
                 <!-- <li><b>¥</b>{{item.babyBarePrice}}</li> -->
                 <li>{{item.discount}}</li>
                 <li>
-                  <span v-if="item.cabinCount == 'A'">邮票</span>
+                  <span v-if="item.cabinCount == 'A'">有票</span>
                   <span v-if="item.cabinCount !== 'A' && isNaN(item.cabinCount)==true">无</span>
                   <span v-if="isNaN(item.cabinCount)==false">{{item.cabinCount}}</span>
                 </li>
@@ -129,7 +129,6 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import axios from "axios/dist/axios.min";
 import { airportPriceData } from "../../../../assets/json/airportPriceData.js";
 import { airportBookData } from "../../../../assets/json/airportBookData.js";
 
@@ -189,9 +188,9 @@ export default {
         date: this.airpotTrip.cityDate.start,
         flightNum: data.flightNum
       }
-      let url = `http://123.206.254.186:8080/flight/price`;
+      let url = this.baseUrl + `/flight/price`;;
       let self = this;
-      axios
+      this.axios
         .post(url,airportData)
         .then(data => {
           if(data.status == 200){
@@ -210,9 +209,9 @@ export default {
         cid: data.cid,
         cabinType: data.cabinType
       }
-      let url = `http://123.206.254.186:8080/flight/book`;
+      let url = this.baseUrl +  + `/flight/book`;;
       let self = this;
-      axios
+      this.axios
         .post(url,airportData)
         .then(data => {
           console.log(data)

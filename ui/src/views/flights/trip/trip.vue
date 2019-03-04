@@ -34,7 +34,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import axios from "axios/dist/axios.min";
 import city from './city'
 import date from './date'
 
@@ -131,15 +130,22 @@ export default {
         arr: this.endObj.cityCode,
         date: this.dateObj.start
       }
-      let url = `http://123.206.254.186:8080/flight/search`;
+      let url = this.baseUrl + `/flight/search`;
       let self = this;
-      axios
+      this.axios
         .post(url,airportData)
         .then(data => {
           //存储搜索结果
           self.searchAirportListData(data);
           //路由跳转
-          self.$router.push(`/flights/timeline`);
+          self.$router.push({
+            path: `/flights/timeline`,
+            params: {
+              dpt: this.startObj.cityCode,
+              arr: this.endObj.cityCode,
+              date: this.dateObj.start
+            }
+          });
         })
         .catch(error => {
           console.log(error);

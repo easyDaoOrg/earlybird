@@ -91,16 +91,16 @@ const Util = {
     let baseURL = ''
     switch (process.env.NODE_ENV) {
       case 'production':
-        baseURL = 'http://172.23.7.73'
+        baseURL = 'http://123.206.254.186:8080'
         break
       case 'daily':
-        baseURL = 'http://172.23.7.73'
+        baseURL = 'http://123.206.254.186:8080'
         break
       case 'buildtest':
-        baseURL = 'http://172.23.7.73'
+        baseURL = 'http://123.206.254.186:8080'
         break
       default:
-        baseURL = 'http://172.23.7.73'
+        baseURL = 'http://123.206.254.186:8080'
         break
     }
     return baseURL

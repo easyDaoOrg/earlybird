@@ -1,6 +1,38 @@
 export var findAirport = {
   'resultCode': 200,
   'result': [{
+    'cityName': '北京首都',
+    'cityenName': 'BEIJINGSHOUDOU',
+    'provinceName': '北京',
+    'countryCode': 'PEK',
+    'countyType': '国内',
+    'airportName': '首都国际机场'
+  },
+  {
+    'cityName': '北京南苑',
+    'cityenName': 'BEIJINGNANYUAN',
+    'provinceName': '北京',
+    'countryCode': 'NAY',
+    'countyType': '国内',
+    'airportName': '南苑机场'
+  },
+  {
+    'cityName': '上海浦东',
+    'cityenName': 'SHANGHAIPUDONG',
+    'provinceName': '上海',
+    'countryCode': 'PVG',
+    'countyType': '国内',
+    'airportName': '浦东国际机场'
+  },
+  {
+    'cityName': '上海虹桥',
+    'cityenName': 'SHANGHAIHONGQIAO',
+    'provinceName': '上海',
+    'countryCode': 'SHA',
+    'countyType': '国内',
+    'airportName': '虹桥国际机场'
+  },
+  {
     'cityName': '乌兰浩特',
     'cityenName': 'WUlanhot',
     'provinceName': '内蒙古',
@@ -689,30 +721,6 @@ export var findAirport = {
     'airportName': '西昌机场'
   },
   {
-    'cityName': '北京首都',
-    'cityenName': 'BEIJINGSHOUDOU',
-    'provinceName': '北京',
-    'countryCode': 'PEK',
-    'countyType': '国内',
-    'airportName': '首都国际机场'
-  },
-  {
-    'cityName': '上海浦东',
-    'cityenName': 'SHANGHAIPUDONG',
-    'provinceName': '上海',
-    'countryCode': 'PVG',
-    'countyType': '国内',
-    'airportName': '浦东国际机场'
-  },
-  {
-    'cityName': '上海虹桥',
-    'cityenName': 'SHANGHAIHONGQIAO',
-    'provinceName': '上海',
-    'countryCode': 'SHA',
-    'countyType': '国内',
-    'airportName': '虹桥国际机场'
-  },
-  {
     'cityName': '阿拉善右旗',
     'cityenName': 'ALASHANYOUQI',
     'provinceName': '内蒙古',
@@ -775,14 +783,6 @@ export var findAirport = {
     'countryCode': 'AVA',
     'countyType': '国内',
     'airportName': '黄果树机场'
-  },
-  {
-    'cityName': '北京南苑',
-    'cityenName': 'BEIJINGNANYUAN',
-    'provinceName': '北京',
-    'countryCode': 'NAY',
-    'countyType': '国内',
-    'airportName': '南苑机场'
   },
   {
     'cityName': '百色',
