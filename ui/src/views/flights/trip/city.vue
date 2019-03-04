@@ -31,7 +31,7 @@
           @on-change="getCitySearchData()"
         />
       </section>
-      <div class="flight-city">
+      <div class="flight-city" v-if="cityOpen.whole">
         <Dropdown trigger="custom" :visible="cityOpen.whole"  placement="bottom-start">
           <DropdownMenu slot="list" v-if="cityOpen.whole">
             <Tabs :animated="false">
@@ -156,22 +156,28 @@ export default {
       if(!this.cityObj.citySelected){
         this.cityOpen.whole = true;
         this.cityOpen.search = false;
+        console.log(55555)
       }else{
+        console.log(666666)
         this.cityOpen.whole = false;
         this.cityOpen.search = true;
         this.cityOpen.searchLoading = true;
         this.cityWholeSearchList = [];
         for(let item of searchAirport.result){
+          let su = null;
           for(let option of item.children){
-            let str = option.cityName + option.airportName + option.countryCode + option.cityenName;
+            let str = option.cityName + '(' + option.countryCode + ')' + option.airportName + option.cityenName;
             if(str.indexOf(this.cityObj.citySelected)>=0){
-              if(str !== ""){
-                this.cityWholeSearchList.push(item)
-              }
+              su = item;
+              break;
             }
           }
-          this.cityOpen.searchLoading = false;
+          if(su){
+            console.log(su)
+            this.cityWholeSearchList.push(su)
+          }
         }
+        this.cityOpen.searchLoading = false;
       }
     },
     // 选中城市

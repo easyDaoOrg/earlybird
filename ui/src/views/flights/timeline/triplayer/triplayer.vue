@@ -72,7 +72,7 @@
               <li>票面价</li>
               <li>销售特价</li>
               <li>儿童价</li>
-              <li>婴儿价</li>
+              <!-- <li>婴儿价</li> -->
               <li>折扣</li>
               <li>剩余座位数</li>
               <li>舱位等级</li>
@@ -83,10 +83,10 @@
                 <li><b>¥</b>{{item.vppr}}</li>
                 <li><b>¥</b>{{item.barePrice}}</li>
                 <li><b>¥</b>{{item.chdBarePrice}}</li>
-                <li><b>¥</b>{{item.babyBarePrice}}</li>
+                <!-- <li><b>¥</b>{{item.babyBarePrice}}</li> -->
                 <li>{{item.discount}}</li>
                 <li>
-                  <span v-if="item.cabinCount == 'A'">&gt;9</span>
+                  <span v-if="item.cabinCount == 'A'">邮票</span>
                   <span v-if="item.cabinCount !== 'A' && isNaN(item.cabinCount)==true">无</span>
                   <span v-if="isNaN(item.cabinCount)==false">{{item.cabinCount}}</span>
                 </li>

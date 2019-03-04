@@ -23,7 +23,8 @@
 
 <template>
   <div class="timeline-list">
-    <Scroll  height="1000">
+    <div class="timeline-list-none" v-if="airportList&&airportList.length == 0">抱歉未找到您搜索的结果</div>
+    <Scroll  height="1000" v-if="airportList&&airportList.length > 0">
         <Card dis-hover v-for="(item, index) in airportList" :key="index">
             <div class="timeline-list-card">
               <div class="timeline-list-card-header">
@@ -115,7 +116,6 @@ export default {
     return {
       tripBoolean: false,
       airportList: [],
-      tripArrNome: false
     }
   },
   components: {

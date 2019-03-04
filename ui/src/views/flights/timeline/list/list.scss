@@ -29,6 +29,11 @@ $colorl:#8ecf01;
 
 .timeline-list{
   background: $colorz;
+  &-none{
+    text-align: center;
+    font-size: 16px;
+    padding: 200px 0;
+  }
   &-card{
     min-height: 64px;
     z-index: 3;
