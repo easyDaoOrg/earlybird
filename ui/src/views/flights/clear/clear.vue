@@ -82,31 +82,17 @@ export default {
     },
     //点击查看航程
     goFlightsTimeline(data){
-      let airportData = {
-        dpt: data.cityStartCode,
-        arr: data.cityEndCode,
-        date: data.cityDate.start
-      }
-      let url = this.baseUrl + `/flight/search`;
-      let self = this;
-      this.axios
-        .post(url,airportData)
-        .then(data => {
-          //存储搜索结果
-          self.searchAirportListData(data);
-          //路由跳转
-          self.$router.push({
-            path: `/flights/timeline`,
-            query: {
-              dpt: data.cityStartCode,
-              arr: data.cityEndCode,
-              date: data.cityDate.start
-            }
-          });
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      //路由跳转
+      this.$router.push({
+        path: `/flights/timeline`,
+        query: {
+          dptCity: data.cityStart,
+          dpt: data.cityStartCode,
+          arr: data.cityEndCode,
+          arrCity: data.cityEnd,
+          date: data.cityDate.start
+        }
+      });
     }
   },
   mounted () {

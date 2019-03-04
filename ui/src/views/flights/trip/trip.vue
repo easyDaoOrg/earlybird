@@ -40,7 +40,7 @@ import date from './date'
 export default {
   props: ['tabIndex', 'searchClass'],
   computed: {
-    ...mapGetters(['history_list'])
+    // ...mapGetters(['history_list'])
   },
   data () {
     return {
@@ -77,11 +77,9 @@ export default {
     date
   },
   watch: {
-    history_list: {
+    $route: {
       handler: function (val, oldVal) {
-        if (val.length > 0) {
-          this.initData(JSON.parse(JSON.stringify(val)))
-        }
+        this.initData();
       },
       immediate: true
     }
@@ -90,16 +88,18 @@ export default {
     ...mapActions(['setAirportFilterData']),
     ...mapActions(['searchAirportListData']),
     // 初始化
-    initData (val) {
-      let data = val[0]
-      this.startObj.citySelected = data.cityStart + '(' + data.cityStartCode + ')'
-      this.startObj.cityName = data.cityStart
-      this.startObj.cityCode = data.cityStartCode
-      this.endObj.citySelected = data.cityEnd + '(' + data.cityEndCode + ')'
-      this.endObj.cityName = data.cityEnd
-      this.endObj.cityCode = data.cityEndCode
-      this.dateObj.start = data.cityDate.start
-      this.dateObj.end = data.cityDate.end
+    initData () {
+      let data = this.$route.query;
+      if(data&&JSON.stringify(data) !== '{}'){
+        this.startObj.citySelected = data.dptCity + '(' + data.dpt + ')';
+        this.startObj.cityName = data.dptCity;
+        this.startObj.cityCode = data.dpt;
+        this.endObj.citySelected = data.arrCity + '(' + data.arr + ')';
+        this.endObj.cityName = data.arrCity;
+        this.endObj.cityCode = data.arr;
+        this.dateObj.start = data.date;
+        this.postAirportSearchData();
+      }
     },
     searchFlights () {
       if (this.startObj.citySelected && this.endObj.citySelected && this.dateObj.start) {
@@ -137,14 +137,18 @@ export default {
           // 存储搜索结果
           self.searchAirportListData(data)
           // 路由跳转
-          self.$router.push({
-            path: `/flights/timeline`,
-            query: {
-              dpt: this.startObj.cityCode,
-              arr: this.endObj.cityCode,
-              date: this.dateObj.start
-            }
-          })
+          if(self.$route.name !== 'timeline'){
+            self.$router.push({
+              path: `/flights/timeline`,
+              query: {
+                dptCity: self.startObj.cityName,
+                dpt: self.startObj.cityCode,
+                arrCity: self.endObj.cityName,
+                arr: self.endObj.cityCode,
+                date: self.dateObj.start
+              }
+            })
+          }
         })
         .catch(error => {
           console.log(error)
@@ -163,6 +167,7 @@ export default {
     }
   },
   mounted () {
+    this.initData();
     this.$bus.on('trip-airport-msg', (data) => {
       this.spaceType = data
     })

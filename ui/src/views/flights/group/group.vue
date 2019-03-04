@@ -6,15 +6,18 @@
 .search-bar-group .ivu-input-wrapper{
   width: 30px;
 }
+.cen{
+  margin-left: 100px;
+}
 </style>
 
 <template>
   <div class="search-bar-group fl">
     <Dropdown trigger="custom" :visible="visible" placement="bottom-start">
         <span @click="handleGroupOpen">
-          <b>{{bigvalue}}成人,</b>
-          <b v-if="childvalue>0">{{childvalue}}儿童,</b>
-          <b>{{groupType}}</b>
+          <b>{{bigvalue}}成人</b>
+          <b v-if="childvalue>0">{{childvalue}},儿童</b>
+          <!-- <b>,{{groupType}}</b> -->
           <i><Icon type="ios-arrow-down" /></i>
         </span>
         <DropdownMenu slot="list">
@@ -36,15 +39,15 @@
             <strong>儿童</strong>
           </DropdownItem>
           <DropdownItem>
-            <font class="fr"><Button type="primary" @click="handleGroupClose">完成</Button></font>
-            <Button
+            <font class="cen"><Button type="primary" @click="handleGroupClose">完成</Button></font>
+            <!-- <Button
               v-for="(item,index) in groupList"
               :key="index"
               :class="{'search-bar-b-active':item.actived}"
               @click="tabGroupTravel(item,index)"
             >
               {{item.label}}
-            </Button>
+            </Button> -->
           </DropdownItem>
         </DropdownMenu>
     </Dropdown>
@@ -130,7 +133,7 @@ export default {
       this.groupObj = {
           bigvalue: this.bigvalue,
           childvalue: this.childvalue,
-          groupType: this.groupType,
+          // groupType: this.groupType,
           tabIndex: this.tabIndex
       }
       this.setAirportGroupData(this.groupObj)

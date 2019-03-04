@@ -137,7 +137,8 @@ import { airportBookData } from "../../../../assets/json/airportBookData.js";
 export default {
   computed: {
     ...mapGetters(['airport_time']),
-    ...mapGetters(['history_list'])
+    ...mapGetters(['history_list']),
+    ...mapGetters(['airport_group'])
   },
   data () {
     return {
@@ -178,7 +179,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setAirportPriceData']),
     //查询指定航班价格
     getAirportPrice(data){
       console.log(data,">>>>>>>>>")
@@ -203,28 +203,21 @@ export default {
         });
     },
     //预定指定渠道的航班
-    buyTripBook(data){
-      let airportData = {
-        pid: data.pid,
-        cid: data.cid,
-        cabinType: data.cabinType
-      }
-      let url = this.baseUrl + `/flight/book`;;
-      let self = this;
-      this.axios
-        .post(url,airportData)
-        .then(data => {
-          console.log(data)
-          if(data.status == 200){
-            self.airportBookData = data.data;
-            self.setAirportPriceData(data.data);
-            //路由跳转
-            self.$router.push(`/flights/booking`);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    buyTripBook(item){
+      this.$router.push({
+        path: `/flights/booking`,
+        query: {
+          dptCity: this.airpotTrip.cityStart,
+          dpt: this.airpotTrip.cityStartCode,
+          arrCity: this.airpotTrip.cityEnd,
+          arr: this.airpotTrip.cityEndCode,
+          date: this.airpotTrip.cityDate.start,
+          adult: this.airport_group.bigvalue,
+          child: this.airport_group.childvalue,
+          cabinType: item.cabinType,
+          cid: item.cid
+        }
+      })
     }
   },
   mounted () {
