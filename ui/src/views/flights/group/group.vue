@@ -15,8 +15,8 @@
   <div class="search-bar-group fl">
     <Dropdown trigger="custom" :visible="visible" placement="bottom-start">
         <span @click="handleGroupOpen">
-          <b>{{bigvalue}}成人</b>
-          <b v-if="childvalue>0">{{childvalue}},儿童</b>
+          <b>{{bigvalue}}成人 <b v-if="childvalue>0">,</b></b>
+          <b v-if="childvalue>0">{{childvalue}}儿童</b>
           <!-- <b>,{{groupType}}</b> -->
           <i><Icon type="ios-arrow-down" /></i>
         </span>
