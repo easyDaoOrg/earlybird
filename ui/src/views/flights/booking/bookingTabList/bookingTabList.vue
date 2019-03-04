@@ -28,22 +28,8 @@
 
 <template>
   <div class="booking-tablist">
-    <div class="booking-tablist-title">余票有限<button @click='onSubmit()'>提交</button></div>
+    <div class="booking-tablist-title">余票有限</div>
     <div class="booking-tablist-content">
-      <!-- <Tabs type="card" :animated="false">
-        <TabPane label="1.成人票">
-          <div class="booking-tablist-pane">
-            <bookingContacts></bookingContacts>
-            <bookingForm :bookingForm="0"></bookingForm>
-          </div>
-        </TabPane>
-        <TabPane label="1.成人票1">
-          <div class="booking-tablist-pane">
-            <bookingContacts></bookingContacts>
-            <bookingForm :bookingForm="0"></bookingForm>
-          </div>
-        </TabPane>
-      </Tabs> -->
       <Menu :active-name="selected" @on-select='onMenuChange'>
          <MenuItem :name="index" v-for='(item,index) in current' :key='index'>
             <div class='menu'>
@@ -67,7 +53,6 @@
               ></bookingContacts>
             <!-- 表单 -->
              <bookingForm
-              :bookingForm="0"
               @on-emit-top='onEmitTop'
               @on-form-item-remove='onFormItemRemove'
               @on-name-change='onNameChange($event,index)'
@@ -132,9 +117,26 @@ export default {
       if (data) this.field.splice(this.field.indexOf(data), 1)
     },
     onSubmit () {
+      let n = true
       this.field.forEach((item, index) => {
-        this.current[index].iconType = item.onSubmit() ? 'success' : 'error'
+        let m = item.onSubmit()
+        this.current[index].iconType = m ? 'success' : 'error'
+        if (!m) {
+          n = false
+        }
       })
+      let list = []
+      if (n) {
+        this.field.forEach((item, index) => {
+          let obj = JSON.parse(JSON.stringify(item.formCustom))
+          obj['ageType'] = this.current[index].ageType
+          list.push(obj)
+        })
+      }
+      return {
+        type: n,
+        list: list
+      }
     },
     onRemove (index) {
       this.current.splice(index, 1)

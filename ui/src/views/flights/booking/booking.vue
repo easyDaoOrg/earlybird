@@ -9,16 +9,16 @@
       <bookingStep></bookingStep>
       <!--旅客-->
       <div class="booking-box">
-        <bookingSubtitle :subTitle="0" ></bookingSubtitle>
-        <bookingPassenger @on-ok='onPeopleOk' ref='bookingPassenger'></bookingPassenger>
-        <bookingTabList :data='passengers' @on-member-change='onMemberChange'></bookingTabList>
+        <bookingSubtitle :subTitle="0"></bookingSubtitle>
+        <bookingPassenger @on-ok="onPeopleOk" ref="bookingPassenger"></bookingPassenger>
+        <bookingTabList :data="passengers" @on-member-change="onMemberChange" ref="bookingTabList"></bookingTabList>
       </div>
 
       <!--联系人信息-->
       <div class="booking-box">
         <bookingSubtitle :subTitle="1"></bookingSubtitle>
-        <bookingContacts></bookingContacts>
-        <bookingForm :bookingForm="1"></bookingForm>
+        <ontacts @on-clear-ontacts="onClearOntacts()" @on-add-ontacts="oAddOntacts"></ontacts>
+        <ontactsForm ref="ontactsForm"></ontactsForm>
       </div>
 
       <!--报销凭证-->
@@ -35,7 +35,7 @@
     </div>
 
     <div class="booking-right">
-      <bookingOrder></bookingOrder>
+      <bookingOrder @on-place-rder="onPlaceRrder()"></bookingOrder>
     </div>
   </div>
 </template>
@@ -44,12 +44,16 @@
 import bookingStep from './bookingstep/bookingstep'
 import bookingSubtitle from './bookingSubtitle/bookingSubtitle'
 import bookingPassenger from './bookingPassenger/bookingPassenger'
-import bookingContacts from './bookingContacts/bookingContacts'
-import bookingForm from './bookingForm/bookingForm'
+import ontacts from './bookingTopContacts/ontacts/ontacts'
+import ontactsForm from '././bookingTopContacts/ontactsForm/ontactsForm'
 import bookingTabList from './bookingTabList/bookingTabList'
 import bookingOrder from './bookingOrder/bookingOrder'
-
+import { mapGetters } from 'vuex'
+import Utils from '@/lib/utils'
 export default {
+  computed: {
+    ...mapGetters(['book_flight'])
+  },
   data () {
     return {
       passengers: []
@@ -59,10 +63,10 @@ export default {
     bookingStep,
     bookingSubtitle,
     bookingPassenger,
-    bookingContacts,
-    bookingForm,
+    ontacts,
     bookingTabList,
-    bookingOrder
+    bookingOrder,
+    ontactsForm
   },
   watch: {
 
@@ -73,8 +77,96 @@ export default {
     },
     onMemberChange (data) {
       this.$refs.bookingPassenger.setMember(data)
+    },
+    // 提交订单
+    onPlaceRrder () {
+      let Passenger = this.$refs.bookingTabList.onSubmit()
+      let Contacts = this.$refs.ontactsForm.onSubmit()
+      console.log(Passenger.type + '---' + Contacts)
+
+      if (Passenger.type) {
+        this.onOrders(Passenger.list)
+
+        // Passenger.list
+      }
+    },
+    // 发送请求
+    onOrders (passengersValue) {
+      console.log(this.book_flight)
+      // let extInfo = this.book_flight.extInfo
+      // let obj = {
+      //   flightNum: extInfo.flightNum,
+      //   flightType: extInfo.flightType,
+      //   stopInfo: '',
+      //   deptAirportCode: '',
+      //   arriAirportCode: '',
+      //   deptCity: '',
+      //   arriCity: '',
+      //   deptDate: '',
+      //   deptTime: '',
+      //   arriTime: '',
+      //   cabin: extInfo.cabin,
+      //   childCabin: '',
+      //   actFlightNum: '',
+      //   codeShare: ''
+      // }
+      let obj = {
+        invoiceType: '',
+        flightInfo: ''
+      }
+      // 旅客 10个参数
+      let passengers = []
+      passengersValue.forEach((item) => {
+        let m = {
+          name: item.familyNameZh + item.givenNameZh,
+          ageType: item.ageType, //  0：成人；1：儿童；2：婴儿
+          cardType: item.category, // NI:身份证,PP:护照
+          cardNo: item.number, // 号码
+          passengerPriceTag: '', // 票面价
+          // 固定
+          bx: false,
+          flightDelayBx: false,
+          tuipiaoBx: false
+        }
+        // 护照才性别和啥呢恶搞日
+        if (item.category === 'PP') {
+          m['birthday'] = Utils.timeBirthday(item.birthday)// 如1986-10-19
+          m['sex'] = item.gender// 0: 女，1: 男
+        }
+        passengers.push(m)
+      })
+      // 乘机人个数
+      obj['passengerCount'] = passengers.length
+      // 乘机人列表
+      obj['passengers'] = passengers
+
+      // 联系人信息
+
+      obj['invoiceType'] = ''
+      obj['bookingTag'] = ''
+      // let url = `http://123.206.254.186:8080/flight/orders/order`
+      // let self = this
+      // axios
+      //   .post(url, obj)
+      //   .then(data => {
+      //     // 路由跳转
+      //     self.$router.push(`/flights/timeline`)
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+    },
+    // 清空常用联系人
+    onClearOntacts () {
+      this.$refs.ontactsForm.clear()
+    },
+    // 添加常用联系人
+    oAddOntacts (data) {
+      this.$refs.ontactsForm.setDefaultObj(data)
     }
   },
-  mounted () {}
+  mounted () {
+
+  }
 }
 </script>
