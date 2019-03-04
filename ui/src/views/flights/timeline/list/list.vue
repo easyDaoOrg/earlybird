@@ -115,6 +115,7 @@ export default {
     return {
       tripBoolean: false,
       airportList: [],
+      tripArrNome: false
     }
   },
   components: {

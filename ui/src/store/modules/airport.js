@@ -13,6 +13,7 @@ const global = {
     },
     airport_list: {},
     airport_time: {},
+    // 存储票信息
     book_flight: {}
   },
   mutations: {
