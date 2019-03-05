@@ -37,13 +37,7 @@
               </h4>
 
               <div class="triplayer-wrap-cont-info-airport">
-                  <span v-if="airpotObj.com == '南方航空'"><img src="../../../../assets/images/airportIcon/cz.png"></span>
-                  <span v-if="airpotObj.com == '春秋航空'"><img src="../../../../assets/images/airportIcon/9c.png"></span>
-                  <span v-if="airpotObj.com == '中国航空'"><img src="../../../../assets/images/airportIcon/cz.png"></span>
-                  <span v-if="airpotObj.com == '吉祥航空'"><img src="../../../../assets/images/airportIcon/ho.png"></span>
-                  <span v-if="airpotObj.com == '海南航空'"><img src="../../../../assets/images/airportIcon/hu.png"></span>
-                  <span v-if="airpotObj.com == '上海航空'"><img src="../../../../assets/images/airportIcon/fm.png"></span>
-                  <span v-if="airpotObj.com == '东方航空'"><img src="../../../../assets/images/airportIcon/mu.png"></span>
+                  <airportPic :airportObj="airpotObj" :airportTitle="true"></airportPic>
                 <span>
                   {{airpotObj.com}} | {{airpotObj.actFlightNum}} | 机型 : {{airpotObj.planetype}}
                 </span>
@@ -131,6 +125,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import { airportPriceData } from "../../../../assets/json/airportPriceData.js";
 import { airportBookData } from "../../../../assets/json/airportBookData.js";
+import airportPic from "../../airportpic/airportpic";
 
 
 
@@ -156,7 +151,7 @@ export default {
     }
   },
   components: {
-
+    airportPic
   },
   watch: {
     airport_time: {

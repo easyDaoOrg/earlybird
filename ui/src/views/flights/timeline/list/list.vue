@@ -36,13 +36,7 @@
               </div>
               <div class="timeline-list-card-body" :class="{'backlist' : tripBoolean}">
                 <div class="timeline-list-card-body-box">
-                  <span v-if="item.com == '南方航空'"><img src="../../../../assets/images/airportIcon/cz.png"></span>
-                  <span v-if="item.com == '春秋航空'"><img src="../../../../assets/images/airportIcon/9c.png"></span>
-                  <span v-if="item.com == '中国航空'"><img src="../../../../assets/images/airportIcon/cz.png"></span>
-                  <span v-if="item.com == '吉祥航空'"><img src="../../../../assets/images/airportIcon/ho.png"></span>
-                  <span v-if="item.com == '海南航空'"><img src="../../../../assets/images/airportIcon/hu.png"></span>
-                  <span v-if="item.com == '上海航空'"><img src="../../../../assets/images/airportIcon/fm.png"></span>
-                  <span v-if="item.com == '东方航空'"><img src="../../../../assets/images/airportIcon/mu.png"></span>
+                  <airportPic :airportObj="item" :airportTitle="false"></airportPic>
                 </div>
                 <div class="timeline-list-card-body-sted">
                   <div class="timeline-list-card-body-sted-block">
@@ -106,6 +100,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { airportListData } from "../../../../assets/json/airportListData.js";
+import airportPic from "../../airportpic/airportpic";
 
 
 export default {
@@ -119,7 +114,7 @@ export default {
     }
   },
   components: {
-
+    airportPic
   },
   watch: {
     airport_list: {
