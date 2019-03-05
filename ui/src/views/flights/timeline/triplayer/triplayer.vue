@@ -170,14 +170,13 @@ export default {
   },
   methods: {
     //查询指定航班价格
-    getAirportPrice(data){
-      console.log(data,">>>>>>>>>")
-      debugger
+    getAirportPrice(){
+      let item = this.airpotTrip;
       let airportData = {
-        dpt: data.dpt,
-        arr: data.arr,
-        date: this.airpotTrip.date,
-        flightNum: data.flightNum
+        dpt: item.dpt,
+        arr: item.arr,
+        date: item.date,
+        flightNum: this.saveFlightNum
       }
       let url = this.baseUrl + `/flight/price`;;
       let self = this;
@@ -219,7 +218,7 @@ export default {
       this.tripBuy = data.type;
       if(data.type){
         this.saveFlightNum = data.item.flightNum;
-        this.getAirportPrice(data.item);
+        this.getAirportPrice();
       }
     })
   }
