@@ -128,7 +128,8 @@ export default {
       let list = []
       if (n) {
         this.field.forEach((item, index) => {
-          let obj = JSON.parse(JSON.stringify(item.formCustom))
+          let obj = item.formCustom
+          // 设置成人还是儿童
           obj['ageType'] = this.current[index].ageType
           list.push(obj)
         })

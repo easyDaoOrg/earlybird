@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import {user} from '../../../../../assets/json/user.js'
+import {user} from '@/assets/json/user'
 
 export default {
   data () {

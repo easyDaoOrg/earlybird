@@ -10,7 +10,13 @@
       <!--旅客-->
       <div class="booking-box">
         <bookingSubtitle :subTitle="0"></bookingSubtitle>
-        <bookingPassenger @on-ok="onPeopleOk" ref="bookingPassenger"></bookingPassenger>
+        <bookingPassenger
+          ref="bookingPassenger"
+          @on-ok="onPeopleOk"
+          @on-price-change='onPriceChange'
+          @on-cabinType='cabinType=$event'
+          @on-carrier='carrier=$event'
+          ></bookingPassenger>
         <bookingTabList :data="passengers" @on-member-change="onMemberChange" ref="bookingTabList"></bookingTabList>
       </div>
 
@@ -35,7 +41,21 @@
     </div>
 
     <div class="booking-right">
-      <bookingOrder @on-place-rder="onPlaceRrder()"></bookingOrder>
+      <bookingOrder
+        parentName='booking'
+
+        :dptCity='routerObj.dptCity'
+        :arrCity='routerObj.arrCity'
+        :date='routerObj.date'
+
+        :price='infoObj.price'
+        :number='infoObj.number'
+        :totalMoney='infoObj.totalMoney'
+
+        :carrier='carrier'
+        :cabinType='cabinType'
+        @on-place-order="onPlaceOrrder()"
+      ></bookingOrder>
     </div>
   </div>
 </template>
@@ -56,7 +76,12 @@ export default {
   },
   data () {
     return {
-      passengers: []
+      passengers: [],
+      routerObj: this.$route.query,
+      infoObj: {},
+      // 舱位
+      cabinType: null,
+      carrier: null
     }
   },
   components: {
@@ -79,16 +104,53 @@ export default {
       this.$refs.bookingPassenger.setMember(data)
     },
     // 提交订单
-    onPlaceRrder () {
+    onPlaceOrrder () {
       let Passenger = this.$refs.bookingTabList.onSubmit()
       let Contacts = this.$refs.ontactsForm.onSubmit()
       console.log(Passenger.type + '---' + Contacts)
 
-      if (Passenger.type) {
+      if (Passenger.type && Contacts) {
         this.onOrders(Passenger.list)
-
-        // Passenger.list
+        this.buyTripBook()
       }
+    },
+    buyTripBook () {
+      // dptCity: this.airpotTrip.cityStart,
+      //     dpt: this.airpotTrip.cityStartCode,
+      //     arrCity: this.airpotTrip.cityEnd,
+      //     arr: this.airpotTrip.cityEndCode,
+      //     date: this.airpotTrip.cityDate.start,
+      //     adult: this.airport_group.bigvalue,
+      //     child: this.airport_group.childvalue,
+      //     cabinType: item.cabinType,
+      //     cid: item.cid
+      let pid = this.$refs.bookingPassenger.getPid()
+      let obj = {
+        pid,
+        cid: this.routerObj.cid,
+        cabinType: this.routerObj.cabinType
+      }
+      let url = this.baseUrl + `/flight/price`
+      let self = this
+      // this.axios
+      //   .post(url, obj)
+      //   .then(data => {
+      //     if (data.status === 200) {
+      //       debugger
+      //     }
+      //   })
+      this.$router.push({
+        path: `/flights/topay`,
+        query: {
+          dptCity: this.routerObj.dptCity,
+          arrCity: this.routerObj.arrCity,
+          date: this.routerObj.date,
+          cabinType: this.cabinType,
+          price: this.infoObj.price,
+          totalMoney: this.infoObj.totalMoney,
+          carrier: this.carrier
+        }
+      })
     },
     // 发送请求
     onOrders (passengersValue) {
@@ -163,6 +225,18 @@ export default {
     // 添加常用联系人
     oAddOntacts (data) {
       this.$refs.ontactsForm.setDefaultObj(data)
+    },
+    // 价格
+    onPriceChange (data) {
+      let totalMoney = data.Adult_number * data.Adult_price
+      if (data.child_number !== 0 && data.child_prive !== 0) {
+        totalMoney = totalMoney + data.child_number * data.child_prive
+      }
+      this.infoObj = {
+        totalMoney: totalMoney,
+        number: data.Adult_number + data.child_number,
+        price: data.Adult_price
+      }
     }
   },
   mounted () {

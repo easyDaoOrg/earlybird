@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import {user} from '../../../../assets/json/user.js'
+import {user} from '@/assets/json/user'
 export default {
   data () {
     const empty = '必填项'

@@ -119,8 +119,7 @@
 </main>
 </template>
 <script>
-import {user} from '../../../../assets/json/user.js'
-console.log(user)
+import {user} from '@/assets/json/user'
 
 export default {
   data () {

@@ -249,7 +249,7 @@
 </template>
 
 <script>
-import {user} from '../../../../assets/json/user.js'
+import {user} from '@/assets/json/user'
 import Util from '@/lib/utils'
 export default {
   data () {

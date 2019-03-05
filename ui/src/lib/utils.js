@@ -33,6 +33,7 @@ const Util = {
     const times = `${year}.${month}.${day} ${hour}:${min}:${sec}`
     return times
   },
+  // 生日
   timeBirthday (date) {
     const year = date.getFullYear()
     const month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
@@ -40,7 +41,7 @@ const Util = {
     const times = `${year}-${month}-${day}`
     return times
   },
-  // 生日
+
   timeStampRow (time) {
     const date = new Date(parseInt(time, {}))
     const year = date.getFullYear()

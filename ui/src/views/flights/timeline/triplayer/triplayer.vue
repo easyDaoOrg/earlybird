@@ -37,7 +37,7 @@
               </h4>
 
               <div class="triplayer-wrap-cont-info-airport">
-                  <airportPic :airportObj="airpotObj" :airportTitle="true"></airportPic>
+                  <airportPic :carrier="airpotObj.carrier" :airportTitle="true"></airportPic>
                 <span>
                   {{airpotObj.com}} | {{airpotObj.actFlightNum}} | 机型 : {{airpotObj.planetype}}
                 </span>
@@ -98,7 +98,6 @@
               </ul>
             </div>
 
-
             <!-- <div class="triplayer-book-img fl">
               <img src="https://content.igola.com/static/APP/images/ota_logo/1x/ota_justtravel@1x.png" alt="ota logo">
             </div>
@@ -122,12 +121,10 @@
   </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { airportPriceData } from "../../../../assets/json/airportPriceData.js";
-import { airportBookData } from "../../../../assets/json/airportBookData.js";
-import airportPic from "../../airportpic/airportpic";
-
-
+import { mapActions, mapGetters } from 'vuex'
+import { airportPriceData } from '../../../../assets/json/airportPriceData.js'
+import { airportBookData } from '../../../../assets/json/airportBookData.js'
+import airportPic from '../../airportpic/airportpic'
 
 export default {
   computed: {
@@ -156,40 +153,40 @@ export default {
   watch: {
     airport_time: {
       handler: function (val, oldVal) {
-        if(val&&JSON.stringify(val) !==""){
-          this.airpotObj = val;
+        if (val && JSON.stringify(val) !== '') {
+          this.airpotObj = val
         }
       },
       immediate: true
     }
   },
   methods: {
-    //查询指定航班价格
-    getAirportPrice(){
-      let item = this.airpotTrip;
+    // 查询指定航班价格
+    getAirportPrice () {
+      let item = this.airpotTrip
       let airportData = {
         dpt: item.dpt,
         arr: item.arr,
         date: item.date,
         flightNum: this.saveFlightNum
       }
-      let url = this.baseUrl + `/flight/price`;;
-      let self = this;
+      let url = this.baseUrl + `/flight/price`
+      let self = this
       this.axios
-        .post(url,airportData)
+        .post(url, airportData)
         .then(data => {
-          if(data.status == 200){
-            console.log(data,"???????")
-            self.airportPriceObj = data.data;
+          if (data.status == 200) {
+            console.log(data, '???????')
+            self.airportPriceObj = data.data
           }
         })
         .catch(error => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
-    //预定指定渠道的航班
-    buyTripBook(item){
-      let airObj = this.airpotTrip;
+    // 预定指定渠道的航班
+    buyTripBook (item) {
+      let airObj = this.airpotTrip
       this.$router.push({
         path: `/flights/booking`,
         query: {
@@ -209,11 +206,11 @@ export default {
   },
   mounted () {
     this.$bus.on('on-airdetail', (data) => {
-      this.tripModel = true;
-      this.tripBuy = data.type;
-      if(data.type){
-        this.saveFlightNum = data.item.flightNum;
-        this.getAirportPrice();
+      this.tripModel = true
+      this.tripBuy = data.type
+      if (data.type) {
+        this.saveFlightNum = data.item.flightNum
+        this.getAirportPrice()
       }
     })
   }

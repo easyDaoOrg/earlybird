@@ -20,7 +20,6 @@
   }
 </style>
 
-
 <template>
   <div class="timeline-list">
     <div class="timeline-list-none" v-if="airportList&&airportList.length == 0">抱歉未找到您搜索的结果</div>
@@ -36,7 +35,7 @@
               </div>
               <div class="timeline-list-card-body" :class="{'backlist' : tripBoolean}">
                 <div class="timeline-list-card-body-box">
-                  <airportPic :airportObj="item" :airportTitle="false"></airportPic>
+                  <airportPic :carrier="item.carrier" :airportTitle="false"></airportPic>
                 </div>
                 <div class="timeline-list-card-body-sted">
                   <div class="timeline-list-card-body-sted-block">
@@ -98,10 +97,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { airportListData } from "../../../../assets/json/airportListData.js";
-import airportPic from "../../airportpic/airportpic";
-
+import { mapActions, mapGetters } from 'vuex'
+import { airportListData } from '../../../../assets/json/airportListData.js'
+import airportPic from '../../airportpic/airportpic'
 
 export default {
   computed: {
@@ -110,7 +108,7 @@ export default {
   data () {
     return {
       tripBoolean: false,
-      airportList: [],
+      airportList: []
     }
   },
   components: {
@@ -119,116 +117,115 @@ export default {
   watch: {
     airport_list: {
       handler: function (val, oldVal) {
-        if(val){
+        if (val) {
           this.initData(JSON.parse(JSON.stringify(val)))
         }
       },
-      immediate: true,
+      immediate: true
     }
   },
   methods: {
     ...mapActions(['chooseAirportTimeData']),
-    //初始化
-    initData(data){
-      console.log(data,"&&&&&&&&&&&&&")
-      if(data&&data.data&&data.data.flightInfos){
-        this.airportList = data.data.flightInfos;
+    // 初始化
+    initData (data) {
+      console.log(data, '&&&&&&&&&&&&&')
+      if (data && data.data && data.data.flightInfos) {
+        this.airportList = data.data.flightInfos
         console.log(this.airportList)
       }
       // this.airportList = airportListData.flightInfos;
-
     },
-    airDetailModel(data,bool){
-      this.chooseAirportTimeData(data);
-      this.$bus.emit('on-airdetail',{type: bool, item: data})
+    airDetailModel (data, bool) {
+      this.chooseAirportTimeData(data)
+      this.$bus.emit('on-airdetail', {type: bool, item: data})
     },
-    goTripModel() {
-      this.tripBoolean = true;
-      this.$bus.emit('on-triplist',1,true)
+    goTripModel () {
+      this.tripBoolean = true
+      this.$bus.emit('on-triplist', 1, true)
     },
-    backTripModel(data,bool) {
-      this.chooseAirportTimeData(data);
-      this.$bus.emit('on-airdetail',{type: bool, item: data})
+    backTripModel (data, bool) {
+      this.chooseAirportTimeData(data)
+      this.$bus.emit('on-airdetail', {type: bool, item: data})
     },
-    //判断类型
-    saveSortAirportList(data){
-      switch (data.label){
+    // 判断类型
+    saveSortAirportList (data) {
+      switch (data.label) {
         case 'price':
-          //价格
-          if(data.upselected){
+          // 价格
+          if (data.upselected) {
             this.airportList = this.airportList.sort(this.compareUpPrice('barePrice'))
           }
-          if(data.dwselected){
+          if (data.dwselected) {
             this.airportList = this.airportList.sort(this.compareDwPrice('barePrice'))
           }
-          break;
+          break
         case 'longtime':
-          //去除时间冒号
-          this.decideTimeList('flightTimes','longTime');
-          //飞行时长
-          if(data.upselected){
+          // 去除时间冒号
+          this.decideTimeList('flightTimes', 'longTime')
+          // 飞行时长
+          if (data.upselected) {
             this.airportList = this.airportList.sort(this.compareUpPrice('longTime'))
           }
-          if(data.dwselected){
+          if (data.dwselected) {
             this.airportList = this.airportList.sort(this.compareDwPrice('longTime'))
           }
-          break;
+          break
         case 'starttime':
-          //去除时间冒号
-          this.decideTimeList('dptTime','startTime');
-          //开始时间
-          if(data.upselected){
+          // 去除时间冒号
+          this.decideTimeList('dptTime', 'startTime')
+          // 开始时间
+          if (data.upselected) {
             this.airportList = this.airportList.sort(this.compareUpPrice('startTime'))
           }
-          if(data.dwselected){
+          if (data.dwselected) {
             this.airportList = this.airportList.sort(this.compareDwPrice('startTime'))
           }
-          break;
+          break
         case 'endtime':
-          this.decideTimeList('arrTime','endTime');
-          //结束时间
-          if(data.upselected){
+          this.decideTimeList('arrTime', 'endTime')
+          // 结束时间
+          if (data.upselected) {
             this.airportList = this.airportList.sort(this.compareUpPrice('endTime'))
           }
-          if(data.dwselected){
+          if (data.dwselected) {
             this.airportList = this.airportList.sort(this.compareDwPrice('endTime'))
           }
-          break;
+          break
       }
     },
-    decideTimeList(key,time){
-      if(this.airportList.length > 0){
-        for(let item of this.airportList){
-          if(key == 'flightTimes'){
-            item[time] = item[key].replace("小时","");
-            item[time] = parseInt(item[time].replace("分钟",""))
-          }else{
-            item[time] = parseInt(item[key].replace(":",""))
+    decideTimeList (key, time) {
+      if (this.airportList.length > 0) {
+        for (let item of this.airportList) {
+          if (key == 'flightTimes') {
+            item[time] = item[key].replace('小时', '')
+            item[time] = parseInt(item[time].replace('分钟', ''))
+          } else {
+            item[time] = parseInt(item[key].replace(':', ''))
           }
         }
       }
       console.log(this.airportList)
     },
-    //过滤价格
-    compareUpPrice(property){
-        return function(a,b){
-            var value1 = a[property];
-            var value2 = b[property];
-            return value1 - value2;
-        }
+    // 过滤价格
+    compareUpPrice (property) {
+      return function (a, b) {
+        var value1 = a[property]
+        var value2 = b[property]
+        return value1 - value2
+      }
     },
-    compareDwPrice(property){
-        return function(a,b){
-            var value1 = a[property];
-            var value2 = b[property];
-            return value2 - value1;
-        }
+    compareDwPrice (property) {
+      return function (a, b) {
+        var value1 = a[property]
+        var value2 = b[property]
+        return value2 - value1
+      }
     }
   },
   mounted () {
-    this.$bus.on('on-filtergoback',(bool) => {
-      this.tripBoolean = bool;
-    });
+    this.$bus.on('on-filtergoback', (bool) => {
+      this.tripBoolean = bool
+    })
     this.$bus.on('trip-airport-list', (data) => {
       this.saveSortAirportList(data)
     })

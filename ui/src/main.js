@@ -6,7 +6,6 @@ import router from './router'
 import iView from 'iview'
 import Vuex from 'vuex'
 import store from './store'
-
 import 'iview/dist/styles/iview.css'
 import './assets/style/index.scss'
 import './assets/font/iconfont.css'

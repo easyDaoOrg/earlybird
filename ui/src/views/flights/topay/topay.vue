@@ -12,7 +12,6 @@
 }
 </style>
 
-
 <template>
   <div class="booking">
     <div class="booking-left fl">
@@ -45,7 +44,21 @@
     </div>
 
     <div class="booking-right">
-      <bookingOrder @on-place-rder="onPlaceRrder()"></bookingOrder>
+       <bookingOrder
+        parentName='topay'
+
+        :dptCity='routerObj.dptCity'
+        :arrCity='routerObj.arrCity'
+        :date='routerObj.date'
+
+        :price='infoObj.price'
+        :number='infoObj.number'
+        :totalMoney='infoObj.totalMoney'
+
+        :carrier='infoObj.carrier'
+        :cabinType='cabinType'
+        @on-place-order="onPlaceOrrder()"
+      ></bookingOrder>
     </div>
 
     <div class="topay-footer">
@@ -84,7 +97,12 @@ export default {
       modelClause: false,
       topayActive: true,
       topayEwm: false,
-      topayEnd: true
+      topayEnd: true,
+      // 右侧订单
+      routerObj: {},
+      infoObj: {},
+      cabinType: null
+
     }
   },
   components: {
@@ -95,17 +113,35 @@ export default {
 
   },
   methods: {
-    onPlaceRrder(){
+    onPlaceOrrder () {
 
     },
-    //付款
-    topay(){
-      this.topayEwm = true;
-      this.topayEnd = false;
+    // 付款
+    topay () {
+      this.topayEwm = true
+      this.topayEnd = false
+    },
+    /**
+     * 设置订购信息
+     */
+    setOrderingInformation () {
+      let router = this.$route.query
+      this.routerObj = {
+        dptCity: router.dptCity,
+        arrCity: router.arrCity,
+        date: router.date
+      }
+      this.infoObj = {
+        price: router.price,
+        number: router.number,
+        totalMoney: router.totalMoney,
+        carrier: router.carrier
+      }
+      this.cabinType = Number(router.cabinType)
     }
   },
   mounted () {
-
+    this.setOrderingInformation()
   }
 }
 </script>

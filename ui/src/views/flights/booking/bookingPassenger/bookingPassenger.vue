@@ -22,11 +22,11 @@
     </div>
     <div class="booking-col-1 search-bar-group booking-changepeople">
       <Dropdown trigger="custom" :visible="visible" placement="bottom-start">
-        <Button type="primary" @click='visible=true'>
+        <Button type="primary" @click.stop='visible=true;open()'>
             修改人数
             <Icon type="ios-arrow-down"></Icon>
         </Button>
-        <DropdownMenu slot="list">
+        <DropdownMenu slot="list"  @click.native='$event.stopPropagation();'>
           <DropdownItem>
             <span class="fr search-bar-prev flights-index-prev">
               <Button type="primary" shape="circle"  @click='remove("adult")' :disabled='value1==1'>-</Button>
@@ -35,7 +35,7 @@
             </span>
             <strong>成人</strong>
           </DropdownItem>
-          <DropdownItem>
+          <DropdownItem v-if='chdBarePrice!==0'>
             <span class="fr search-bar-prev flights-index-prev">
               <Button type="primary" shape="circle" @click='remove("children")' :disabled='value2==0'>-</Button>
               <InputNumber v-model="value2" readonly></InputNumber>
@@ -62,20 +62,95 @@ export default {
   data () {
     return {
       Adult_v: 1,
-      child_v: 1,
-      value1: 1,
+      child_v: 0,
+      value1: 0,
       value2: 0,
       visible: false,
-      cabinCount: 20
+      cabinCount: 20,
+      // 儿童价格
+      chdBarePrice: 0,
+      // 成人价格
+      barePrice: 0,
+      routerObj: this.$route.query,
+      pid: ''
     }
   },
   watch: {
 
   },
   mounted () {
+    this.$bus.on('overall-close', this.closeDropdownMenu)
     this.emitObj()
+    this.getAirportPrice()
   },
   methods: {
+    open () {
+      this.value1 = this.Adult_v
+      this.value2 = this.child_v
+    },
+    closeDropdownMenu () {
+      this.visible = false
+    },
+    // 价格
+    getAirportPrice () {
+      let airportData = {
+        dpt: this.routerObj.dpt,
+        arr: this.routerObj.arr,
+        date: this.routerObj.date,
+        flightNum: this.routerObj.flightNum
+      }
+      let url = this.baseUrl + `/flight/price`
+      let self = this
+      this.axios
+        .post(url, airportData)
+        .then(data => {
+          if (data.status === 200) {
+            let val = data.data
+            let vendors = this.filter_data(val.vendors)
+            // 存储pid
+            this.pid = vendors.pid
+            // 存储舱位
+            this.$emit('on-cabinType', vendors.cabinType)
+            // 航空公司
+            this.$emit('on-carrier', val.carrier)
+            // 成人价格
+            self.barePrice = vendors.barePrice
+            // 儿童价格 为0认为不能添加儿童
+            self.chdBarePrice = vendors.chdBarePrice
+            self.chdBarePrice = 10
+            this.emitPrice()
+            if (self.chdBarePrice === 0) {
+              self.child_v = 0
+              self.value2 = 0
+            }
+            // 总票数
+            self.cabinCount = self.filter_cabinCount(vendors.cabinCount)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 根据pid过滤
+    filter_cabinCount (data) {
+      if (data === 'A') {
+        return 9
+      } else if (typeof (data) === 'number') {
+        return data
+      } else {
+        return 0
+      }
+    },
+    filter_data (data) {
+      let obj = {}
+      // data.forEach(item => {
+      //   if (item.cid === this.routerObj.cid) {
+      //     obj = item
+      //   }
+      // })
+      obj = data[0]
+      return obj
+    },
     add (data) {
       if (data === 'adult') {
         if ((this.value1 + this.value2) >= this.cabinCount) return false
@@ -111,11 +186,26 @@ export default {
       for (let i = 0; i < this.child_v; i++) {
         list.push(this.getEmitObj(1))
       }
+      this.emitPrice()
       this.$emit('on-ok', list)
+    },
+    emitPrice () {
+      // 成人价格不为0
+      if (this.barePrice) {
+        this.$emit('on-price-change', {
+          Adult_price: this.barePrice,
+          Adult_number: this.Adult_v,
+          child_prive: this.chdBarePrice,
+          child_number: this.child_v
+        })
+      }
     },
     setMember (obj) {
       this.Adult_v = obj.Adult_v
       this.child_v = obj.child_v
+      this.value1 = obj.Adult_v
+      this.value2 = obj.child_v
+      this.emitPrice()
     },
     getEmitObj (data) {
       return {
@@ -127,6 +217,9 @@ export default {
         },
         ageType: data // 成人还是而儿童
       }
+    },
+    getPid () {
+      return this.pid
     }
   }
 }
