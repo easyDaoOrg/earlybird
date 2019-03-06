@@ -54,7 +54,7 @@
                     <FormItem
                         prop="category"
                         >
-                        <Select v-model="formCustom.category" style="width:100%" class='rorderRight'>
+                        <Select v-model="formCustom.category" style="width:100%" class='rorderRight' @on-change='identityInformation'>
                           <Option v-for="item in identity" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                     </FormItem>
@@ -76,10 +76,10 @@
                   <div class="form-group">
                       <label for="">名字</label>
                       <FormItem prop="familyNameZh">
-                        <Input v-model="formCustom.familyNameZh" placeholder="姓（中文/拼音）" style="width: 100%;" class='inputLeft borderRightNone' @on-change='onNameChange'/>
+                        <Input v-model="formCustom.familyNameZh" :placeholder="identityPlaceholder" style="width: 100%;" class='inputLeft borderRightNone' @on-change='onNameChange'/>
                       </FormItem>
                       <FormItem prop="givenNameZh">
-                        <Input v-model="formCustom.givenNameZh" placeholder="名（中文/拼音）" style="width: 100%" class='inputRight' @on-change='onNameChange'/>
+                        <Input v-model="formCustom.givenNameZh" :placeholder="identityPlaceholder" style="width: 100%" class='inputRight' @on-change='onNameChange'/>
                       </FormItem>
                       <div class="form-group-tips">旅客姓名必须与所选择的证件上的姓名一致。</div>
                   </div>
@@ -113,6 +113,8 @@
 
 <script>
 import {user} from '@/assets/json/user'
+// 定义手机还是护照
+var _identityType = 'NI'
 export default {
   data () {
     const empty = '必填项'
@@ -129,8 +131,14 @@ export default {
         callback(new Error(empty))
       } else {
         let reg = /^[\u4e00-\u9fa5a-zA-Z]+$/
+        let error = '请输入中文或拼音'
+        // 护照只能输入英文
+        if (_identityType === 'PP') {
+          reg = /^[a-zA-Z]+$/
+          error = '请输入英文或拼音'
+        }
         if (!reg.test(value)) {
-          callback(new Error('请输入中文或拼音'))
+          callback(new Error(error))
         }
         callback()
       }
@@ -157,30 +165,6 @@ export default {
         callback()
       }
     }
-    // // 邮箱
-    // const _email = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error(empty))
-    //   } else {
-    //     let reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
-    //     if (!reg.test(value)) {
-    //       callback(new Error('请输入正确的邮箱'))
-    //     }
-    //     callback()
-    //   }
-    // }
-    // // 手机号
-    // const _phone = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error(empty))
-    //   } else {
-    //     let reg = /^1[0-9][0-9]\d{4,8}$/
-    //     if (!reg.test(value)) {
-    //       callback(new Error('手机号码长度为7-11位'))
-    //     }
-    //     callback()
-    //   }
-    // }
     return {
       // 性别
       genderObj: {
@@ -195,9 +179,6 @@ export default {
         gender: 1,
         birthday: '',
         number: ''
-        //  familyNameZh: '刘',
-        // givenNameZh: '备',
-        // birthday: '1977-01-27',
       },
       ruleCustom: {
         familyNameZh: [{ validator: _familyNameZh, trigger: 'blur' }],
@@ -209,7 +190,8 @@ export default {
       identity: user.identity.slice(0, 2),
       // 证件 验证
       id_number: idNumber,
-      passport: _passport
+      passport: _passport,
+      identityPlaceholder: '姓（中文/拼音）'
     }
   },
   watch: {},
@@ -236,68 +218,6 @@ export default {
       this.$refs['formInlineRef'].resetFields()
     },
     setFormCustom (data) {
-      // {
-      //   'guid': 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
-      //   'familyNameZh': '张',
-      //   'givenNameZh': '飞',
-      //   'familyName': 'DEI',
-      //   'givenName': 'BU',
-      //   'middleName': '',
-      //   'nationality': 'CN',
-      //   'gender': 'MALE',
-      //   'birthday': '1991-01-27',
-      //   'primary': false,
-      //   'credentials': [
-      //     {
-      //       'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
-      //       'category': 'NI',
-      //       'number': '130706199201270313',
-      //       'issueAt': null,
-      //       'expiredAt': '',
-      //       'issueDate': ''
-      //     },
-      //     {
-      //       'guid': 'ce193f2b-f094-4713-b4a3-cd1d10216a60',
-      //       'category': 'GA',
-      //       'number': '123',
-      //       'issueAt': 'HK',
-      //       'expiredAt': '2022-05-04',
-      //       'issueDate': '2016-01-01'
-      //     },
-      //     {
-      //       'guid': '9a077e42-3127-4c13-b227-39b52bcf4771',
-      //       'category': 'TW',
-      //       'number': '123213',
-      //       'issueAt': 'HK',
-      //       'expiredAt': '2022-04-04',
-      //       'issueDate': '2016-01-01'
-      //     },
-      //     {
-      //       'guid': 'f1430854-296a-4988-bac0-9449977d4f44',
-      //       'category': 'HX',
-      //       'number': '123',
-      //       'issueAt': 'CN',
-      //       'expiredAt': '2020-01-02',
-      //       'issueDate': '2016-01-01'
-      //     },
-      //     {
-      //       'guid': '417ce847-1535-438b-9952-2ffdd13db35a',
-      //       'category': 'TB',
-      //       'number': '123QWEQWE',
-      //       'issueAt': 'CN',
-      //       'expiredAt': '2020-03-01',
-      //       'issueDate': '2016-01-01'
-      //     },
-      //     {
-      //       'guid': 'aa01ccf3-42dc-4ddb-961d-d2b9d750ba79',
-      //       'category': 'PP',
-      //       'number': 'P1234567',
-      //       'issueAt': 'CN',
-      //       'expiredAt': '2019-02-02',
-      //       'issueDate': '2016-01-01'
-      //     }
-      //   ]
-      // },
       console.log(this.formCustom)
       this.formCustom.familyNameZh = data.familyNameZh
       this.formCustom.givenNameZh = data.givenNameZh
@@ -314,9 +234,11 @@ export default {
         if (keep) {
           this.formCustom.number = keep.number
           this.formCustom.category = keep.category
+          this.identityInformation(this.formCustom.category)
           break
         }
       }
+
       setTimeout(() => {
         this.$refs['formInlineRef'].validate(valid => {})
       }, 0)
@@ -327,6 +249,10 @@ export default {
       } else {
         this.$emit('on-name-change', '')
       }
+    },
+    identityInformation (data) {
+      _identityType = data
+      this.identityPlaceholder = this.formCustom.category === 'NI' ? '姓（中文/拼音）' : '姓（英文/拼音）'
     }
   },
   beforeDestroy () {

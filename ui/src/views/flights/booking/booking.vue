@@ -14,7 +14,7 @@
           ref="bookingPassenger"
           @on-ok="onPeopleOk"
           @on-price-change='onPriceChange'
-          @flight-information='flightInformation=$event'
+          @flight-information='flightInformation=$event;buyTripBook()'
           ></bookingPassenger>
         <bookingTabList :data="passengers" @on-member-change="onMemberChange" ref="bookingTabList"></bookingTabList>
       </div>
@@ -75,7 +75,8 @@ export default {
       passengers: [],
       routerObj: this.$route.query,
       infoObj: {},
-      flightInformation: {}
+      flightInformation: {},
+      tripBookData: {}
     }
   },
   components: {
@@ -90,6 +91,7 @@ export default {
   watch: {
 
   },
+  mounted () {},
   methods: {
     onPeopleOk (data) {
       this.passengers = data
@@ -104,11 +106,11 @@ export default {
       console.log(Passenger.type + '---' + Contacts)
 
       if (Passenger.type && Contacts.type) {
-        this.buyTripBook(Passenger, Contacts)
+        this.onOrders(Passenger.list, Contacts.obj, this.tripBookData)
       }
     },
     // booking接口
-    buyTripBook (Passenger, Contacts) {
+    buyTripBook () {
       let obj = {
         pid: this.flightInformation.pid,
         cid: this.routerObj.cid,
@@ -119,21 +121,9 @@ export default {
         .post(url, obj)
         .then(data => {
           if (data.status === 200) {
-            this.onOrders(Passenger.list, Contacts.obj, data.data)
+            this.tripBookData = data.data
           }
         }).catch(() => {})
-      // this.$router.push({
-      //   path: `/flights/topay`,
-      //   query: {
-      //     dptCity: this.routerObj.dptCity,
-      //     arrCity: this.routerObj.arrCity,
-      //     date: this.routerObj.date,
-      //     cabinType: this.cabinType,
-      //     price: this.infoObj.price,
-      //     totalMoney: this.infoObj.totalMoney,
-      //     carrier: this.carrier
-      //   }
-      // })
     },
     // 发送请求
     onOrders (passengersList, contactsObj, resultBooking) {
@@ -145,25 +135,10 @@ export default {
         invoiceType: resultBooking.expressInfo.id,
         bookingTag: resultBooking.bookingTag
       }
-      // let extInfo = this.routerObj
       let info = resultBooking.flightInfo[0]
-      // 14参数
+      // 13参数
       let flightInfo = {
-        // flightNum: extInfo.flightNum, // 航班号
-        // flightType: 1, // 行程类型 1:单程，2：往返
-        // stopInfo: resultBooking.flightInfo[0].stops, // 经停数
-        // deptAirportCode: extInfo.dpt, // 出发机场，大写，三字码
-        // arriAirportCode: extInfo.arr, // 到达机场，大写，三字码
-        // deptCity: extInfo.dptCity, // 出发城市，汉字
-        // arriCity: extInfo.arrCity, // 到达城市，汉字
-        // deptDate: extInfo.date, // 出发日期
-        // deptTime: this.filterTime(this.flightInformation.btime), // 出发时间
-        // arriTime: this.filterTime(this.flightInformation.etime), // 到达时间
-        // cabin: resultBooking.extInfo.cabin, // 舱位  // booking
-        // childCabin: resultBooking.flightInfo[0].childCabin || 'Y', // 儿童舱位 (当book中的值为null时，必需设置此字段为Y) //booking
-        // actFlightNum: resultBooking.flightInfo[0].actFlightNum, // booking
-        // codeShare: resultBooking.flightInfo[0].codeShare// booking
-        flightNum: info.flightNum, // 航班号
+        flightNum: info.codeShare ? info.actFlightNum : info.flightNum, // 航班号
         flightType: Number(resultBooking.extInfo.flightType), // 行程类型 1:单程，2：往返
         stopInfo: info.stops, // 经停数
         deptAirportCode: info.dpt, // 出发机场，大写，三字码
@@ -175,20 +150,24 @@ export default {
         arriTime: this.filterTime(info.arrTime), // 到达时间
         cabin: info.cabin, // 舱位  // booking
         childCabin: info.childCabin || 'Y', // 儿童舱位 (当book中的值为null时，必需设置此字段为Y) //booking
-        actFlightNum: info.actFlightNum, // booking
-        codeShare: info.codeShare// booking
+        gx: info.codeShare ? info.flightNum : info.actFlightNum
       }
 
       obj['flightInfo'] = flightInfo
       // 旅客 10个参数
       let passengers = []
       passengersList.forEach((item) => {
+        // ADU(成人)，CHI(儿童)，INF(婴儿)
+        let passengerPriceTag = resultBooking.priceInfo.priceTag.ADU[0].tag
+        if (item.ageType === 1 && resultBooking.priceInfo.priceTag.CHI && resultBooking.priceInfo.priceTag.CHI.length) {
+          passengerPriceTag = resultBooking.priceInfo.priceTag.CHI[0].tag
+        }
         let m = {
           name: item.familyNameZh + item.givenNameZh,
           ageType: item.ageType, //  0：成人；1：儿童；2：婴儿
           cardType: item.category, // NI:身份证,PP:护照
           cardNo: item.number, // 号码
-          passengerPriceTag: resultBooking.priceInfo.priceTag.ADU[0].tag,
+          passengerPriceTag: passengerPriceTag,
           // 固定
           bx: false,
           flightDelayBx: false,
@@ -206,14 +185,6 @@ export default {
       // 乘机人列表
       obj['passengers'] = passengers
 
-      // 联系人信息
-      // contact = "姜磊"
-      // contactPreNum = "86"
-      // contactMob = "18600994598"
-      // contactEmail=''// email
-      // sjr = "姜磊"  ==contact
-      // address = "地址" 新加一个
-      // 订单联系人， sjr是收件人的意思
       let contact = contactsObj.lastName + contactsObj.firstName
       obj['contact'] = contact
       obj['sjr'] = contact
@@ -221,16 +192,26 @@ export default {
       obj['contactMob'] = contactsObj.mobile
       obj['contactEmail'] = contactsObj.email
       obj['address'] = contactsObj.address
-      console.log(obj)
       let url = this.baseUrl + `/flight/order`
       this.axios
         .post(url, obj)
         .then(data => {
           if (data.status === 200) {
-            debugger
+            this.$router.push({
+              path: `/flights/topay`,
+              query: {
+                dptCity: this.routerObj.dptCity,
+                arrCity: this.routerObj.arrCity,
+                date: this.routerObj.date,
+                cabinType: this.cabinType,
+                price: this.infoObj.price,
+                totalMoney: this.infoObj.totalMoney,
+                carrier: this.carrier
+              }
+            })
           }
-        }).catch(() => {
-          debugger
+        }).catch((err) => {
+          console.log(err)
         })
     },
     // 出发到达时间
@@ -258,9 +239,6 @@ export default {
         price: data.Adult_price
       }
     }
-  },
-  mounted () {
-
   }
 }
 </script>
