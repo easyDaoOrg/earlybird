@@ -186,7 +186,8 @@ export default {
     },
     // 预定指定渠道的航班
     buyTripBook (item) {
-      let airObj = this.airpotTrip
+      let airObj = this.airpotTrip;
+      this.tripModel = false;
       this.$router.push({
         path: `/flights/booking`,
         query: {
