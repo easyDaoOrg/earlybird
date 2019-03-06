@@ -40,3 +40,12 @@
     }
   }
 }
+.empty{
+  height: 100px;
+  padding: 20px 10px;
+  &-button{
+    float:right;
+    margin-top:20px;
+  }
+}
+

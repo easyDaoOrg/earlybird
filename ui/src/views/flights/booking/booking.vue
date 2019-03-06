@@ -211,6 +211,10 @@ export default {
             })
           }
         }).catch((err) => {
+          this.$Modal.error({
+            title: '错误',
+            content: err.response.data.message
+          })
           console.log(err)
         })
     },

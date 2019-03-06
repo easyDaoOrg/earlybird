@@ -13,7 +13,7 @@
   background-color: #f0f0f0;
 }
 .booking-tablist .ivu-menu-item{
-  padding: 3px 12px 0;
+  padding: 3px 12px 0!important;
   border-right: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8;
 }

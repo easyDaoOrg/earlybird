@@ -52,6 +52,15 @@
     <div class="booking-passenger-set" v-if='value2'>
       <b>注意： </b>年龄未满12周岁的儿童，航空公司可能不允许登机，请提前与航空公司确认。
     </div>
+     <Modal v-model="empty" footer-hide :closable="false" :mask-closable="false">
+      <div class="empty">
+        <h2>对不起，您预订的该航班价格已经售完，请重新搜索预订</h2>
+        <router-link :to="{path:'/flights/index'}">
+        <Button type="primary" class='empty-button'>查找其他航班</Button>
+        </router-link>
+      </div>
+    </Modal>
+  </div>
   </div>
 </template>
 
@@ -71,7 +80,8 @@ export default {
       chdBarePrice: 0,
       // 成人价格
       barePrice: 0,
-      routerObj: this.$route.query
+      routerObj: this.$route.query,
+      empty: false
     }
   },
   watch: {
@@ -99,32 +109,52 @@ export default {
         flightNum: this.routerObj.flightNum
       }
       let url = this.baseUrl + `/flight/price`
+      let self = this
       this.axios
         .post(url, airportData)
         .then(data => {
           if (data.status === 200) {
             let val = data.data
             let vendors = this.filter_data(val.vendors)
-
+            if (!vendors) {
+              console.log('cid配有匹配到book请求不了')
+            }
             // 成人价格
             this.barePrice = vendors.vppr// barePrice
-            // 舱
-            this.$emit('on-cabinType', this.barePrice.cabinType)
             // 父级需要 pid和仓位
             val['pid'] = vendors.pid
             val['cabinType'] = vendors.cabinType
-
             this.$emit('flight-information', val)
             // 儿童价格 为0认为不能添加儿童
             this.chdBarePrice = vendors.chdBarePrice
             // this.chdBarePrice = 10
             this.emitPrice()
-            if (this.chdBarePrice === 0) {
-              this.child_v = 0
-              this.value2 = 0
-            }
             // 总票数
             this.cabinCount = this.filter_cabinCount(vendors.cabinCount)
+            this.cabinCount = 3
+            if (!this.cabinCount) {
+              // 没票了
+              this.empty = true
+            }
+            let adult = Number(self.routerObj.adult)
+            let child = Number(self.routerObj.child)
+            if (adult + child <= self.cabinCount) {
+              self.Adult_v = adult
+              self.child_v = child
+              this.value1 = adult
+              this.value2 = child
+              if (self.chdBarePrice === 0) {
+                this.child_v = 0
+                this.value2 = 0
+              }
+              this.ok()
+            } else {
+              self.Adult_v = self.cabinCount
+              self.child_v = 0
+              this.value1 = self.cabinCount
+              this.value2 = 0
+              this.ok()
+            }
           }
         })
         .catch(error => {
@@ -149,7 +179,6 @@ export default {
           obj = item
         }
       })
-      // obj = data[0]
       return obj
     },
     add (data) {
