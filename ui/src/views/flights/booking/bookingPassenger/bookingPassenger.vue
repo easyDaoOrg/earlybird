@@ -107,7 +107,7 @@ export default {
             let vendors = this.filter_data(val.vendors)
 
             // 成人价格
-            this.barePrice = vendors.barePrice
+            this.barePrice = vendors.vppr// barePrice
             // 舱
             this.$emit('on-cabinType', this.barePrice.cabinType)
             // 父级需要 pid和仓位

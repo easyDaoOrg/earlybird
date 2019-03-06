@@ -101,44 +101,27 @@ export default {
     onPlaceOrder () {
       let Passenger = this.$refs.bookingTabList.onSubmit()
       let Contacts = this.$refs.ontactsForm.onSubmit()
-      debugger
       console.log(Passenger.type + '---' + Contacts)
 
       if (Passenger.type && Contacts.type) {
-        this.buyTripBook()
-        this.onOrders(Passenger.list, Contacts.obj)
+        this.buyTripBook(Passenger, Contacts)
       }
     },
     // booking接口
-    buyTripBook () {
-      // dptCity: this.airpotTrip.cityStart,
-      //     dpt: this.airpotTrip.cityStartCode,
-      //     arrCity: this.airpotTrip.cityEnd,
-      //     arr: this.airpotTrip.cityEndCode,
-      //     date: this.airpotTrip.cityDate.start,
-      //     adult: this.airport_group.bigvalue,
-      //     child: this.airport_group.childvalue,
-      //     cabinType: item.cabinType,
-      //     cid: item.cid
-
+    buyTripBook (Passenger, Contacts) {
       let obj = {
         pid: this.flightInformation.pid,
         cid: this.routerObj.cid,
         cabinType: this.flightInformation.cabinType
       }
-      debugger
-      let url = this.baseUrl + `/flights/book`
-      let self = this
+      let url = this.baseUrl + `/flight/book`
       this.axios
         .post(url, obj)
         .then(data => {
           if (data.status === 200) {
-            debugger
+            this.onOrders(Passenger.list, Contacts.obj, data.data)
           }
-        }).catch((err) => {
-          console.log(err)
-          debugger
-        })
+        }).catch(() => {})
       // this.$router.push({
       //   path: `/flights/topay`,
       //   query: {
@@ -153,37 +136,50 @@ export default {
       // })
     },
     // 发送请求
-    onOrders (passengersList, contactsObj) {
+    onOrders (passengersList, contactsObj, resultBooking) {
       // book 中获取
       let obj = {
-        cid: this.routerObj.cid,
-        printPrice: '',
-        yPrice: '',
-        invoiceType: '',
-        bookingTag: ''
+        cid: resultBooking.extInfo.cid,
+        printPrice: resultBooking.priceInfo.priceTag.ADU[0].viewPrice,
+        yPrice: Number(resultBooking.extInfo.ticketPrice),
+        invoiceType: resultBooking.expressInfo.id,
+        bookingTag: resultBooking.bookingTag
       }
-      let extInfo = this.routerObj
+      // let extInfo = this.routerObj
+      let info = resultBooking.flightInfo[0]
       // 14参数
-      debugger
       let flightInfo = {
-        flightNum: extInfo.flightNum, // 航班号
-        flightType: 1, // 行程类型 1:单程，2：往返
-        stopInfo: '', // 经停数
-        deptAirportCode: extInfo.dpt, // 出发机场，大写，三字码
-        arriAirportCode: extInfo.arr, // 到达机场，大写，三字码
-        deptCity: extInfo.dptCity, // 出发城市，汉字
-        arriCity: extInfo.arrCity, // 到达城市，汉字
-        deptDate: extInfo.date, // 出发日期
-        deptTime: this.flightInformation.btime, // 出发时间
-        arriTime: this.flightInformation.btime, // 到达时间
-        cabin: this.flightInformation.etime, // 舱位 我能拿到!!!
-        childCabin: '', // 儿童舱位  我能拿到!!!(当book中的值为null时，必需设置此字段为Y)
-        actFlightNum: '', // 实际承飞航班号，是共享航班是必传
-        codeShare: '' // true表示共享，false表示非共享
+        // flightNum: extInfo.flightNum, // 航班号
+        // flightType: 1, // 行程类型 1:单程，2：往返
+        // stopInfo: resultBooking.flightInfo[0].stops, // 经停数
+        // deptAirportCode: extInfo.dpt, // 出发机场，大写，三字码
+        // arriAirportCode: extInfo.arr, // 到达机场，大写，三字码
+        // deptCity: extInfo.dptCity, // 出发城市，汉字
+        // arriCity: extInfo.arrCity, // 到达城市，汉字
+        // deptDate: extInfo.date, // 出发日期
+        // deptTime: this.filterTime(this.flightInformation.btime), // 出发时间
+        // arriTime: this.filterTime(this.flightInformation.etime), // 到达时间
+        // cabin: resultBooking.extInfo.cabin, // 舱位  // booking
+        // childCabin: resultBooking.flightInfo[0].childCabin || 'Y', // 儿童舱位 (当book中的值为null时，必需设置此字段为Y) //booking
+        // actFlightNum: resultBooking.flightInfo[0].actFlightNum, // booking
+        // codeShare: resultBooking.flightInfo[0].codeShare// booking
+        flightNum: info.flightNum, // 航班号
+        flightType: Number(resultBooking.extInfo.flightType), // 行程类型 1:单程，2：往返
+        stopInfo: info.stops, // 经停数
+        deptAirportCode: info.dpt, // 出发机场，大写，三字码
+        arriAirportCode: info.arr, // 到达机场，大写，三字码
+        deptCity: info.dptCity, // 出发城市，汉字
+        arriCity: info.arrCity, // 到达城市，汉字
+        deptDate: info.dptDate, // 出发日期
+        deptTime: this.filterTime(info.dptTime), // 出发时间
+        arriTime: this.filterTime(info.arrTime), // 到达时间
+        cabin: info.cabin, // 舱位  // booking
+        childCabin: info.childCabin || 'Y', // 儿童舱位 (当book中的值为null时，必需设置此字段为Y) //booking
+        actFlightNum: info.actFlightNum, // booking
+        codeShare: info.codeShare// booking
       }
 
       obj['flightInfo'] = flightInfo
-      debugger
       // 旅客 10个参数
       let passengers = []
       passengersList.forEach((item) => {
@@ -192,7 +188,7 @@ export default {
           ageType: item.ageType, //  0：成人；1：儿童；2：婴儿
           cardType: item.category, // NI:身份证,PP:护照
           cardNo: item.number, // 号码
-          passengerPriceTag: this.infoObj.price, // 票面价
+          passengerPriceTag: resultBooking.priceInfo.priceTag.ADU[0].tag,
           // 固定
           bx: false,
           flightDelayBx: false,
@@ -224,19 +220,23 @@ export default {
       obj['contactPreNum'] = contactsObj.areaCode
       obj['contactMob'] = contactsObj.mobile
       obj['contactEmail'] = contactsObj.email
+      obj['address'] = contactsObj.address
       console.log(obj)
-      debugger
-      // let url = `http://123.206.254.186:8080/flight/orders/order`
-      // let self = this
-      // axios
-      //   .post(url, obj)
-      //   .then(data => {
-      //     // 路由跳转
-      //     self.$router.push(`/flights/timeline`)
-      //   })
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
+      let url = this.baseUrl + `/flight/order`
+      this.axios
+        .post(url, obj)
+        .then(data => {
+          if (data.status === 200) {
+            debugger
+          }
+        }).catch(() => {
+          debugger
+        })
+    },
+    // 出发到达时间
+    filterTime (data) {
+      let n = data.replace(':', '')
+      return n
     },
     // 清空常用联系人
     onClearOntacts () {

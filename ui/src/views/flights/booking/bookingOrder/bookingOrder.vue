@@ -59,12 +59,11 @@
     </div>
     <div class="booking-order-firm">
       <div class="booking-order-firm-gz">
-        <Checkbox v-model="single">
-          已阅读并同意
+        <Checkbox v-model="single">已阅读并同意
           <span @click="modelClause = true">易道服务条款</span>
         </Checkbox>
       </div>
-      <Button type="primary" shape="circle" @click="onPlaceOrder()">提交订单</Button>
+      <Button type="primary" shape="circle" @click="onPlaceOrder()" :disabled='!single'>提交订单</Button>
     </div>
     <Modal v-model="modelClause" footer-hide>
       <div class="booking-order-clause">
@@ -136,7 +135,7 @@ export default {
   },
   data () {
     return {
-      single: '',
+      single: true,
       modelClause: false,
       cabinTypeList: user.cabinList
     }

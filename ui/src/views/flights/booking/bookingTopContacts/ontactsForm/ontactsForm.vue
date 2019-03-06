@@ -63,7 +63,7 @@
                       <div class="form-group paddingRight">
                           <label for="">邮箱</label>
                           <FormItem prop="email">
-                              <Input v-model="comeObj.email" placeholder="邮箱" style="width: 100%;" class='inputLeft'/>
+                              <Input v-model="comeObj.email" placeholder="必填（格式：a@b.cd）" style="width: 100%;" class='inputLeft'/>
                           </FormItem>
                       </div>
               </Col>
@@ -84,9 +84,17 @@
                             </Dropdown>
                         </FormItem>
                         <FormItem prop="mobile">
-                             <Input v-model="comeObj.mobile" placeholder="手机" style="width: 100%" class='inputRight'/>
+                             <Input v-model="comeObj.mobile" placeholder="必填（7-11位手机号码）" style="width: 100%" class='inputRight'/>
                         </FormItem>
                     </div>
+              </Col>
+              <Col span="12">
+                  <div class="form-group paddingRight">
+                      <label for="">地址</label>
+                      <FormItem prop="address">
+                          <Input v-model="comeObj.address" placeholder="必填" style="width: 100%;" class='inputLeft'/>
+                      </FormItem>
+                  </div>
               </Col>
         </Row>
 
@@ -101,13 +109,13 @@ export default {
   data () {
     const empty = '必填项'
     // 非空
-    // const _onEmpty = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error(empty))
-    //   } else {
-    //     callback()
-    //   }
-    // }
+    const _onEmpty = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error(empty))
+      } else {
+        callback()
+      }
+    }
     const _familyNameZh = (rule, value, callback) => {
       if (value === '') {
         callback(new Error(empty))
@@ -151,13 +159,15 @@ export default {
         firstName: '',
         email: '',
         areaCode: '86',
-        mobile: ''
+        mobile: '',
+        address: ''
       },
       ruleCustom: {
         lastName: [{ validator: _familyNameZh, trigger: 'blur' }],
         firstName: [{ validator: _familyNameZh, trigger: 'blur' }],
         email: [{ validator: _email, trigger: 'blur' }],
-        mobile: [{ validator: _phone, trigger: 'blur' }]
+        mobile: [{ validator: _phone, trigger: 'blur' }],
+        address: [{ validator: _onEmpty, trigger: 'blur' }]
       }
     }
   },
