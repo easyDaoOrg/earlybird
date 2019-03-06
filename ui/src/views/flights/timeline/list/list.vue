@@ -10,10 +10,6 @@
     border: 0 none;
     border-radius: 0;
   }
-  .timeline-list .ivu-scroll-wrapper,
-  .timeline-list .ivu-scroll-container{
-    width: 960px;
-  }
   .timeline-list-card-footer-chosen .ivu-btn,
   .timeline-list-card-footer-box .ivu-btn{
     border-radius: 40px;
@@ -22,10 +18,11 @@
 
 <template>
   <div class="timeline-list">
+    <div class="timeline-list-loading" v-if="!airportList"><Spin size="large" fix></Spin></div>
     <div class="timeline-list-none" v-if="airportList&&airportList.length == 0">抱歉未找到您搜索的结果</div>
-    <Scroll  height="1000" v-if="airportList&&airportList.length > 0">
-        <Card dis-hover v-for="(item, index) in airportList" :key="index">
-            <div class="timeline-list-card">
+    <div class="timeline-list-content" v-if="airportList&&airportList.length > 0">
+      <div v-for="(item, index) in airportList" :key="index">
+        <div class="timeline-list-card">
               <div class="timeline-list-card-header">
                 <div class="timeline-list-card-header-tips">{{item.flightTypeFullName}} , 机型: {{item.planetype}}</div>
                 <!-- <div class="timeline-list-card-header-score fr">
@@ -91,8 +88,8 @@
 
               </div>
             </div>
-        </Card>
-    </Scroll>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -108,7 +105,7 @@ export default {
   data () {
     return {
       tripBoolean: false,
-      airportList: []
+      airportList: null
     }
   },
   components: {

@@ -19,8 +19,8 @@ $colorg:#8c8c8c;
 $colorq:#969696;
 
 .booking{
-  position: relative;
-  height: 100%;
+  position: fixed;
+  height: calc(100% - 40px);
   width: 100%;
   //overflow-x: hidden;
   background-image: url(https://content.igola.com/static/WEB/images/background/timelinebg03_common.jpg);
@@ -29,6 +29,8 @@ $colorq:#969696;
   background-position: center top;
   background-attachment: fixed;
   padding: 20px 10px;
+  z-index: 2;
+  overflow-y: scroll;
   &-left{
     width: calc(100% - 300px - 10px);
   }

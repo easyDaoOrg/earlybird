@@ -69,7 +69,8 @@ export default {
       tripObj: {},
       spaceType: '经济舱',
       saveStartObj: {},
-      saveEndObj: {}
+      saveEndObj: {},
+      getDataSucces: false
     }
   },
   components: {
@@ -98,7 +99,9 @@ export default {
         this.endObj.cityName = data.arrCity;
         this.endObj.cityCode = data.arr;
         this.dateObj.start = data.date;
-        this.postAirportSearchData();
+        if(!this.getDataSucces){
+          this.postAirportSearchData();
+        }
       }
     },
     searchFlights () {
@@ -134,6 +137,7 @@ export default {
       this.axios
         .post(url, airportData)
         .then(data => {
+          self.getDataSucces = true;
           // 存储搜索结果
           self.searchAirportListData(data)
           // 路由跳转
@@ -167,7 +171,6 @@ export default {
     }
   },
   mounted () {
-    this.initData();
     this.$bus.on('trip-airport-msg', (data) => {
       this.spaceType = data
     })

@@ -57,11 +57,14 @@
           </div>
         </div>
 
+
         <div v-if="tripBuy">
           <div class="triplayer-guide">
             选择供应商进行订购
           </div>
-          <div class="triplayer-book">
+          <div class="triplayer-loading" v-if="!airportPriceObj.vendors"><Spin size="large" fix></Spin></div>
+          <div class="triplayer-none" v-if="airportPriceObj.vendors&&airportPriceObj.vendors.length==0">抱歉未找到供应商</div>
+          <div class="triplayer-book" v-if="airportPriceObj.vendors&&airportPriceObj.vendors.length>0">
             <ol>
               <li>票面价</li>
               <li>销售特价</li>

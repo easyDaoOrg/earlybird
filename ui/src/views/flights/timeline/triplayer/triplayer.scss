@@ -25,6 +25,11 @@ $colorg:#8c8c8c;
 $colorq:#969696;
 
 .triplayer{
+  &-none{
+    text-align: center;
+    padding: 50px 0;
+    font-size: 16px;
+  }
   &-title{
     font-size: 18px;
     line-height: 42px;
