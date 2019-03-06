@@ -66,7 +66,7 @@ export default {
       value1: 0,
       value2: 0,
       visible: false,
-      cabinCount: 20,
+      cabinCount: 1,
       // 儿童价格
       chdBarePrice: 0,
       // 成人价格
@@ -135,7 +135,7 @@ export default {
     filter_cabinCount (data) {
       if (data === 'A') {
         return 9
-      } else if (typeof (data) === 'number') {
+      } else if (Number(data)) {
         return data
       } else {
         return 0
