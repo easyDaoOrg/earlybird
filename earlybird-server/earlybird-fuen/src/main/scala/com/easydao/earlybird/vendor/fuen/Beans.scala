@@ -52,8 +52,9 @@ case class OrderFlightInfo(@JsonProperty("flightNum") flightNum: String,
                            @JsonProperty("childCabin") childCabin: String,
 
                           //后续Refund Apply会使用
-                           @JsonProperty("actFlightNum") actFlightNum: String,
-                           @JsonProperty("codeShare") codeShare: Boolean
+//                           @JsonProperty("actFlightNum") actFlightNum: String,
+//                           @JsonProperty("codeShare") codeShare: Boolean
+                           @JsonProperty("gx") codeShare: String
                           ) {
 }
 

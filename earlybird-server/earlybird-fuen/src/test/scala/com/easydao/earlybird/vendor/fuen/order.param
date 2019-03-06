@@ -41,7 +41,8 @@ invoiceType = (book \ "expressInfo" \ "id")
 
 flightInfo = OrderFlightInfo("CA1415", 1, 0, "PEK", "CTU", "北京", "成都", "2019-10-01", "0955", "1300", "Y", "Y", "", false)
 
-@JsonProperty("flightNum") flightNum: String,                   flightInfo -> flightNum
+@JsonProperty("flightNum") flightNum: String,                   flightInfo -> 当codeShare=true时传递actFlightNum,
+                                                                              当codeShare=false时传递flightNum,
 @JsonProperty("flightType") flightType: Int,                    extInfo -> flightType
 @JsonProperty("stopInfo") stopInfo: Int,                        flightInfo -> stops
 @JsonProperty("deptAirportCode") deptAirportCode: String,       flightInfo -> dpt
@@ -53,8 +54,8 @@ flightInfo = OrderFlightInfo("CA1415", 1, 0, "PEK", "CTU", "北京", "成都", "
 @JsonProperty("arriTime") arriTime: String,                     flightInfo -> arrTime 去掉冒号  11:30 -> 1130
 @JsonProperty("cabin") cabin: String,                           flightInfo -> cabin
 @JsonProperty("childCabin") childCabin: String,                 flightInfo -> childCabin  当book中的值为null时，必需设置此字段为Y
-@JsonProperty("actFlightNum") actFlightNum: String,             flightInfo -> actFlightNum
-@JsonProperty("codeShare") codeShare: Boolean                   flightInfo -> codeShare
+@JsonProperty("gx") gx: String,                                 flightInfo -> 当codeShare=true时传递flightNum,
+                                                                              当codeShare=false时传递actFlightNum,
 
 
 
