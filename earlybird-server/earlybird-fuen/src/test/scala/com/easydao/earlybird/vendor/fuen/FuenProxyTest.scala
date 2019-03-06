@@ -37,7 +37,7 @@ class FuenProxyTest extends FunSuite {
       val invoiceType = (book \ "expressInfo" \ "id").extract[Int]
       val sjr = "jiangjiang"
       val address = "addresssss"
-      val flightInfo = OrderFlightInfo("MU5152", 1, 0, "PEK", "SHA", "北京", "上海", "2019-10-01", "1130", "1345", "B", "Y", "", false)
+      val flightInfo = OrderFlightInfo("MU5152", 1, 0, "PEK", "SHA", "北京", "上海", "2019-10-01", "1130", "1345", "B", "Y", "")
       val passengerCount = 1
       val passengers = List[OrderPassenger](OrderPassenger("姜磊", 0, "NI", "110104198904123517", 1, "1989-04-12", "OPL4", false, false, false))
       val bookingTag = (book \ "bookingTag").extract[String]
