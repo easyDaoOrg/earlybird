@@ -117,16 +117,16 @@ export default {
       if (data) this.field.splice(this.field.indexOf(data), 1)
     },
     onSubmit () {
-      let n = true
+      let type = true
       this.field.forEach((item, index) => {
         let m = item.onSubmit()
         this.current[index].iconType = m ? 'success' : 'error'
         if (!m) {
-          n = false
+          type = false
         }
       })
       let list = []
-      if (n) {
+      if (type) {
         this.field.forEach((item, index) => {
           let obj = item.formCustom
           // 设置成人还是儿童
@@ -135,8 +135,8 @@ export default {
         })
       }
       return {
-        type: n,
-        list: list
+        type,
+        list
       }
     },
     onRemove (index) {

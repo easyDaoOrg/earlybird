@@ -71,8 +71,7 @@ export default {
       chdBarePrice: 0,
       // 成人价格
       barePrice: 0,
-      routerObj: this.$route.query,
-      pid: ''
+      routerObj: this.$route.query
     }
   },
   watch: {
@@ -100,38 +99,39 @@ export default {
         flightNum: this.routerObj.flightNum
       }
       let url = this.baseUrl + `/flight/price`
-      let self = this
       this.axios
         .post(url, airportData)
         .then(data => {
           if (data.status === 200) {
             let val = data.data
             let vendors = this.filter_data(val.vendors)
-            // 存储pid
-            this.pid = vendors.pid
-            // 存储舱位
-            this.$emit('on-cabinType', vendors.cabinType)
-            // 航空公司
-            this.$emit('on-carrier', val.carrier)
+
             // 成人价格
-            self.barePrice = vendors.barePrice
+            this.barePrice = vendors.barePrice
+            // 舱
+            this.$emit('on-cabinType', this.barePrice.cabinType)
+            // 父级需要 pid和仓位
+            val['pid'] = vendors.pid
+            val['cabinType'] = vendors.cabinType
+
+            this.$emit('flight-information', val)
             // 儿童价格 为0认为不能添加儿童
-            self.chdBarePrice = vendors.chdBarePrice
-            self.chdBarePrice = 10
+            this.chdBarePrice = vendors.chdBarePrice
+            // this.chdBarePrice = 10
             this.emitPrice()
-            if (self.chdBarePrice === 0) {
-              self.child_v = 0
-              self.value2 = 0
+            if (this.chdBarePrice === 0) {
+              this.child_v = 0
+              this.value2 = 0
             }
             // 总票数
-            self.cabinCount = self.filter_cabinCount(vendors.cabinCount)
+            this.cabinCount = this.filter_cabinCount(vendors.cabinCount)
           }
         })
         .catch(error => {
           console.log(error)
         })
     },
-    // 根据pid过滤
+    // 过滤人数
     filter_cabinCount (data) {
       if (data === 'A') {
         return 9
@@ -141,14 +141,15 @@ export default {
         return 0
       }
     },
+    // 根据pid过滤
     filter_data (data) {
       let obj = {}
-      // data.forEach(item => {
-      //   if (item.cid === this.routerObj.cid) {
-      //     obj = item
-      //   }
-      // })
-      obj = data[0]
+      data.forEach(item => {
+        if (item.cid === this.routerObj.cid) {
+          obj = item
+        }
+      })
+      // obj = data[0]
       return obj
     },
     add (data) {
@@ -217,9 +218,6 @@ export default {
         },
         ageType: data // 成人还是而儿童
       }
-    },
-    getPid () {
-      return this.pid
     }
   }
 }

@@ -14,8 +14,7 @@
           ref="bookingPassenger"
           @on-ok="onPeopleOk"
           @on-price-change='onPriceChange'
-          @on-cabinType='cabinType=$event'
-          @on-carrier='carrier=$event'
+          @flight-information='flightInformation=$event'
           ></bookingPassenger>
         <bookingTabList :data="passengers" @on-member-change="onMemberChange" ref="bookingTabList"></bookingTabList>
       </div>
@@ -52,9 +51,9 @@
         :number='infoObj.number'
         :totalMoney='infoObj.totalMoney'
 
-        :carrier='carrier'
-        :cabinType='cabinType'
-        @on-place-order="onPlaceOrrder()"
+        :carrier='flightInformation.carrier'
+        :cabinType='flightInformation.cabinType'
+        @on-place-order="onPlaceOrder()"
       ></bookingOrder>
     </div>
   </div>
@@ -68,20 +67,15 @@ import ontacts from './bookingTopContacts/ontacts/ontacts'
 import ontactsForm from '././bookingTopContacts/ontactsForm/ontactsForm'
 import bookingTabList from './bookingTabList/bookingTabList'
 import bookingOrder from './bookingOrder/bookingOrder'
-import { mapGetters } from 'vuex'
+
 import Utils from '@/lib/utils'
 export default {
-  computed: {
-    ...mapGetters(['book_flight'])
-  },
   data () {
     return {
       passengers: [],
       routerObj: this.$route.query,
       infoObj: {},
-      // 舱位
-      cabinType: null,
-      carrier: null
+      flightInformation: {}
     }
   },
   components: {
@@ -104,16 +98,18 @@ export default {
       this.$refs.bookingPassenger.setMember(data)
     },
     // 提交订单
-    onPlaceOrrder () {
+    onPlaceOrder () {
       let Passenger = this.$refs.bookingTabList.onSubmit()
       let Contacts = this.$refs.ontactsForm.onSubmit()
+      debugger
       console.log(Passenger.type + '---' + Contacts)
 
-      if (Passenger.type && Contacts) {
-        this.onOrders(Passenger.list)
+      if (Passenger.type && Contacts.type) {
         this.buyTripBook()
+        this.onOrders(Passenger.list, Contacts.obj)
       }
     },
+    // booking接口
     buyTripBook () {
       // dptCity: this.airpotTrip.cityStart,
       //     dpt: this.airpotTrip.cityStartCode,
@@ -124,67 +120,79 @@ export default {
       //     child: this.airport_group.childvalue,
       //     cabinType: item.cabinType,
       //     cid: item.cid
-      let pid = this.$refs.bookingPassenger.getPid()
+
       let obj = {
-        pid,
+        pid: this.flightInformation.pid,
         cid: this.routerObj.cid,
-        cabinType: this.routerObj.cabinType
+        cabinType: this.flightInformation.cabinType
       }
-      let url = this.baseUrl + `/flight/price`
+      debugger
+      let url = this.baseUrl + `/flights/book`
       let self = this
-      // this.axios
-      //   .post(url, obj)
-      //   .then(data => {
-      //     if (data.status === 200) {
-      //       debugger
-      //     }
-      //   })
-      this.$router.push({
-        path: `/flights/topay`,
-        query: {
-          dptCity: this.routerObj.dptCity,
-          arrCity: this.routerObj.arrCity,
-          date: this.routerObj.date,
-          cabinType: this.cabinType,
-          price: this.infoObj.price,
-          totalMoney: this.infoObj.totalMoney,
-          carrier: this.carrier
-        }
-      })
+      this.axios
+        .post(url, obj)
+        .then(data => {
+          if (data.status === 200) {
+            debugger
+          }
+        }).catch((err) => {
+          console.log(err)
+          debugger
+        })
+      // this.$router.push({
+      //   path: `/flights/topay`,
+      //   query: {
+      //     dptCity: this.routerObj.dptCity,
+      //     arrCity: this.routerObj.arrCity,
+      //     date: this.routerObj.date,
+      //     cabinType: this.cabinType,
+      //     price: this.infoObj.price,
+      //     totalMoney: this.infoObj.totalMoney,
+      //     carrier: this.carrier
+      //   }
+      // })
     },
     // 发送请求
-    onOrders (passengersValue) {
-      console.log(this.book_flight)
-      // let extInfo = this.book_flight.extInfo
-      // let obj = {
-      //   flightNum: extInfo.flightNum,
-      //   flightType: extInfo.flightType,
-      //   stopInfo: '',
-      //   deptAirportCode: '',
-      //   arriAirportCode: '',
-      //   deptCity: '',
-      //   arriCity: '',
-      //   deptDate: '',
-      //   deptTime: '',
-      //   arriTime: '',
-      //   cabin: extInfo.cabin,
-      //   childCabin: '',
-      //   actFlightNum: '',
-      //   codeShare: ''
-      // }
+    onOrders (passengersList, contactsObj) {
+      // book 中获取
       let obj = {
+        cid: this.routerObj.cid,
+        printPrice: '',
+        yPrice: '',
         invoiceType: '',
-        flightInfo: ''
+        bookingTag: ''
       }
+      let extInfo = this.routerObj
+      // 14参数
+      debugger
+      let flightInfo = {
+        flightNum: extInfo.flightNum, // 航班号
+        flightType: 1, // 行程类型 1:单程，2：往返
+        stopInfo: '', // 经停数
+        deptAirportCode: extInfo.dpt, // 出发机场，大写，三字码
+        arriAirportCode: extInfo.arr, // 到达机场，大写，三字码
+        deptCity: extInfo.dptCity, // 出发城市，汉字
+        arriCity: extInfo.arrCity, // 到达城市，汉字
+        deptDate: extInfo.date, // 出发日期
+        deptTime: this.flightInformation.btime, // 出发时间
+        arriTime: this.flightInformation.btime, // 到达时间
+        cabin: this.flightInformation.etime, // 舱位 我能拿到!!!
+        childCabin: '', // 儿童舱位  我能拿到!!!(当book中的值为null时，必需设置此字段为Y)
+        actFlightNum: '', // 实际承飞航班号，是共享航班是必传
+        codeShare: '' // true表示共享，false表示非共享
+      }
+
+      obj['flightInfo'] = flightInfo
+      debugger
       // 旅客 10个参数
       let passengers = []
-      passengersValue.forEach((item) => {
+      passengersList.forEach((item) => {
         let m = {
           name: item.familyNameZh + item.givenNameZh,
           ageType: item.ageType, //  0：成人；1：儿童；2：婴儿
           cardType: item.category, // NI:身份证,PP:护照
           cardNo: item.number, // 号码
-          passengerPriceTag: '', // 票面价
+          passengerPriceTag: this.infoObj.price, // 票面价
           // 固定
           bx: false,
           flightDelayBx: false,
@@ -203,9 +211,21 @@ export default {
       obj['passengers'] = passengers
 
       // 联系人信息
-
-      obj['invoiceType'] = ''
-      obj['bookingTag'] = ''
+      // contact = "姜磊"
+      // contactPreNum = "86"
+      // contactMob = "18600994598"
+      // contactEmail=''// email
+      // sjr = "姜磊"  ==contact
+      // address = "地址" 新加一个
+      // 订单联系人， sjr是收件人的意思
+      let contact = contactsObj.lastName + contactsObj.firstName
+      obj['contact'] = contact
+      obj['sjr'] = contact
+      obj['contactPreNum'] = contactsObj.areaCode
+      obj['contactMob'] = contactsObj.mobile
+      obj['contactEmail'] = contactsObj.email
+      console.log(obj)
+      debugger
       // let url = `http://123.206.254.186:8080/flight/orders/order`
       // let self = this
       // axios

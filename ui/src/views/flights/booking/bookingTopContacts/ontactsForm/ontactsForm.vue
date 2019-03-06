@@ -150,7 +150,7 @@ export default {
         lastName: '',
         firstName: '',
         email: '',
-        areaCode: '中国大陆 (+86)',
+        areaCode: '86',
         mobile: ''
       },
       ruleCustom: {
@@ -170,11 +170,18 @@ export default {
       this.comeObj.areaCode = data
     },
     onSubmit () {
-      let n = true
+      let type = true
       this.$refs['ontactsForm'].validate(valid => {
-        n = valid
+        type = valid
       })
-      return n
+      let obj = {}
+      if (type) {
+        obj = this.comeObj
+      }
+      return {
+        type,
+        obj
+      }
     },
     clear () {
       this.$refs['ontactsForm'].resetFields()
