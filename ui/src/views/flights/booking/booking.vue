@@ -43,9 +43,9 @@
       <bookingOrder
         parentName='booking'
 
-        :dptCity='routerObj.dptCity'
-        :arrCity='routerObj.arrCity'
-        :date='routerObj.date'
+        :dptCity='flightInformation.bairdrome'
+        :arrCity='flightInformation.eairdrome'
+        :date='flightInformation.date'
 
         :price='infoObj.price'
         :number='infoObj.number'
@@ -113,7 +113,7 @@ export default {
     buyTripBook () {
       let obj = {
         pid: this.flightInformation.pid,
-        cid: this.routerObj.cid,
+        cid: this.flightInformation.cid,
         cabinType: this.flightInformation.cabinType
       }
       let url = this.baseUrl + `/flight/book`
@@ -173,7 +173,7 @@ export default {
           flightDelayBx: false,
           tuipiaoBx: false
         }
-        // 护照才性别和啥呢恶搞日
+        // 护照
         if (item.category === 'PP') {
           m['birthday'] = Utils.timeBirthday(item.birthday)// 如1986-10-19
           m['sex'] = item.gender// 0: 女，1: 男

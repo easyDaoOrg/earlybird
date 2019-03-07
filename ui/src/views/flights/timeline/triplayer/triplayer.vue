@@ -57,7 +57,6 @@
           </div>
         </div>
 
-
         <div v-if="tripBuy">
           <div class="triplayer-guide">
             选择供应商进行订购
@@ -189,21 +188,23 @@ export default {
     },
     // 预定指定渠道的航班
     buyTripBook (item) {
-      let airObj = this.airpotTrip;
-      this.tripModel = false;
+      let airObj = this.airpotTrip
+      this.tripModel = false
+
       this.$router.push({
         path: `/flights/booking`,
         query: {
-          dptCity: airObj.dptCity,
           dpt: airObj.dpt,
-          arrCity: airObj.arrCity,
           arr: airObj.arr,
+          flightNum: this.saveFlightNum,
           date: airObj.date,
           adult: this.airport_group.bigvalue,
           child: this.airport_group.childvalue,
-          flightNum: this.saveFlightNum,
           cabinType: item.cabinType,
-          cid: item.cid
+          vppr: item.vppr
+          // dptCity: airObj.dptCity,
+          // arrCity: airObj.arrCity
+          // cid: item.cid
         }
       })
     }

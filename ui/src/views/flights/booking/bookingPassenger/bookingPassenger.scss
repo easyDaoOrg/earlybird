@@ -41,8 +41,14 @@
   }
 }
 .empty{
-  height: 100px;
-  padding: 20px 10px;
+  height: 122px;
+  padding: 10px;
+  h2{
+    font-weight: 400;
+    span{
+      color:#0096ff;
+    }
+  }
   &-button{
     float:right;
     margin-top:20px;

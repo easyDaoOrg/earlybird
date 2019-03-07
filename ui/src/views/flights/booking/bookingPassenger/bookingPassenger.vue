@@ -60,6 +60,12 @@
         </router-link>
       </div>
     </Modal>
+     <Modal v-model="priceChange" footer-hide :closable="false" :mask-closable="false">
+      <div class="empty">
+        <h2>您要预定的航班成人票价{{differentialPrice>= 0 ? '上升' : '下降'}}了<span>¥ {{Math.abs(this.differentialPrice)}}</span>/每人，总价为<span>¥ {{barePrice}}</span></h2>
+        <Button type="primary" class='empty-button' @click='priceChange=false'>知道了</Button>
+      </div>
+    </Modal>
   </div>
   </div>
 </template>
@@ -68,6 +74,9 @@
 
 export default {
   components: {},
+  computed: {
+
+  },
   data () {
     return {
       Adult_v: 1,
@@ -81,7 +90,9 @@ export default {
       // 成人价格
       barePrice: 0,
       routerObj: this.$route.query,
-      empty: false
+      empty: false,
+      priceChange: false,
+      differentialPrice: 0
     }
   },
   watch: {
@@ -109,52 +120,55 @@ export default {
         flightNum: this.routerObj.flightNum
       }
       let url = this.baseUrl + `/flight/price`
-      let self = this
+      // let self = this
       this.axios
         .post(url, airportData)
         .then(data => {
           if (data.status === 200) {
             let val = data.data
-            let vendors = this.filter_data(val.vendors)
-            if (!vendors) {
-              console.log('cid配有匹配到book请求不了')
-            }
+            let vm = this.filter_data(val.vendors)
+            let vendors = vm.data
             // 成人价格
             this.barePrice = vendors.vppr// barePrice
-            // 父级需要 pid和仓位
-            val['pid'] = vendors.pid
-            val['cabinType'] = vendors.cabinType
-            this.$emit('flight-information', val)
+            let emitObj = Object.assign(val)
+            emitObj['cid'] = vendors.cid
+            emitObj['pid'] = vendors.pid
+            emitObj['cabinType'] = vendors.cabinType
+            this.$emit('flight-information', emitObj)
             // 儿童价格 为0认为不能添加儿童
             this.chdBarePrice = vendors.chdBarePrice
             // this.chdBarePrice = 10
             this.emitPrice()
             // 总票数
             this.cabinCount = this.filter_cabinCount(vendors.cabinCount)
-            this.cabinCount = 3
+
             if (!this.cabinCount) {
               // 没票了
               this.empty = true
+            } else if (!vm.open) {
+              this.differentialPrice = vm.differentialPrice
+              this.priceChange = true
             }
-            let adult = Number(self.routerObj.adult)
-            let child = Number(self.routerObj.child)
-            if (adult + child <= self.cabinCount) {
-              self.Adult_v = adult
-              self.child_v = child
-              this.value1 = adult
-              this.value2 = child
-              if (self.chdBarePrice === 0) {
-                this.child_v = 0
-                this.value2 = 0
-              }
-              this.ok()
-            } else {
-              self.Adult_v = self.cabinCount
-              self.child_v = 0
-              this.value1 = self.cabinCount
-              this.value2 = 0
-              this.ok()
-            }
+            // 路由有儿童和成人票时打开
+            // let adult = Number(self.routerObj.adult)
+            // let child = Number(self.routerObj.child)
+            // if (adult + child <= self.cabinCount) {
+            //   self.Adult_v = adult
+            //   self.child_v = child
+            //   this.value1 = adult
+            //   this.value2 = child
+            //   if (self.chdBarePrice === 0) {
+            //     this.child_v = 0
+            //     this.value2 = 0
+            //   }
+            //   this.ok()
+            // } else {
+            //   self.Adult_v = self.cabinCount
+            //   self.child_v = 0
+            //   this.value1 = self.cabinCount
+            //   this.value2 = 0
+            //   this.ok()
+            // }
           }
         })
         .catch(error => {
@@ -173,12 +187,37 @@ export default {
     },
     // 根据pid过滤
     filter_data (data) {
+      let price = Number(this.routerObj.vppr)
       let obj = {}
-      data.forEach(item => {
-        if (item.cid === this.routerObj.cid) {
-          obj = item
+      let arr = []
+      let idx = -1
+      data.forEach((item, inedx) => {
+        arr.push(item.vppr)
+        if (price === item.vppr && item.cabinType === Number(this.routerObj.cabinType)) {
+          idx = inedx
         }
       })
+      // idx = -1
+      if (idx !== -1) {
+        obj = {
+          data: data[idx],
+          open: true
+        }
+      } else {
+        let minList = []
+        arr.forEach(item => {
+          let jj = item >= price ? item - price : price - item
+          minList.push(jj)
+        })
+        let minV = Math.min.apply(null, minList)
+        let len = minList.indexOf(minV)
+        let differentialPrice = data[len].vppr - price
+        obj = {
+          open: false,
+          data: data[len],
+          differentialPrice
+        }
+      }
       return obj
     },
     add (data) {
