@@ -82,6 +82,7 @@ $colora:#40ae3d;
     &-tips{
       display: block;
       margin: 15px auto;
+      padding-top: 10px;
       color: $colorw;
       text-align: center;
       cursor: pointer;
@@ -232,4 +233,8 @@ $colora:#40ae3d;
   }
 }
 
+
+.sign-up-zc{
+  padding-bottom: 50px;
+}
 

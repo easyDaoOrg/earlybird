@@ -2,6 +2,15 @@
 <style lang='scss' scoped>
 @import "./sign-in.scss";
 </style>
+<style>
+.sign-up-getbtn .ivu-btn[disabled]{
+  border-radius: 50px;
+  background: #0096ff;
+  border: 0 none;
+  color: #fff;
+}
+</style>
+
 <template>
   <div class="member">
   <div class="member-picture"></div>
@@ -9,29 +18,34 @@
     <div class="sign-up-title">注册</div>
     <div class="sign-up-content">
       <div class="sign-up-content-tab">
-        <Tabs :animated="false">
+        <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+            <FormItem>
+                <Select size="large" v-model="formInline.select">
+                    <Option value="+86">中国大陆 (+86)</Option>
+                    <!-- <Option value="+852">中国香港 (+852)</Option>
+                    <Option value="+853">中国澳门 (+853)</Option>
+                    <Option value="+886">中国台湾 (+886)</Option> -->
+                </Select>
+            </FormItem>
+            <FormItem prop="user" class="sign-up-content-tab-phone">
+                <Input size="large" type="text" v-model="formInline.user" placeholder="手机">
+                </Input>
+            </FormItem>
+            <FormItem prop="password" class="sign-up-password">
+                <Input size="large" type="text" v-model="formInline.password" placeholder="动态码">
+                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                </Input>
+                <div class="sign-up-getbtn">
+                  <Button type="primary" shape="circle" @click="getPassword()" v-if="dateDown">获取动态码</Button>
+                  <Button disabled v-if="!dateDown">{{dateTime}}s</Button>
+                </div>
+            </FormItem>
+        </Form>
+       <!-- <Tabs :animated="false">
           <TabPane label="手机">
-            <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-                <FormItem>
-                    <Select size="large" v-model="formInline.select">
-                        <Option value="+86">中国大陆 (+86)</Option>
-                        <Option value="+852">中国香港 (+852)</Option>
-                        <Option value="+853">中国澳门 (+853)</Option>
-                        <Option value="+886">中国台湾 (+886)</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="user" class="sign-up-content-tab-phone">
-                    <Input size="large" type="text" v-model="formInline.user" placeholder="手机">
-                    </Input>
-                </FormItem>
-                <FormItem prop="password" class="sign-up-password">
-                    <Input size="large" type="password" v-model="formInline.password" placeholder="密码">
-                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                    </Input>
-                </FormItem>
-            </Form>
+
           </TabPane>
-          <TabPane label="邮箱">
+           <TabPane label="邮箱">
             <Form ref="formItem" :model="formInline" :rules="ruleInline" inline>
                 <FormItem prop="email" class="sign-up-password">
                     <Input size="large" type="text" v-model="formItem.email" placeholder="邮箱">
@@ -45,7 +59,7 @@
                 </FormItem>
             </Form>
           </TabPane>
-      </Tabs>
+      </Tabs> -->
       </div>
     </div>
     <div class="sign-up-public">
@@ -82,11 +96,14 @@
 </template>
 
 <script>
-// import { wsGetProjectOview } from '@/models/project';
+import Config from './../../../lib/config.js'
 
 export default {
+  mixins: [Config],
   data () {
     return {
+      dateTime: 60,
+      dateDown: true,
       formInline: {
         user: '',
         password: '',
@@ -98,11 +115,10 @@ export default {
       },
       ruleInline: {
         user: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
+          { required: true, message: '手机号不能为空', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '密码不能为空', trigger: 'blur' },
-          { type: 'string', min: 6, message: '密码的长度不能小于6位', trigger: 'blur' }
+          { required: true, message: '动态码不能为空', trigger: 'blur' },
         ],
         email: [
           { required: true, message: '邮箱不能为空', trigger: 'blur' }
@@ -114,15 +130,51 @@ export default {
   components: {
 
   },
+  watch: {
+
+  },
   methods: {
+    //获取动态码
+    getPassword(){
+      this.dateDown = false;
+      //开始倒计时
+      this.timeDown();
+      Config.getPassword(this.formInline)
+    },
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
-        } else {
-          this.$Message.error('Fail!')
+          this.$Message.success('注册成功')
+          let url = this.loginUrl + `/user/saveUser`
+          let self = this
+          this.axios
+            .post(url, {user_phone: self.formInline.user})
+            .then(data => {
+              if(data.data.flag){
+                Config.checkPassword(self.formInline,1);
+              }else{
+                this.$Message.error('该手机号已被注册')
+              }
+            })
+            .catch(error => {
+              console.log(error)
+            })
         }
       })
+    },
+    timeDown () {
+      if(!this.dateDown){
+        if (this.dateTime === 0) {
+          this.dateTime = 60
+          this.dateDown = true
+        } else {
+          this.dateTime--
+          setTimeout(()=> {
+            this.timeDown()
+          },
+          1000)
+        }
+      }
     }
   },
   mounted () {}

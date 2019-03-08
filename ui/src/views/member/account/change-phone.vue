@@ -15,9 +15,9 @@
             <FormItem>
                   <Select size="large" v-model="formItem.select">
                       <Option value="+86">中国大陆 (+86)</Option>
-                      <Option value="+852">中国香港 (+852)</Option>
+                      <!-- <Option value="+852">中国香港 (+852)</Option>
                       <Option value="+853">中国澳门 (+853)</Option>
-                      <Option value="+886">中国台湾 (+886)</Option>
+                      <Option value="+886">中国台湾 (+886)</Option> -->
                   </Select>
               </FormItem>
               <FormItem prop="user" class="sign-up-content-tab-phone">

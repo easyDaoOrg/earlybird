@@ -14,6 +14,7 @@ import Util from './lib/utils.js'
 import axios from 'axios/dist/axios.min'
 
 Vue.prototype.baseUrl = Util.baseUrl()
+Vue.prototype.loginUrl = Util.loginUrl()
 Vue.prototype.axios = axios
 Vue.use(iView)
 Vue.use(Vuex)

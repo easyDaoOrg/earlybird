@@ -12,15 +12,15 @@
     </div>
     <div class="sign-up-content">
       <div class="sign-up-content-tab">
-        <Tabs :animated="false">
+        <Tabs :animated="false" @on-click="handleTabIndex">
           <TabPane label="手机">
             <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
                 <FormItem>
                     <Select size="large" v-model="formInline.select">
                         <Option value="+86">中国大陆 (+86)</Option>
-                        <Option value="+852">中国香港 (+852)</Option>
+                        <!-- <Option value="+852">中国香港 (+852)</Option>
                         <Option value="+853">中国澳门 (+853)</Option>
-                        <Option value="+886">中国台湾 (+886)</Option>
+                        <Option value="+886">中国台湾 (+886)</Option> -->
                     </Select>
                 </FormItem>
                 <FormItem prop="user" class="sign-up-content-tab-phone">
@@ -43,7 +43,7 @@
     </div>
     <div class="sign-up-public sign-up-bot">
       <div class="sign-up-public-fovpassword">
-        <Button type="primary" shape="circle" @click="handleSubmit('formInline')">提交</Button>
+        <Button type="primary" shape="circle" @click="handleCheck(tabName)">提交</Button>
       </div>
     </div>
   </div>
@@ -60,6 +60,8 @@
 export default {
   data () {
     return {
+      tabIndex: 0,
+      tabName: 'formInline',
       formInline: {
         user: '',
         select: '+86'
@@ -69,7 +71,7 @@ export default {
       },
       ruleInline: {
         user: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
+          { required: true, message: '手机号不能为空', trigger: 'blur' }
         ],
         email: [
           { required: true, message: '邮箱不能为空', trigger: 'blur' }
@@ -81,14 +83,42 @@ export default {
 
   },
   methods: {
-    handleSubmit (name) {
+    handleTabIndex(index){
+      this.tabIndex = index;
+      this.tabName = this.tabIndex==0 ? 'formInline' : 'formItem';
+    },
+    handleCheck (name) {
+      let userData = '';
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
-        } else {
-          this.$Message.error('Fail!')
+          switch (this.tabIndex){
+            case 0:
+              userData = '/user/editUserPhone?user_phone=' + this.formInline.user;
+              this.handleSubmit(userData);
+              break;
+            case 1:
+              userData = '/user/editUserEmail?user_email=' + this.formItem.email;
+              this.handleSubmit(userData);
+              break;
+          }
         }
       })
+    },
+    handleSubmit(userData){
+      let url = this.loginUrl + userData
+      let self = this
+      this.axios
+        .get(url)
+        .then(data => {
+          if(data.data.flag){
+            this.$Message.success(data.data.msg)
+          }else{
+            this.$Message.error(data.data.msg)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   mounted () {}
