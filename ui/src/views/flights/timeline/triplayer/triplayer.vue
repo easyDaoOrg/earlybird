@@ -198,8 +198,8 @@ export default {
           arr: airObj.arr,
           flightNum: this.saveFlightNum,
           date: airObj.date,
-          adult: this.airport_group.bigvalue,
-          child: this.airport_group.childvalue,
+          // adult: this.airport_group.bigvalue,
+          // child: this.airport_group.childvalue,
           cabinType: item.cabinType,
           vppr: item.vppr
           // dptCity: airObj.dptCity,

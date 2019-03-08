@@ -89,7 +89,6 @@
 <script>
 import bookingStep from './../booking/bookingstep/bookingstep'
 import bookingOrder from './../booking/bookingOrder/bookingOrder'
-import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -101,7 +100,8 @@ export default {
       // 右侧订单
       routerObj: {},
       infoObj: {},
-      cabinType: null
+      cabinType: null,
+      single: true
 
     }
   },
