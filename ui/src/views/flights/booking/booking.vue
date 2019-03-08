@@ -104,9 +104,10 @@ export default {
       let Passenger = this.$refs.bookingTabList.onSubmit()
       let Contacts = this.$refs.ontactsForm.onSubmit()
       console.log(Passenger.type + '---' + Contacts)
-
       if (Passenger.type && Contacts.type) {
-        this.onOrders(Passenger.list, Contacts.obj, this.tripBookData)
+        this.$refs.bookingPassenger.getAirportPrice().then((v) => {
+          this.onOrders(Passenger.list, Contacts.obj, this.tripBookData)
+        })
       }
     },
     // booking接口

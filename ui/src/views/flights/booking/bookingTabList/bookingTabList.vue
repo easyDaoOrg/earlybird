@@ -28,7 +28,6 @@
 
 <template>
   <div class="booking-tablist">
-    <div class="booking-tablist-title">余票有限</div>
     <div class="booking-tablist-content">
       <Menu :active-name="selected" @on-select='onMenuChange'>
          <MenuItem :name="index" v-for='(item,index) in current' :key='index'>

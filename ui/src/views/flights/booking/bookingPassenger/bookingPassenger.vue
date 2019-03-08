@@ -1,4 +1,6 @@
 
+import { rejects } from 'assert';
+import { rejects } from 'assert';
 <style lang='scss' scoped>
 @import "./bookingPassenger.scss";
 @import "./../../group/group.scss";
@@ -7,13 +9,11 @@
   .search-bar-prev .ivu-input-number-handler-wrap{
     display: none
   }
-  /* .ivu-input-number-handler-wrap{
-    display: none
-  } */
 </style>
 
 <template>
-  <div class="booking-passenger">
+<main class='main'>
+   <div class="booking-passenger">
     <div class="booking-col-1">
       <div class="booking-col-box"><label>成人: {{Adult_v}}</label></div>
     </div>
@@ -52,22 +52,39 @@
     <div class="booking-passenger-set" v-if='value2'>
       <b>注意： </b>年龄未满12周岁的儿童，航空公司可能不允许登机，请提前与航空公司确认。
     </div>
-     <Modal v-model="empty" footer-hide :closable="false" :mask-closable="false">
+    <Modal v-model="empty" footer-hide :closable="false" :mask-closable="false">
       <div class="empty">
         <h2>对不起，您预订的该航班价格已经售完，请重新搜索预订</h2>
-        <router-link :to="{path:'/flights/index'}">
-        <Button type="primary" class='empty-button'>查找其他航班</Button>
-        </router-link>
+         <p>
+            <router-link :to="{path:'/flights/index'}">
+              <Button type="primary" class='empty-button'>查找其他航班</Button>
+            </router-link>
+         </p>
       </div>
     </Modal>
-     <Modal v-model="priceChange" footer-hide :closable="false" :mask-closable="false">
+    <Modal v-model="priceChange" footer-hide :closable="false" :mask-closable="false">
       <div class="empty">
         <h2>您要预定的航班成人票价{{differentialPrice>= 0 ? '上升' : '下降'}}了<span>¥ {{Math.abs(this.differentialPrice)}}</span>/每人，总价为<span>¥ {{barePrice}}</span></h2>
-        <Button type="primary" class='empty-button' @click='priceChange=false'>知道了</Button>
+        <p>
+          <Button type="primary" @click='priceChange=false'>知道了</Button>
+        </p>
+      </div>
+    </Modal>
+    <Modal v-model="insufficientTicket" footer-hide :closable="false" :mask-closable="false">
+      <div class="empty">
+        <h2>余票不足，剩余<span>{{cabinCount}}</span>张票,请更换供应商或减少乘机人数以重试</h2>
+        <p>
+          <Button type="primary" @click='insufficientTicket=false' style='margin-right:10px'>知道了</Button>
+          <router-link :to="{path:'/flights/index'}">
+            <Button type="primary">查找其他航班</Button>
+          </router-link>
+        </p>
       </div>
     </Modal>
   </div>
-  </div>
+  <div class='main-title'>{{ticketTitle}}</div>
+</main>
+
 </template>
 
 <script>
@@ -92,7 +109,10 @@ export default {
       routerObj: this.$route.query,
       empty: false,
       priceChange: false,
-      differentialPrice: 0
+      insufficientTicket: false,
+      differentialPrice: 0,
+      priceLoading: false,
+      ticketTitle: ''
     }
   },
   watch: {
@@ -113,42 +133,57 @@ export default {
     },
     // 价格
     getAirportPrice () {
-      let airportData = {
-        dpt: this.routerObj.dpt,
-        arr: this.routerObj.arr,
-        date: this.routerObj.date,
-        flightNum: this.routerObj.flightNum
-      }
-      let url = this.baseUrl + `/flight/price`
-      // let self = this
-      this.axios
-        .post(url, airportData)
-        .then(data => {
-          if (data.status === 200) {
-            let val = data.data
-            let vm = this.filter_data(val.vendors)
-            let vendors = vm.data
-            // 成人价格
-            this.barePrice = vendors.vppr// barePrice
-            let emitObj = Object.assign(val)
-            emitObj['cid'] = vendors.cid
-            emitObj['pid'] = vendors.pid
-            emitObj['cabinType'] = vendors.cabinType
-            this.$emit('flight-information', emitObj)
-            // 儿童价格 为0认为不能添加儿童
-            this.chdBarePrice = vendors.chdBarePrice
-            // this.chdBarePrice = 10
-            this.emitPrice()
-            // 总票数
-            this.cabinCount = this.filter_cabinCount(vendors.cabinCount)
-
-            if (!this.cabinCount) {
+      return new Promise((resolve, reject) => {
+        this.ticketTitle = '余票查询中，请稍后...'
+        this.priceLoading = true
+        let airportData = {
+          dpt: this.routerObj.dpt,
+          arr: this.routerObj.arr,
+          date: this.routerObj.date,
+          flightNum: this.routerObj.flightNum
+        }
+        let url = this.baseUrl + `/flight/price`
+        // let self = this
+        this.axios
+          .post(url, airportData)
+          .then(data => {
+            this.priceLoading = false
+            if (data.status === 200) {
+              let val = data.data
+              let vm = this.filter_data(val.vendors)
+              let vendors = vm.data
+              // 成人价格
+              this.barePrice = vendors.vppr// barePrice
+              let emitObj = Object.assign(val)
+              emitObj['cid'] = vendors.cid
+              emitObj['pid'] = vendors.pid
+              emitObj['cabinType'] = vendors.cabinType
+              this.$emit('flight-information', emitObj)
+              // 儿童价格 为0认为不能添加儿童
+              this.chdBarePrice = vendors.chdBarePrice
+              // this.chdBarePrice = 10
+              this.emitPrice()
+              // 总票数
+              this.cabinCount = this.filter_cabinCount(vendors.cabinCount)
+              // this.cabinCount = 0
+              // console.log(this.cabinCount)
+              this.ticketTitle = `余票剩余${this.cabinCount}`
               // 没票了
-              this.empty = true
-            } else if (!vm.open) {
-              this.differentialPrice = vm.differentialPrice
-              this.priceChange = true
-            }
+              if (!this.cabinCount) {
+                this.ticketTitle = '票已售空'
+                this.empty = true
+                resolve(false)
+              } else if (Number(this.value1) + Number(this.value2) > this.cabinCount) {
+                this.insufficientTicket = true
+                resolve(false)
+              } else if (!vm.open) {
+                this.differentialPrice = vm.differentialPrice
+                this.priceChange = true
+                resolve(false)
+              } else {
+                resolve(true)
+              }
+
             // 路由有儿童和成人票时打开
             // let adult = Number(self.routerObj.adult)
             // let child = Number(self.routerObj.child)
@@ -169,11 +204,13 @@ export default {
             //   this.value2 = 0
             //   this.ok()
             // }
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
+            }
+          })
+          .catch(error => {
+            this.priceLoading = false
+            console.log(error)
+          })
+      })
     },
     // 过滤人数
     filter_cabinCount (data) {
@@ -242,9 +279,13 @@ export default {
       }
     },
     ok () {
-      this.Adult_v = this.value1
-      this.child_v = this.value2
-      this.emitObj()
+      this.getAirportPrice().then((v) => {
+        if (v) {
+          this.Adult_v = this.value1
+          this.child_v = this.value2
+          this.emitObj()
+        }
+      })
     },
     emitObj () {
       let list = []

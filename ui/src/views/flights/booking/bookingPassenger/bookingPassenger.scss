@@ -1,3 +1,10 @@
+.main{
+  &-title{
+    line-height: 30px;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+}
 .booking-passenger{
   padding: 8px;
   border-radius: 3px;
@@ -49,9 +56,11 @@
       color:#0096ff;
     }
   }
-  &-button{
-    float:right;
-    margin-top:20px;
+  p{
+    position: absolute;
+    right:15px;
+    bottom:15px;
+    text-align: right;
   }
 }
 

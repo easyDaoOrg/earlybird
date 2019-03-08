@@ -197,13 +197,12 @@ export default {
       this.$refs['ontactsForm'].resetFields()
     },
     setDefaultObj (data) {
-      this.comeObj = {
-        lastName: data.lastName,
-        firstName: data.firstName,
-        email: data.email,
-        areaCode: data.areaCode,
-        mobile: data.mobile
-      }
+      this.comeObj.lastName = data.lastName
+      this.comeObj.firstName = data.firstName
+      this.comeObj.email = data.email
+      this.comeObj.areaCode = data.areaCode
+      this.comeObj.mobile = data.mobile
+      // 没有地址
       setTimeout(() => {
         this.$refs['ontactsForm'].validate(valid => {})
       }, 0)
