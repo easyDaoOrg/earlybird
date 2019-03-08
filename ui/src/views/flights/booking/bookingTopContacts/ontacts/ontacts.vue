@@ -21,7 +21,7 @@
             </section>
           </div>
         </DropdownMenu>
-      </Dropdown>
+    </Dropdown>
   </div>
 </template>
 
@@ -102,6 +102,7 @@ export default {
     }
   },
   mounted () {
+    this.$bus.on('overall-close', this.closeDropdownMenu)
   }
 }
 </script>
