@@ -70,7 +70,7 @@
               <router-link :to="{path:'/member/user/coupons'}">
                 <li>优惠券</li>
               </router-link>
-              <li @click="deleteCookie('cookie')">退出</li>
+              <li @click="layoutEasydao()">退出</li>
             </ul>
           </div>
 
@@ -99,6 +99,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Common from '@/lib/comm.js'
+import Util from '@/lib/utils.js'
 
 export default {
   mixins: [Common],
@@ -107,7 +108,8 @@ export default {
     return {
       projectName: '项目选择',
       projectList: [],
-      activeName: 'projectName'
+      activeName: 'projectName',
+      isToken: Util.getCookie('token')
     }
   },
   components: {
@@ -120,21 +122,27 @@ export default {
     ...mapActions(['updateErrorOvierDataList']),
     busChange () {
       this.$bus.emit('on-userName', '我是bus')
+    },
+
+    //退出
+    layoutEasydao(){
+      this.deleteCookie('token');
+      this.isToken = null;
+      this.$router.push(`/member/account/sign-in`);
     }
   },
   watch: {
-    // $route(newVal) {
-    //   if (newVal.name !== 'login' && newVal.name !== 'home') {
-    //     this.getProjectOview();
-    //   }
-    //   if (newVal.name === 'projectcontent') {
-    //     this.activeName = 'manage';
-    //   }
-    //   if (newVal.name === 'erroroverview') {
-    //     this.activeName = 'control';
-    //   }
-    // },
+    $route: {
+      handler: function (val, oldVal) {
+        if(val){
+          this.isToken = Util.getCookie('token');
+        }
+      },
+      immediate: true
+    }
   },
-  mounted () {}
+  mounted () {
+
+  }
 }
 </script>

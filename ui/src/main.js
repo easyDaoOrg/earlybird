@@ -15,7 +15,6 @@ import axios from 'axios/dist/axios.min'
 
 Vue.prototype.baseUrl = Util.baseUrl()
 Vue.prototype.loginUrl = Util.loginUrl()
-Vue.prototype.isToken = Util.getCookie('token')
 Vue.prototype.axios = axios
 Vue.use(iView)
 Vue.use(Vuex)
