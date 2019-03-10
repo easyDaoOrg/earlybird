@@ -36,11 +36,12 @@
                     <Icon type="ios-lock-outline" slot="prepend"></Icon>
                 </Input>
                 <div class="sign-up-getbtn">
-                  <Button type="primary" shape="circle" @click="getPassword()" v-if="dateDown">获取动态码</Button>
-                  <Button disabled v-if="!dateDown">{{dateTime}}s</Button>
+                  <Button type="primary" shape="circle" @click="getPassword('formInline')" v-if="dateTime==60">获取动态码</Button>
+                  <Button disabled v-if="dateTime<60">{{dateTime}}s</Button>
                 </div>
             </FormItem>
         </Form>
+
        <!-- <Tabs :animated="false">
           <TabPane label="手机">
 
@@ -96,14 +97,12 @@
 </template>
 
 <script>
-import Config from './../../../lib/config.js'
+import Config from './../config.js'
 
 export default {
   mixins: [Config],
   data () {
     return {
-      dateTime: 60,
-      dateDown: true,
       formInline: {
         user: '',
         password: '',
@@ -115,7 +114,8 @@ export default {
       },
       ruleInline: {
         user: [
-          { required: true, message: '手机号不能为空', trigger: 'blur' }
+          { required: true, message: '手机号不能为空', trigger: 'blur' },
+          { type: 'string', min: 11, max: 11, message: '手机的长度必须为11位', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '动态码不能为空', trigger: 'blur' },
@@ -135,11 +135,14 @@ export default {
   },
   methods: {
     //获取动态码
-    getPassword(){
-      this.dateDown = false;
-      //开始倒计时
-      this.timeDown();
-      Config.getPassword(this.formInline)
+    getPassword(name){
+      this.formInline.password = " ";
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          this.formInline.password = "";
+          this.getPasswordSign(this.formInline)
+        }
+      })
     },
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
@@ -151,7 +154,7 @@ export default {
             .post(url, {user_phone: self.formInline.user})
             .then(data => {
               if(data.data.flag){
-                Config.checkPassword(self.formInline,1);
+                self.checkPasswordSign(self.formInline,1);
               }else{
                 this.$Message.error('该手机号已被注册')
               }
@@ -161,20 +164,6 @@ export default {
             })
         }
       })
-    },
-    timeDown () {
-      if(!this.dateDown){
-        if (this.dateTime === 0) {
-          this.dateTime = 60
-          this.dateDown = true
-        } else {
-          this.dateTime--
-          setTimeout(()=> {
-            this.timeDown()
-          },
-          1000)
-        }
-      }
     }
   },
   mounted () {}

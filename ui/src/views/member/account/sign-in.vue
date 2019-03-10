@@ -2,6 +2,14 @@
 <style lang='scss' scoped>
 @import "./sign-in.scss";
 </style>
+<style>
+.sign-up-password .ivu-btn[disabled]{
+  border-radius: 50px;
+  background: #0096ff;
+  border: 0 none;
+  color: #fff;
+}
+</style>
 <template>
   <div class="member">
     <div class="member-picture"></div>
@@ -73,7 +81,8 @@
                           <Icon type="ios-lock-outline" slot="prepend"></Icon>
                       </Input>
                       <div class="sign-up-getbtn">
-                        <Button type="primary" shape="circle" @click="getPassword()">获取动态码</Button>
+                        <Button type="primary" shape="circle" @click="getPassword('formSola')" v-if="dateTime==60">获取动态码</Button>
+                        <Button disabled v-if="dateTime<60">{{dateTime}}s</Button>
                       </div>
                   </FormItem>
               </Form>
@@ -86,7 +95,7 @@
         <div class="sign-up-public-fover fr">忘记密码？</div>
       </router-link>
       <div class="sign-up-public-fovpassword">
-        <Button type="primary" shape="circle" @click="checkPassword(tabName)">登录</Button>
+        <Button type="primary" shape="circle" @click="handleSubmit(tabName)">登录</Button>
       </div>
       <router-link :to="{path:'/member/account/sign-up'}">
       <div class="sign-up-public-tips sign-up-zc">
@@ -116,13 +125,12 @@
 </template>
 
 <script>
-// import { wsGetProjectOview } from '@/models/project';
+import Config from './../config.js'
 
 export default {
+  mixins: [Config],
   data () {
     return {
-      tabIndex: 0,
-      tabName: 'formInline',
       formInline: {
         user: '',
         password: '',
@@ -139,7 +147,8 @@ export default {
       },
       ruleInline: {
         user: [
-          { required: true, message: '手机号不能为空', trigger: 'blur' }
+          { required: true, message: '手机号不能为空', trigger: 'blur' },
+          { type: 'string', min: 11, max: 11, message: '手机的长度必须为11位', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' },
@@ -160,75 +169,34 @@ export default {
   },
   methods: {
     //获取动态码
-    getPassword(){
-      let url = this.loginUrl + `/dynamic/addDynamic?user_account=`+this.formSola.user+`&flag=phone`
-      let self = this
-      this.axios
-        .get(url)
-        .then(data => {
-
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    //验证动态码
-    checkPassword(name){
+    getPassword(name){
+      this.formSola.dtpassword = " ";
       this.$refs[name].validate((valid) => {
         if (valid) {
-          let url = this.loginUrl + `/dynamic/checkDynamic?user_account=`+this.formSola.user+`&dynamic_code=`+this.formSola.dtpassword
-          let self = this
-          this.axios
-            .get(url)
-            .then(data => {
-              if(data.data.flag){
-                self.handleCheck()
-              }
-            })
-            .catch(error => {
-              console.log(error)
-            })
+          this.formSola.dtpassword = "";
+          this.getPasswordSign(this.formSola)
         }
       })
-
     },
-    handleTabIndex(index){
-      this.tabIndex = index;
-      this.tabName = this.tabIndex==0 ? 'formInline' : 'formSola';
-    },
-    //登录
-    handleCheck () {
-      let userObj = {};
-      switch (this.tabIndex){
-        case 0:
-          userObj['user_account'] = this.formInline.user;
-          userObj['user_passwd'] = this.formInline.password;
-          userObj['login_flag'] = 'passwd';
-          this.handleSubmit(userObj);
-          break;
-        case 1:
-          userObj['user_account'] = this.formSola.user;
-          userObj['user_passwd'] = '';
-          userObj['login_flag'] = 'dynamic';
-          this.handleSubmit(userObj);
-          break;
-      }
-    },
-    //调用登录接口
-    handleSubmit(userobj){
-      let url = this.loginUrl + `/user/doLogin`
-      let self = this
-      this.axios
-        .post(url, userobj)
-        .then(data => {
-          if(data.data.code == '200'){
-            this.$router.push(`/flights/index`);
+    handleSubmit (name) {
+      let self = this;
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          let obj = {};
+          switch (self.tabIndex){
+            case 0:
+              obj = self.formInline;
+              self.handleCheckSign(obj,this.tabIndex)
+              break;
+            case 1:
+              obj = self.formSola;
+              obj['password'] = self.formSola.dtpassword;
+              this.checkPasswordSign(obj,this.tabIndex)
+              break;
           }
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
+        }
+      })
+    }
   },
   mounted () {}
 }

@@ -42,9 +42,38 @@
 
       <i-col class="header-right">
         <div class="header-right-login">
-          <router-link :to="{path:'/member/account/sign-in'}">
-            <span class="header-right-login-icon"><Icon type="ios-person-outline"/></span>登录
-          </router-link>
+          <div v-if="!isToken">
+            <router-link :to="{path:'/member/account/sign-in'}">
+              <span class="header-right-login-icon"><Icon type="ios-person-outline"/></span>登录
+            </router-link>
+          </div>
+
+          <div class="header-right-login-list" v-if="isToken">
+            <span class="header-right-login-icon"><Icon type="ios-person-outline"/></span>
+            <span class="header-list-menu-down"><Icon type="ios-arrow-down" /></span>
+            <ul>
+              <router-link :to="{path:'/member/user/my-booking'}">
+                <li>我的订单</li>
+              </router-link>
+              <router-link :to="{path:'/member/user/account-setting'}">
+                <li>我的返现</li>
+              </router-link>
+              <router-link :to="{path:'/member/user/account-setting'}">
+                <li>账户设置</li>
+              </router-link>
+              <router-link :to="{path:'/member/user/passengers'}">
+                <li>常用旅客</li>
+              </router-link>
+              <router-link :to="{path:'/member/user/contacts'}">
+                <li>常用联系人</li>
+              </router-link>
+              <router-link :to="{path:'/member/user/coupons'}">
+                <li>优惠券</li>
+              </router-link>
+              <li @click="deleteCookie('cookie')">退出</li>
+            </ul>
+          </div>
+
         </div>
         <div class="header-right-side">
           <span class="header-right-side-languagebtn">
@@ -63,25 +92,16 @@
           </span>
         </div>
       </i-col>
-
-      <!-- <i-col>
-        <router-link :to="{path:'/home'}">
-          <span style="display:inline-block;vertical-align: top;">
-           <img style="width: 118px;height: 32px;" src="../assets/logo.png" alt>
-          </span>
-        </router-link>
-        <div @click="updateErrorOvierDataList(true)">点击我--vuex会通讯</div>
-        <div @click="busChange()">点击我--bus会通讯</div>
-        {{errorListLoading}}
-      </i-col> -->
     </Row>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Common from '@/lib/comm.js'
 
 export default {
+  mixins: [Common],
   name: 'App',
   data () {
     return {

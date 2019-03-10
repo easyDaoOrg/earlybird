@@ -14,14 +14,14 @@
       <b>个人信息</b>
     </div>
     <div class="account-setting-info">
-      <p>
+      <!-- <p>
         <span>邮箱</span>
         <font>
           <router-link :to="{path:'/member/account/add-email'}">
-          <b class="fr">[ 添加 ]</b>
+          <b class="fr">[ 更改 ]</b>
           </router-link>
         </font>
-      </p>
+      </p> -->
       <p>
         <span>手机号码</span>
         <font>
@@ -46,9 +46,9 @@
       </p>
       <div class="account-setting-safe-con" v-if="changePasswordBoolean">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate">
-          <FormItem label="当前密码"  prop="password1">
+          <!-- <FormItem label="当前密码"  prop="password1">
               <Input type="password" v-model="formValidate.password1"></Input>
-          </FormItem>
+          </FormItem> -->
           <FormItem label="新密码"  prop="password2">
               <Input type="password" v-model="formValidate.password2"></Input>
           </FormItem>
@@ -66,13 +66,16 @@
 </template>
 
 <script>
+import Config from './../..//config.js'
+
 export default {
+  mixins: [Config],
   data () {
     return {
       modelQuestion: false,
       changePasswordBoolean: false,
       formValidate: {
-        password1: '',
+        // password1: '',
         password2: '',
         password3: ''
       },
@@ -94,13 +97,18 @@ export default {
 },
   methods: {
     handleSubmit (name) {
+        let self = this;
         this.$refs[name].validate((valid) => {
-            if (valid) {
-                this.$Message.success('Success!');
-            } else {
-                this.$Message.error('Fail!');
+          if (valid) {
+            if(self.formValidate.password2 == self.formValidate.password3){
+              let obj={};
+              obj.data= self.formValidate.password2;
+              self.handleCheckChange(obj,'/user/editPasswd?user_passwd=')
+            }else{
+              this.$Message.error('两次密码必须相同')
             }
-            this.changePasswordBoolean = false;
+          }
+          self.changePasswordBoolean = false;
         })
     },
     handleReset (name) {
