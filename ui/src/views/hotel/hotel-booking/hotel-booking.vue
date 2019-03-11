@@ -42,9 +42,9 @@
 .borderRightNone .ivu-input{
   border-right:none;
 }
-.booking .ivu-dropdown-menu{
+/* .booking .ivu-dropdown-menu{
   padding-left: 65px;
-}
+} */
 /* radio */
 .booking .ivu-radio-wrapper{
   width: 130px;
