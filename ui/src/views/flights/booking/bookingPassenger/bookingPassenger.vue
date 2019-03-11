@@ -325,7 +325,15 @@ export default {
           name: '',
           default: '新旅客'
         },
-        ageType: data // 成人还是而儿童
+        ageType: data, // 成人还是而儿童
+        formCustom: {
+          category: 'NI',
+          familyNameZh: '',
+          givenNameZh: '',
+          gender: 1,
+          birthday: '',
+          number: ''
+        }
       }
     }
   }

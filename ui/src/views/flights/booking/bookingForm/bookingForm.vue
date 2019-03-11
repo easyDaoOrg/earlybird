@@ -116,6 +116,11 @@ import {user} from '@/assets/json/user'
 // 定义手机还是护照
 var _identityType = 'NI'
 export default {
+  props: {
+    formCustom: {
+      type: Object
+    }
+  },
   data () {
     const empty = '必填项'
     // 非空
@@ -172,14 +177,14 @@ export default {
         female: 0
       },
       phoneList: user.phoneList,
-      formCustom: {
-        category: 'NI',
-        familyNameZh: '',
-        givenNameZh: '',
-        gender: 1,
-        birthday: '',
-        number: ''
-      },
+      // formCustom: {
+      //   category: 'NI',
+      //   familyNameZh: '',
+      //   givenNameZh: '',
+      //   gender: 1,
+      //   birthday: '',
+      //   number: ''
+      // },
       ruleCustom: {
         familyNameZh: [{ validator: _familyNameZh, trigger: 'blur' }],
         givenNameZh: [{ validator: _familyNameZh, trigger: 'blur' }],

@@ -32,12 +32,14 @@
       <Menu :active-name="selected" @on-select='onMenuChange'>
          <MenuItem :name="index" v-for='(item,index) in current' :key='index'>
             <div class='menu'>
+               <!-- <p>{{index+1}}.{{item.ageType===0?'成人票':'儿童票'}}-{{field.length}}</p> -->
                <p>{{index+1}}.{{item.ageType===0?'成人票':'儿童票'}}</p>
                <div>
                  <Icon type="ios-information-circle-outline" v-if='item.iconType==="error"' color='#ff484a'/>
                  <Icon type="ios-checkmark-circle" v-if='item.iconType==="success"' color='#8ecf01'/>
                </div>
                <span>{{item.tips.name||item.tips.default}}</span>
+              <!-- <span v-if='field[index]'>{{item.tips.name||item.tips.default}}-{{field[index]._uid}}-{{field[index].formCustom.familyNameZh}}{{field[index].formCustom.givenNameZh}}</span> -->
             </div>
           </MenuItem>
        </Menu>
@@ -52,6 +54,7 @@
               ></bookingContacts>
             <!-- 表单 -->
              <bookingForm
+              :formCustom='item.formCustom'
               @on-emit-top='onEmitTop'
               @on-form-item-remove='onFormItemRemove'
               @on-name-change='onNameChange($event,index)'
@@ -84,8 +87,8 @@ export default {
     bookingForm
   },
   watch: {
-    data (n, o) {
-      this.current = n
+    data (newV, o) {
+      this.current = this.filterCurrent(newV)
       this.selected = 1
       setTimeout(() => {
         this.selected = 0
@@ -106,6 +109,36 @@ export default {
 
   },
   methods: {
+    filterCurrent (newV) {
+      let _D = this.current.filter(item => {
+        return item.ageType === 0
+      })
+      let _x = this.current.filter(item => {
+        return item.ageType === 1
+      })
+      let _Dn = newV.filter(item => {
+        return item.ageType === 0
+      })
+      let _xn = newV.filter(item => {
+        return item.ageType === 1
+      })
+      // 大人
+      if (_D.length < _Dn.length) {
+        let cha = _Dn.slice(_D.length)
+        _D = _D.concat(cha)
+      } else if (_D.length > _Dn.length) {
+        _D = _D.slice(0, _Dn.length)
+      }
+      // 小孩
+      if (_x.length < _xn.length) {
+        let cha = _xn.slice(_x.length)
+        _x = _x.concat(cha)
+      } else if (_x.length > _xn.length) {
+        _x = _x.slice(0, _xn.length)
+      }
+      let n = _D.concat(_x)
+      return n
+    },
     onMenuChange (data) {
       this.selected = data
     },
@@ -140,6 +173,7 @@ export default {
     },
     onRemove (index) {
       this.current.splice(index, 1)
+      // this.field.splice(1, 1)
       this.selected = 0
       let obj = {
         Adult_v: 0,
