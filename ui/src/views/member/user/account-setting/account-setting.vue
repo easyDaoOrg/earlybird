@@ -28,7 +28,7 @@
           <router-link :to="{path:'/member/account/change-phone'}">
           <b class="fr">[ 更改 ]</b>
           </router-link>
-          <b>185****1204</b>
+          <b>{{isUserAccount}}</b>
         </font>
       </p>
     </div>
@@ -67,11 +67,13 @@
 
 <script>
 import Config from './../..//config.js'
+import Util from '@/lib/utils.js'
 
 export default {
   mixins: [Config],
   data () {
     return {
+      isUserAccount: Util.getCookie('userAccount'),
       modelQuestion: false,
       changePasswordBoolean: false,
       formValidate: {

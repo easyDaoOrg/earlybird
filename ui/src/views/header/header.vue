@@ -136,6 +136,11 @@ export default {
     $route: {
       handler: function (val, oldVal) {
         if(val){
+          if(!Util.getCookie('token')){
+            this.deleteCookie('token');
+            this.deleteCookie('userId');
+            this.deleteCookie('userAccount')
+          }
           this.isToken = Util.getCookie('token');
         }
       },

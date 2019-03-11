@@ -100,6 +100,7 @@ export default {
             this.$Message.success(data.data.message)
             self.setCookie('token', data.data.token, 1)
             self.setCookie('userId', data.data.user.id, 1)
+            self.setCookie('userAccount', data.data.user.user_account, 1)
             this.$router.push(`/flights/index`)
           } else {
             this.$Message.error(data.data.message)

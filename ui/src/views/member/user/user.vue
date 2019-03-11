@@ -8,7 +8,7 @@
       <div class="user-header-img">
         <span>更换头像</span>
       </div>
-      <div class="user-header-tel">18655554567</div>
+      <div class="user-header-tel">{{isUserAccount}}</div>
     </div>
     <div class="user-content">
       <div class="user-content-left">
@@ -23,10 +23,13 @@
 
 <script>
 import usernav from './user-nav/user-nav'
+import Util from '@/lib/utils.js'
 
 export default {
   data () {
-    return {}
+    return {
+      isUserAccount: Util.getCookie('userAccount')
+    }
   },
   components: {
     usernav
