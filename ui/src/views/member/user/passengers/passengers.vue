@@ -52,7 +52,7 @@
     <template v-if="!open">
       <div class="passengers-shops">
         <span>总计</span>
-        <b>{{data.length}}</b>
+        <b>{{peopleList.length}}</b>
         <span>个旅客</span>
         <p @click='addPassenger()'>
            <Icon type="ios-add-circle-outline" />
@@ -60,7 +60,7 @@
         </p>
       </div>
       <div>
-        <section class="card" v-for="(item,index) in data" :key="index">
+        <section class="card" v-for="(item,index) in peopleList" :key="index">
           <h6>
             <strong>
               <span>{{index+1}}</span>
@@ -71,7 +71,7 @@
               <span class="line">|</span>
               <span>{{item.birthday}}</span>
             </p>
-            <div class="card-edit card-delete" @click='onRemovePassenger(index)'>
+            <div class="card-edit card-delete" @click='onRemovePassenger(item.id)'>
               <Icon type="ios-remove-circle-outline" color="#ff484a" />
               <span>删除</span>
             </div>
@@ -153,7 +153,7 @@
                   </div>
               </Col>
             </Row>
-            <div class='middleName'><span @click='onMiddleNameOpenChange()'>有中间名？</span></div>
+            <!-- <div class='middleName'><span @click='onMiddleNameOpenChange()'>有中间名？</span></div> -->
 
             <!-- 第三行 -->
             <Row>
@@ -162,8 +162,8 @@
                         <label for="">性别</label>
                          <FormItem prop="gender">
                             <RadioGroup v-model="formCustom.gender">
-                                <Radio label="MALE" :disabled='editorOpen'><span>男</span></Radio>
-                                <Radio label="FEMALE" :disabled='editorOpen'><span>女</span></Radio>
+                                <Radio label="man" :disabled='editorOpen'><span>男</span></Radio>
+                                <Radio label="woman" :disabled='editorOpen'><span>女</span></Radio>
                             </RadioGroup>
                          </FormItem>
                     </div>
@@ -250,7 +250,7 @@
 
 <script>
 import {user} from '@/assets/json/user'
-import Util from '@/lib/utils'
+import minxin from './minxin.js'
 export default {
   data () {
     const empty = '必填项'
@@ -331,176 +331,142 @@ export default {
       taiwan_compatriots: _taiwan_compatriots,
       //
       formCustom: {
-        guid: 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
-        familyNameZh: '刘',
-        givenNameZh: '备',
-        familyName: 'DEI',
-        givenName: 'BU',
-        middleName: '',
-        nationality: '',
-        gender: 'MALE',
-        birthday: '1977-01-27',
-        primary: false,
-        // familyNameZh: '',
-        // givenNameZh: '',
-        // familyName: '',
-        // givenName: '',
+        // familyNameZh: '刘',
+        // givenNameZh: '备',
+        // familyName: 'DEI',
+        // givenName: 'BU',
         // middleName: '',
         // nationality: '',
-        // gender: '',
-        // birthday: '',
+        // gender: 'woman',
+        // birthday: '1977-01-27',
         // primary: false,
+        familyNameZh: '',
+        givenNameZh: '',
+        familyName: '',
+        givenName: '',
+        middleName: '',
+        nationality: '',
+        gender: '',
+        birthday: '',
+        primary: false,
         credentials: [
+          // {
+          //   'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
+          //   'category': '',
+          //   // 'category': 'NI',
+          //   // 'number': '130706199201270313',
+          //   'number': '42092145093w777',
+          //   'issueAt': 'China',//null
+          //   'expiredAt': '2030-01-09',
+          //   'issueDate': ''
+          // }
           {
-            'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
             'category': '',
-            // 'category': 'NI',
-            // 'number': '130706199201270313',
             'number': '',
-            'issueAt': null,
+            'issueAt': '',//null
             'expiredAt': '',
             'issueDate': ''
           }
-          // {
-          //   'guid': 'ce193f2b-f094-4713-b4a3-cd1d10216a60',
-          //   'category': 'GA',
-          //   'number': '123',
-          //   'issueAt': 'HK',
-          //   'expiredAt': '2022-05-04',
-          //   'issueDate': '2016-01-01'
-          // },
-          // {
-          //   'guid': '9a077e42-3127-4c13-b227-39b52bcf4771',
-          //   'category': 'TW',
-          //   'number': '123213',
-          //   'issueAt': 'HK',
-          //   'expiredAt': '2022-04-04',
-          //   'issueDate': '2016-01-01'
-          // },
-          // {
-          //   'guid': 'f1430854-296a-4988-bac0-9449977d4f44',
-          //   'category': 'HX',
-          //   'number': '123',
-          //   'issueAt': 'CN',
-          //   'expiredAt': '2020-01-02',
-          //   'issueDate': '2016-01-01'
-          // },
-          // {
-          //   'guid': '417ce847-1535-438b-9952-2ffdd13db35a',
-          //   'category': 'TB',
-          //   'number': '123QWEQWE',
-          //   'issueAt': 'CN',
-          //   'expiredAt': '2020-03-01',
-          //   'issueDate': '2016-01-01'
-          // },
-          // {
-          //   'guid': 'aa01ccf3-42dc-4ddb-961d-d2b9d750ba79',
-          //   'category': 'PP',
-          //   'number': 'P1234567',
-          //   'issueAt': 'CN',
-          //   'expiredAt': '2019-02-02',
-          //   'issueDate': '2016-01-01'
-          // }
         ]
       },
-      data: [
-        {
-          'guid': 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
-          'familyNameZh': '张',
-          'givenNameZh': '飞',
-          'familyName': 'DEI',
-          'givenName': 'BU',
-          'middleName': '',
-          'nationality': 'CN',
-          'gender': 'MALE',
-          'birthday': '1991-01-27',
-          'primary': false,
-          'credentials': [
-            {
-              'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
-              'category': 'NI',
-              'number': '130706199201270313',
-              'issueAt': null,
-              'expiredAt': '',
-              'issueDate': ''
-            },
-            {
-              'guid': 'ce193f2b-f094-4713-b4a3-cd1d10216a60',
-              'category': 'GA',
-              'number': '123',
-              'issueAt': 'HK',
-              'expiredAt': '2022-05-04',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': '9a077e42-3127-4c13-b227-39b52bcf4771',
-              'category': 'TW',
-              'number': '123213',
-              'issueAt': 'HK',
-              'expiredAt': '2022-04-04',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': 'f1430854-296a-4988-bac0-9449977d4f44',
-              'category': 'HX',
-              'number': '123',
-              'issueAt': 'CN',
-              'expiredAt': '2020-01-02',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': '417ce847-1535-438b-9952-2ffdd13db35a',
-              'category': 'TB',
-              'number': '123QWEQWE',
-              'issueAt': 'CN',
-              'expiredAt': '2020-03-01',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': 'aa01ccf3-42dc-4ddb-961d-d2b9d750ba79',
-              'category': 'PP',
-              'number': 'P1234567',
-              'issueAt': 'CN',
-              'expiredAt': '2019-02-02',
-              'issueDate': '2016-01-01'
-            }
-          ]
-        },
-        {
-          'guid': '83644c96-07f6-45ca-9bdb-280bad3e335e',
-          'familyNameZh': '大',
-          'givenNameZh': '胖胖',
-          'familyName': 'L',
-          'givenName': 'R',
-          'middleName': '',
-          'nationality': 'CN',
-          'gender': 'FEMALE',
-          'birthday': '1904-01-01',
-          'primary': false,
-          'credentials': [
-            {
-              'guid': 'e59059fa-7e51-4fa7-8562-965c938fc8ef',
-              'category': 'NI',
-              'number': '130706199201270313',
-              'issueAt': null,
-              'expiredAt': '',
-              'issueDate': ''
-            }
-          ]
-        }
+      peopleList: [
+        // {
+        //   'guid': 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
+        //   'familyNameZh': '张',
+        //   'givenNameZh': '飞',
+        //   'familyName': 'DEI',
+        //   'givenName': 'BU',
+        //   'middleName': '',
+        //   'nationality': 'CN',
+        //   'gender': 'man',
+        //   'birthday': '1991-01-27',
+        //   'primary': false,
+        //   'credentials': [
+        //     {
+        //       'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
+        //       'category': 'NI',
+        //       'number': '130706199201270313',
+        //       'issueAt': null,
+        //       'expiredAt': '',
+        //       'issueDate': ''
+        //     },
+        //     {
+        //       'guid': 'ce193f2b-f094-4713-b4a3-cd1d10216a60',
+        //       'category': 'GA',
+        //       'number': '123',
+        //       'issueAt': 'HK',
+        //       'expiredAt': '2022-05-04',
+        //       'issueDate': '2016-01-01'
+        //     },
+        //     {
+        //       'guid': '9a077e42-3127-4c13-b227-39b52bcf4771',
+        //       'category': 'TW',
+        //       'number': '123213',
+        //       'issueAt': 'HK',
+        //       'expiredAt': '2022-04-04',
+        //       'issueDate': '2016-01-01'
+        //     },
+        //     {
+        //       'guid': 'f1430854-296a-4988-bac0-9449977d4f44',
+        //       'category': 'HX',
+        //       'number': '123',
+        //       'issueAt': 'CN',
+        //       'expiredAt': '2020-01-02',
+        //       'issueDate': '2016-01-01'
+        //     },
+        //     {
+        //       'guid': '417ce847-1535-438b-9952-2ffdd13db35a',
+        //       'category': 'TB',
+        //       'number': '123QWEQWE',
+        //       'issueAt': 'CN',
+        //       'expiredAt': '2020-03-01',
+        //       'issueDate': '2016-01-01'
+        //     },
+        //     {
+        //       'guid': 'aa01ccf3-42dc-4ddb-961d-d2b9d750ba79',
+        //       'category': 'PP',
+        //       'number': 'P1234567',
+        //       'issueAt': 'CN',
+        //       'expiredAt': '2019-02-02',
+        //       'issueDate': '2016-01-01'
+        //     }
+        //   ]
+        // },
+        // {
+        //   'guid': '83644c96-07f6-45ca-9bdb-280bad3e335e',
+        //   'familyNameZh': '大',
+        //   'givenNameZh': '胖胖',
+        //   'familyName': 'L',
+        //   'givenName': 'R',
+        //   'middleName': '',
+        //   'nationality': 'CN',
+        //   'gender': 'FEman',
+        //   'birthday': '1904-01-01',
+        //   'primary': false,
+        //   'credentials': [
+        //     {
+        //       'guid': 'e59059fa-7e51-4fa7-8562-965c938fc8ef',
+        //       'category': 'NI',
+        //       'number': '130706199201270313',
+        //       'issueAt': null,
+        //       'expiredAt': '',
+        //       'issueDate': ''
+        //     }
+        //   ]
+        // }
       ],
       // 旅行证件
       identity: user.identity,
       identityOption: [],
       // 签发地
       issueAtList: [
-        {
-          label: '中国香港',
-          value: 'HK'
-        },
+        // {
+        //   label: '中国香港',
+        //   value: 'HK'
+        // },
         {
           label: '中国',
-          value: 'CN'
+          value: 'China'
         }
       ],
       ruleCustom: {
@@ -511,7 +477,7 @@ export default {
         //   'givenName': 'BU',
         //   'middleName': '',
         //   'nationality': 'CN',
-        //   'gender': 'MALE',
+        //   'gender': 'man',
         //   'birthday': '1995-01-27',
         //   'primary': false,
         familyNameZh: [{ validator: _familyNameZh, trigger: 'blur' }],
@@ -533,22 +499,51 @@ export default {
       nationalityList: [
         {
           label: '中国',
-          value: 'CN'
+          value: 'China'
         },
-        {
-          label: '澳大利亚',
-          value: 'CK'
-        }
       ],
-      deletionKeep: ''
+      deletionKeepId: '',
     }
   },
   components: {},
+  mixins: [minxin],
   computed: {},
   watch: {},
   mounted () {
+    this.getData()
   },
   methods: {
+//      getData(){
+//       let url = this.loginUrl + `/passenger/getPassengerList`
+//       this.axios
+//         .get(url,{
+// 　　         params:{user_id:this.user_id}
+//         } )
+//         .then(data => {
+//           let list=data.data.list
+//           this.data=[];
+//           list.forEach(item=>{
+//             let familyNameZh=item.passenger_name_cn.slice(0,1)
+//             let givenNameZh=item.passenger_name_cn.slice(1)
+//             this.data.push({
+//               id: item.id,
+//               familyNameZh: familyNameZh,
+//               givenNameZh: givenNameZh,
+//               familyName: item.passenger_name_en.slice(0,1),
+//               givenName: item.passenger_name_en.slice(1),
+//               middleName: '',// 中间名
+//               nationality: item.passenger_nationality,
+//               gender: item.passenger_gender,
+//               birthday: item.passenger_birthday,
+//               primary: false,
+//               credentials:[]
+//             })
+//           })
+//         })
+//         .catch(error => {
+//           console.log(error)
+//         })
+//     },
     // 证件号码的校验
     identificationNumberType (type) {
       if (type === 'NI') { // 身份证
@@ -583,8 +578,76 @@ export default {
             item.expiredAt = Util.timeStampLite(item.expiredAt.getTime(), null)
           }
         })
-        this.data.push(this.formCustom)
-        this.onCancel()
+        // this.data.push(this.formCustom)
+        //   guid: 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
+        // familyNameZh: '刘',
+        // givenNameZh: '备',
+        // familyName: 'DEI',
+        // givenName: 'BU',
+        // middleName: '',
+        // nationality: '',
+        // gender: 'man',
+        // birthday: '1977-01-27',
+        // primary: false,
+        //  credentials: [
+        //   {
+        //     'category': 'PP',
+        //     'number': '',
+        //     'issueAt': null,
+        //     'expiredAt': '',
+        //     'issueDate': ''
+        //   }
+        // ]
+        let list=[]
+        this.formCustom.credentials.forEach(item=>{
+          list.push({
+            certificate_type:item.category,
+            certificate_no:item.number,
+            certificate_issue_place:item.issueAt,
+            certificate_valid_date:item.expiredAt
+          })
+        })
+        let obj={
+          passenger_name_cn:this.formCustom.familyNameZh+this.formCustom.givenNameZh,
+          passenger_name_en:this.formCustom.familyName+this.formCustom.givenName,
+          passenger_nationality:this.formCustom.nationality,
+          passenger_gender:this.formCustom.gender,
+          passenger_birthday:this.formCustom.birthday,
+          certificateList:list
+        }
+        if(!this.editorOpen){
+          obj['user_id']=this.user_id
+          // 创建
+          let url = this.loginUrl + `/passenger/addPassenger`
+          this.axios
+            .post(url,obj)
+            .then(data => {
+              if(data.data.flag){
+                  this.getData()
+                  this.onCancel()
+              }else{
+                consolee.log('添加失败')
+              }
+            }).catch(error => {
+              console.log(error)
+            })
+        }else{
+           obj['id']=this.formCustom.id;
+          //编辑
+          let url = this.loginUrl + `/passenger/updatePassenger`;
+          this.axios
+            .post(url,obj)
+            .then(data => {
+              if(data.data.flag){
+                  this.getData()
+                  this.onCancel()
+              }else{
+                consolee.log('添加失败')
+              }
+            }).catch(error => {
+              console.log(error)
+            })
+        }
       }
     },
     // 取消
@@ -611,21 +674,37 @@ export default {
       }
     },
     // 删除常用旅客
-    onRemovePassenger (i) {
-      this.deletionKeep = i
+    onRemovePassenger (id) {
+      if(id){
+         this.deletionKeepId = id
+      }else{
+         this.deletionKeepId = this.formCustom.id
+      }
       this.modal1 = true
     },
     confirmDeletion () {
-      let i = this.deletionKeep
-      if (i >= 0) {
-        this.data.splice(i, 1)
-      } else {
-        this.data.forEach((item, index) => {
-          if (item.guid === this.formCustom.guid) {
-            this.data.splice(index, 1)
-          }
+      //let i = this.deletionKeepId
+      // if (i >= 0) {
+      //   this.data.splice(i, 1)
+      // } else {
+      //   this.data.forEach((item, index) => {
+      //     if (item.guid === this.formCustom.guid) {
+      //       this.data.splice(index, 1)
+      //     }
+      //   })
+      // }
+       let url = this.loginUrl + `/passenger/deletePassenger/${this.deletionKeepId}`
+      this.axios
+        .delete(url,{
+　　         id:this.deletionKeepId,
+        } )
+        .then(data => {
+          this.getData()
+          this.onCancel()
         })
-      }
+        .catch(error => {
+          console.log(error)
+        })
       this.modal1 = false
       this.onCancel()
     },
@@ -657,25 +736,25 @@ export default {
     // 新增旅客
     addPassenger () {
       this.open = true
-      this.formCustom = {
-        familyNameZh: '',
-        givenNameZh: '',
-        familyName: '',
-        givenName: '',
-        middleName: '',
-        nationality: '',
-        gender: 'MALE',
-        primary: false,
-        credentials: [
-          {
-            'category': 'PP',
-            'number': '',
-            'issueAt': null,
-            'expiredAt': '',
-            'issueDate': ''
-          }
-        ]
-      }
+      // this.formCustom = {
+      //   familyNameZh: '',
+      //   givenNameZh: '',
+      //   familyName: '',
+      //   givenName: '',
+      //   middleName: '',
+      //   nationality: '',
+      //   gender: 'man',
+      //   primary: false,
+      //   credentials: [
+      //     {
+      //       'category': 'PP',
+      //       'number': '',
+      //       'issueAt': null,
+      //       'expiredAt': '',
+      //       'issueDate': ''
+      //     }
+      //   ]
+      // }
       this.identityOption = [this.identity]
     },
     // 旅行证件 点开
@@ -700,6 +779,29 @@ export default {
     onEditor (option) {
       this.editorOpen = true
       this.formCustom = option
+//       let url = this.loginUrl + `/passenger/getPassenger`
+//       this.axios
+//         .get(url,{
+// 　　         params:{id:option.id}
+//         } )
+//         .then(data => {
+//            let list=data.data.certificateList
+//            list.forEach(item=>{
+//               //certificate_issue_place: "China"
+//               // certificate_no: "42092145093w777"
+//               // certificate_type: "PP"
+//               // certificate_valid_date: "2030-01-09 00:00:00.0"
+//               // id: 1
+//               // passenger_id: 1
+//              option.credentials.push({
+//                 category: item.certificate_type,
+//                 number: item.certificate_no,
+//                 issueAt: item.certificate_issue_place,//null
+//                 expiredAt: item.certificate_valid_date,
+//                 'issueDate': ''
+//              })
+//            })
+//         })
       this.identityOption = []
       option.credentials.forEach(() => {
         this.identityOption.push(this.identity)

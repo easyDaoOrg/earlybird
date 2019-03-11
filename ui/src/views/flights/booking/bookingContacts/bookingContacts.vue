@@ -29,7 +29,9 @@
 
 <script>
 
+import minxin from '../../../member/user/passengers/minxin.js'
 export default {
+  mixins: [minxin],
   props: {
     removeDisabled: {
       type: Boolean,
@@ -45,114 +47,7 @@ export default {
   data () {
     return {
       visible: false,
-      peopleList: [
-        {
-          'guid': 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
-          'familyNameZh': '张',
-          'givenNameZh': '飞',
-          'familyName': 'DEI',
-          'givenName': 'BU',
-          'middleName': '',
-          'nationality': 'CN',
-          'gender': 1,
-          'birthday': '1991-01-1',
-          'primary': false,
-          'credentials': [
-            {
-              'guid': '54662ca3-3904-4412-ba86-d5d3d291b5e1',
-              'category': 'NI',
-              'number': '130706199201270313',
-              'issueAt': null,
-              'expiredAt': '',
-              'issueDate': ''
-            },
-            {
-              'guid': 'ce193f2b-f094-4713-b4a3-cd1d10216a60',
-              'category': 'GA',
-              'number': '123',
-              'issueAt': 'HK',
-              'expiredAt': '2022-05-04',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': '9a077e42-3127-4c13-b227-39b52bcf4771',
-              'category': 'TW',
-              'number': '123213',
-              'issueAt': 'HK',
-              'expiredAt': '2022-04-04',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': 'f1430854-296a-4988-bac0-9449977d4f44',
-              'category': 'HX',
-              'number': '123',
-              'issueAt': 'CN',
-              'expiredAt': '2020-01-02',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': '417ce847-1535-438b-9952-2ffdd13db35a',
-              'category': 'TB',
-              'number': '123QWEQWE',
-              'issueAt': 'CN',
-              'expiredAt': '2020-03-01',
-              'issueDate': '2016-01-01'
-            },
-            {
-              'guid': 'aa01ccf3-42dc-4ddb-961d-d2b9d750ba79',
-              'category': 'PP',
-              'number': 'P1234567',
-              'issueAt': 'CN',
-              'expiredAt': '2019-02-02',
-              'issueDate': '2016-01-01'
-            }
-          ]
-        },
-        {
-          'guid': '83644c96-07f6-45ca-9bdb-280bad3e335e',
-          'familyNameZh': '大',
-          'givenNameZh': '胖胖',
-          'familyName': 'L',
-          'givenName': 'R',
-          'middleName': '',
-          'nationality': 'CN',
-          'gender': 0,
-          'birthday': '1902-01-01',
-          'primary': false,
-          'credentials': [
-            {
-              'guid': 'e59059fa-7e51-4fa7-8562-965c938fc8ef',
-              'category': 'NI',
-              'number': '130706199201270313',
-              'issueAt': null,
-              'expiredAt': '',
-              'issueDate': ''
-            }
-          ]
-        },
-        {
-          'guid': '83644c96-07f6-45ca-9bdb-280bad3e335e',
-          'familyNameZh': '小',
-          'givenNameZh': '朋友',
-          'familyName': 'L',
-          'givenName': 'R',
-          'middleName': '',
-          'nationality': 'CN',
-          'gender': 0,
-          'birthday': '1904-01-01',
-          'primary': false,
-          'credentials': [
-            {
-              'guid': 'e59059fa-7e51-4fa7-8562-965c938fc8ef',
-              'category': 'NI',
-              'number': '130706199201270313',
-              'issueAt': null,
-              'expiredAt': '',
-              'issueDate': ''
-            }
-          ]
-        }
-      ]
+      peopleList:[],
     }
   },
   components: {
@@ -194,6 +89,7 @@ export default {
   },
   mounted () {
     this.$bus.on('overall-close', this.closeDropdownMenu)
+    this.getData()
   }
 }
 </script>

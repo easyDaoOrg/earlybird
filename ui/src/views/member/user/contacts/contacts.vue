@@ -120,6 +120,7 @@
 </template>
 <script>
 import {user} from '@/assets/json/user'
+import Util from '@/lib/utils.js'
 
 export default {
   data () {
@@ -161,54 +162,56 @@ export default {
     }
 
     return {
-      contactsList: [
-        {
-          'guid': 'aadf7539-8d1b-46f1-bdca-4f5ec1f4a560',
-          'firstName': '羽',
-          'lastName': '关',
-          'middleName': '',
-          'email': '135723191@qq.com',
-          'mobile': '19900012784',
-          'areaCode': '86',
-          'gender': '',
-          'birthday': null,
-          'address': {
-            'street1': '',
-            'street2': '',
-            'houseNumber': '',
-            'city': '',
-            'country': '中国大陆,China',
-            'zipCode': '',
-            'province': ''
-          },
-          'phoneNumber': null,
-          'phoneNumberCountryCode': null,
-          'primary': false
-        },
-        {
-          'guid': 'e0fb9511-9aa1-433b-ba7c-b89c4de2c4db',
-          'firstName': '操',
-          'lastName': '曹',
-          'middleName': '',
-          'email': '1345003191@qq.com',
-          'mobile': '19910012784',
-          'areaCode': '86',
-          'gender': '',
-          'birthday': null,
-          'address': {
-            'street1': '',
-            'street2': '',
-            'houseNumber': '',
-            'city': '',
-            'country': '中国大陆,China',
-            'zipCode': '',
-            'province': ''
-          },
-          'phoneNumber': null,
-          'phoneNumberCountryCode': null,
-          'primary': false
-        }
-      ],
+      user_id:Util.getCookie('userId'),
+      contactsList:[],
+      // contactsList: [
+      //   {
+      //     'guid': 'aadf7539-8d1b-46f1-bdca-4f5ec1f4a560',
+      //     'firstName': '羽',
+      //     'lastName': '关',
+      //     'middleName': '',
+      //     'email': '135723191@qq.com',
+      //     'mobile': '19900012784',
+      //     'areaCode': '86',
+      //     'gender': '',
+      //     'birthday': null,
+      //     'address': {
+      //       'street1': '',
+      //       'street2': '',
+      //       'houseNumber': '',
+      //       'city': '',
+      //       'country': '中国大陆,China',
+      //       'zipCode': '',
+      //       'province': ''
+      //     },
+      //     'phoneNumber': null,
+      //     'phoneNumberCountryCode': null,
+      //     'primary': false
+      //   },
+      //   {
+      //     'guid': 'e0fb9511-9aa1-433b-ba7c-b89c4de2c4db',
+      //     'firstName': '操',
+      //     'lastName': '曹',
+      //     'middleName': '',
+      //     'email': '1345003191@qq.com',
+      //     'mobile': '19910012784',
+      //     'areaCode': '86',
+      //     'gender': '',
+      //     'birthday': null,
+      //     'address': {
+      //       'street1': '',
+      //       'street2': '',
+      //       'houseNumber': '',
+      //       'city': '',
+      //       'country': '中国大陆,China',
+      //       'zipCode': '',
+      //       'province': ''
+      //     },
+      //     'phoneNumber': null,
+      //     'phoneNumberCountryCode': null,
+      //     'primary': false
+      //   }
+      // ],
       open: true,
       emitorOpen: false,
       phoneList: user.phoneList,
@@ -217,7 +220,8 @@ export default {
         firstName: '',
         email: '',
         areaCode: '86',
-        mobile: ''
+        mobile: '',
+        id:null,
       },
       ruleCustom: {
         //  'guid': 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
@@ -261,20 +265,57 @@ export default {
       this.comeObj.areaCode = data
     },
     onOk () {
-      this.$refs['formInlineRef'].validate(valid => {
-        if (valid) {
-          this.contactsList.push(this.comeObj)
-          this.onCancel()
-        }
-      })
+      if(!this.emitorOpen){
+          this.$refs['formInlineRef'].validate(valid => {
+          if (valid) {
+            let url = this.loginUrl + `/contact/addCcontact`
+            this.axios
+              .post(url,{
+                user_id:this.user_id,
+                contact_name:this.comeObj.lastName+this.comeObj.firstName,
+                contact_email:this.comeObj.email,
+                contact_phone:this.comeObj.mobile
+              })
+              .then(data => {
+                this.getData()
+                this.onCancel()
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          
+          }
+        })
+      }else{
+         this.$refs['formInlineRef'].validate(valid => {
+          if (valid) {
+            let url = this.loginUrl + `/contact/updateContact`
+            this.axios
+              .post(url,{
+                id:this.comeObj.id,
+                contact_name:this.comeObj.lastName+this.comeObj.firstName,
+                contact_email:this.comeObj.email,
+                contact_phone:this.comeObj.mobile
+              })
+              .then(data => {
+                this.getData()
+                this.onCancel()
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
+        })
+      }
     },
     onCancel () {
       this.comeObj = {
         lastName: '',
         firstName: '',
         email: '',
-        areaCode: '中国大陆 (+86)',
-        mobile: ''
+        areaCode: '86',
+        mobile: '',
+        id:null
       }
       this.emitorOpen = false
       this.open = true
@@ -286,7 +327,8 @@ export default {
         firstName: data.firstName,
         email: data.email,
         areaCode: data.areaCode,
-        mobile: data.mobile
+        mobile: data.mobile,
+        id:data.id
       }
       this.emitorOpen = true
       this.open = false
@@ -297,21 +339,64 @@ export default {
       this.open = false
     },
     onRemove () {
-      let idx = -1
-      for (let i = 0; i < this.contactsList.length; i++) {
-        if (this.contactsList[i].email === this.comeObj.email) {
-          idx = i
-          break
-        }
-      }
-      if (idx !== -1) {
-        this.contactsList.splice(idx, 1)
-        this.onCancel()
-      }
+      let url = this.loginUrl + `/contact/deleteContact/${this.comeObj.id}`
+      this.axios
+        .delete(url,{
+　　         id:this.comeObj.id,
+            contact_name:this.comeObj.lastName+this.comeObj.firstName,
+            contact_email:this.comeObj.email,
+            contact_phone:this.comeObj.mobile
+        } )
+        .then(data => {
+          this.getData()
+          this.onCancel()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      // let idx = -1
+      // for (let i = 0; i < this.contactsList.length; i++) {
+      //   if (this.contactsList[i].email === this.comeObj.email) {
+      //     idx = i
+      //     break
+      //   }
+      // }
+      // if (idx !== -1) {
+      //   this.contactsList.splice(idx, 1)
+      //   this.onCancel()
+      // }
+    },
+    getData(){
+      let url = this.loginUrl + `/contact/getContactList`
+      this.axios
+        .get(url,{
+　　         params:{user_id:this.user_id}
+        } )
+        .then(data => {
+          let list=data.data.contactList
+          this.contactsList=[]
+          if(list.length){
+            list.forEach(item=>{
+                let lastName=item.contact_name.slice(0,1)
+                let firstName=item.contact_name.slice(1)
+                this.contactsList.push({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: item.contact_email,
+                    mobile: item.contact_phone,
+                    areaCode: '86',
+                    id:item.id
+                })
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   mounted () {
-
+    this.getData()
   }
 }
 </script>
