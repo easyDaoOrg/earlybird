@@ -249,9 +249,11 @@
 </template>
 
 <script>
+import Util from '@/lib/utils.js'
 import {user} from '@/assets/json/user'
 import minxin from './minxin.js'
 export default {
+  mixins: [minxin],
   data () {
     const empty = '必填项'
     const _familyNameZh = (rule, value, callback) => {
@@ -506,7 +508,6 @@ export default {
     }
   },
   components: {},
-  mixins: [minxin],
   computed: {},
   watch: {},
   mounted () {
