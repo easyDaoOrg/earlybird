@@ -226,7 +226,7 @@ export default {
       console.log(this.formCustom)
       this.formCustom.familyNameZh = data.familyNameZh
       this.formCustom.givenNameZh = data.givenNameZh
-      this.formCustom.gender = data.gender
+      this.formCustom.gender = data.gender === 'man' ? 1 : 0
       this.formCustom.birthday = data.birthday
       this.$emit('on-name-change', data.familyNameZh + data.givenNameZh)
       for (let j = 0; j < this.identity.length; j++) {

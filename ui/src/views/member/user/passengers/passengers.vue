@@ -514,37 +514,6 @@ export default {
     this.getData()
   },
   methods: {
-//      getData(){
-//       let url = this.loginUrl + `/passenger/getPassengerList`
-//       this.axios
-//         .get(url,{
-// 　　         params:{user_id:this.user_id}
-//         } )
-//         .then(data => {
-//           let list=data.data.list
-//           this.data=[];
-//           list.forEach(item=>{
-//             let familyNameZh=item.passenger_name_cn.slice(0,1)
-//             let givenNameZh=item.passenger_name_cn.slice(1)
-//             this.data.push({
-//               id: item.id,
-//               familyNameZh: familyNameZh,
-//               givenNameZh: givenNameZh,
-//               familyName: item.passenger_name_en.slice(0,1),
-//               givenName: item.passenger_name_en.slice(1),
-//               middleName: '',// 中间名
-//               nationality: item.passenger_nationality,
-//               gender: item.passenger_gender,
-//               birthday: item.passenger_birthday,
-//               primary: false,
-//               credentials:[]
-//             })
-//           })
-//         })
-//         .catch(error => {
-//           console.log(error)
-//         })
-//     },
     // 证件号码的校验
     identificationNumberType (type) {
       if (type === 'NI') { // 身份证
@@ -579,26 +548,6 @@ export default {
             item.expiredAt = Util.timeStampLite(item.expiredAt.getTime(), null)
           }
         })
-        // this.data.push(this.formCustom)
-        //   guid: 'bac2bfcb-1e24-41c1-baad-8a6e75b64af5',
-        // familyNameZh: '刘',
-        // givenNameZh: '备',
-        // familyName: 'DEI',
-        // givenName: 'BU',
-        // middleName: '',
-        // nationality: '',
-        // gender: 'man',
-        // birthday: '1977-01-27',
-        // primary: false,
-        //  credentials: [
-        //   {
-        //     'category': 'PP',
-        //     'number': '',
-        //     'issueAt': null,
-        //     'expiredAt': '',
-        //     'issueDate': ''
-        //   }
-        // ]
         let list=[]
         this.formCustom.credentials.forEach(item=>{
           list.push({
@@ -737,25 +686,25 @@ export default {
     // 新增旅客
     addPassenger () {
       this.open = true
-      // this.formCustom = {
-      //   familyNameZh: '',
-      //   givenNameZh: '',
-      //   familyName: '',
-      //   givenName: '',
-      //   middleName: '',
-      //   nationality: '',
-      //   gender: 'man',
-      //   primary: false,
-      //   credentials: [
-      //     {
-      //       'category': 'PP',
-      //       'number': '',
-      //       'issueAt': null,
-      //       'expiredAt': '',
-      //       'issueDate': ''
-      //     }
-      //   ]
-      // }
+      this.formCustom = {
+        familyNameZh: '',
+        givenNameZh: '',
+        familyName: '',
+        givenName: '',
+        middleName: '',
+        nationality: '',
+        gender: 'man',
+        primary: false,
+        credentials: [
+          {
+            'category': 'PP',
+            'number': '',
+            'issueAt': null,
+            'expiredAt': '',
+            'issueDate': ''
+          }
+        ]
+      }
       this.identityOption = [this.identity]
     },
     // 旅行证件 点开
