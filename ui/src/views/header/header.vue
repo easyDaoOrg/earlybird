@@ -127,6 +127,7 @@ export default {
     //退出
     layoutEasydao(){
       this.deleteCookie('token');
+      this.deleteCookie('userId');
       this.isToken = null;
       this.$router.push(`/member/account/sign-in`);
     }
