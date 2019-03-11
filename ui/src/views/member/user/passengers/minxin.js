@@ -32,7 +32,7 @@ export default {
         .then(data => {
           let list = data.data.list
           this.peopleList = [];
-          let arr = []
+          this.promiseGetList=[]
           list.forEach(item => {
             this.promiseGetList.push(new Promise((resolve, reject) => {
               this.getChildreninputData(item.id, resolve)
