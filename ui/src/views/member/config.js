@@ -7,7 +7,33 @@ export default {
       dateTime: 60,
       tabIndex: 0,
       tabName: 'formInline',
-      passwordType: 0
+      passwordType: 0,
+      orderAircraftList: [
+        {
+          'contact_id': '2,4',
+          'create_date': 1552375646000,
+          'id': 2,
+          'order_departure': '北京',
+          'order_departure_airport': '首都机场T3',
+          'order_destination': '上海',
+          'order_destination_airport': '虹桥机场T1',
+          'order_end_time': '2019-04-01 12:30:00.0',
+          'order_flight_cabin': '经济舱',
+          'order_flight_carrier': '国航',
+          'order_flight_construction_cost': 30,
+          'order_flight_fare': 900,
+          'order_flight_fuel_cost': 30,
+          'order_flight_model': 'BIG',
+          'order_flight_no': '国航 CA8214',
+          'order_no': '15523756462432755',
+          'order_start_time': '2019-04-01 10:00:00.0',
+          'order_status': 0,
+          'passenger_id': '7,8',
+          'passenger_names': '汪云龙',
+          'update_date': 1552375646000,
+          'user_id': 1
+        }
+      ]
     }
   },
   computed: {},
@@ -138,6 +164,22 @@ export default {
             this.$router.push(`/member/account/sign-in`)
           } else {
             this.$Message.error(data.data.msg)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 验证动态码
+    getOrderList (id) {
+      let url = this.loginUrl + `/aircraft/getOrderAircraftList?user_id=` + id
+      let self = this
+      this.axios
+        .get(url)
+        .then(data => {
+          if (data.data.flag) {
+            self.orderAircraftList = data.data.orderAircraftList
           }
         })
         .catch(error => {

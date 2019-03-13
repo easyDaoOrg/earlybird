@@ -1,4 +1,67 @@
 
 .my-booking{
+  &-list{
+    overflow: hidden;
+    &-box{
+      margin-bottom: 20px;
+      border: 1px solid #c8c8c8;
+      border-radius: 3px;
+      position: relative;
+      &-info{
+        position: relative;
+        border-bottom: 1px solid #c8c8c8;
+        line-height: 50px;
+        span{
+          padding-right: 0;
+          font-size: 14px;
+          b{
+            color: #3291eb
+          }
+        }
+        font{
+          float: right;
+          padding-right: 20px;
+        }
+      }
+      &-detail{
+        position: relative;
+        padding: 16px 35px;
+        font-size: 16px;
+        cursor: pointer;
+        &-trip{
+          width: 14%;
+          display: inline-block;
+          line-height: 28px;
+          b{
+            font-size: 14px;
+          }
+          p{
+            font-size: 16px;
+            color: #3291eb;
+            strong{
+              color: orange;
+            }
+            i{
+              font-size: 16px;
+            }
+          }
+        }
+        &-air{
+          width: 38%;
+          p{
+            color: #323232;
+          }
+        }
+      }
+    }
+    &-second{
+      padding-left: 150px;
+    }
+  }
+}
 
+.icon-travel-find{
+  color: #3291eb;
+  font-size: 20px;
+  margin-left: 10px;
 }
