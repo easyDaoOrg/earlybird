@@ -160,7 +160,8 @@ export default {
         email: '',
         areaCode: '86',
         mobile: '',
-        address: ''
+        address: '',
+        id:''
       },
       ruleCustom: {
         lastName: [{ validator: _familyNameZh, trigger: 'blur' }],
@@ -197,6 +198,7 @@ export default {
       this.$refs['ontactsForm'].resetFields()
     },
     setDefaultObj (data) {
+      this.comeObj.id = data.id
       this.comeObj.lastName = data.lastName
       this.comeObj.firstName = data.firstName
       this.comeObj.email = data.email

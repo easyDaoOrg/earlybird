@@ -68,7 +68,7 @@ import ontactsForm from '././bookingTopContacts/ontactsForm/ontactsForm'
 import bookingTabList from './bookingTabList/bookingTabList'
 import bookingOrder from './bookingOrder/bookingOrder'
 
-import Utils from '@/lib/utils'
+import Util from '@/lib/utils'
 export default {
   data () {
     return {
@@ -76,7 +76,8 @@ export default {
       routerObj: this.$route.query,
       infoObj: {},
       flightInformation: {},
-      tripBookData: {}
+      resultBooking: {},
+      user_id:Util.getCookie('userId'),
     }
   },
   components: {
@@ -106,7 +107,7 @@ export default {
       console.log(Passenger.type + '---' + Contacts)
       if (Passenger.type && Contacts.type) {
         this.$refs.bookingPassenger.getAirportPrice().then((v) => {
-          this.onOrders(Passenger.list, Contacts.obj, this.tripBookData)
+          this.onOrders(Passenger.list, Contacts.obj, this.resultBooking)
         })
       }
     },
@@ -122,7 +123,60 @@ export default {
         .post(url, obj)
         .then(data => {
           if (data.status === 200) {
-            this.tripBookData = data.data
+            this.resultBooking = data.data
+          }
+        }).catch(() => {})
+    },
+    addFlay(passengersList, contactsObj,start){
+      let passenger_id=''
+      
+      passengersList.forEach(item=>{
+        if(item.id!==''){
+           passenger_id=passenger_id+item.id
+        }
+      })
+      let contact_id=contactsObj.id!=='' ? contactsObj.id.toString() : ''
+      
+      let info = this.resultBooking.flightInfo[0]
+      
+       let obj = {
+        user_id:this.user_id,
+        contact_id:contact_id,
+        passenger_id:passenger_id,
+        order_flight_no:info.flightNum,// 航班号
+        order_flight_carrier:info.carrier,//航班承运人,
+        order_flight_model:info.actPlaneType,// 航班机型
+        order_flight_cabin:info.cbcn,//'经济舱',//？number还是string
+        order_flight_fare:Number(this.resultBooking.extInfo.ticketPrice),// 票面价
+        order_flight_construction_cost:info.arf,//机建费
+        order_flight_fuel_cost:info.tof,// 燃油费
+        order_departure:info.dptCity,
+        order_destination:info.arrCity,
+        order_departure_airport:info.dptAirport,//出发城市，汉字
+        order_destination_airport:info.arrAirport,// 到达城市，汉字
+        order_start_time:info.dptDate+' '+info.dptTime,
+        order_end_time:info.dptDate+' '+info.arrTime,
+        order_status:start// 是order接口返回的status吧？
+      }
+      console.log(obj)
+      let url = this.loginUrl + `/easydao/aircraft/addOrderAircraft`
+      this.axios
+        .post(url, obj)
+        .then(data => {
+          if (data.status === 200) {
+            
+            this.$router.push({
+              path: `/flights/topay`,
+              query: {
+                dptCity: this.routerObj.dptCity,
+                arrCity: this.routerObj.arrCity,
+                date: this.routerObj.date,
+                cabinType: this.cabinType,
+                price: this.infoObj.price,
+                totalMoney: this.infoObj.totalMoney,
+                carrier: this.carrier
+              }
+            })
           }
         }).catch(() => {})
     },
@@ -176,7 +230,7 @@ export default {
         }
         // 护照
         if (item.category === 'PP') {
-          m['birthday'] = Utils.timeBirthday(item.birthday)// 如1986-10-19
+          m['birthday'] = Util.timeBirthday(item.birthday)// 如1986-10-19
           m['sex'] = item.gender// 0: 女，1: 男
         }
         passengers.push(m)
@@ -194,24 +248,15 @@ export default {
       obj['contactEmail'] = contactsObj.email
       obj['address'] = contactsObj.address
       let url = this.baseUrl + `/flight/order`
+      let self=this;
       this.axios
         .post(url, obj)
         .then(data => {
           if (data.status === 200) {
-            this.$router.push({
-              path: `/flights/topay`,
-              query: {
-                dptCity: this.routerObj.dptCity,
-                arrCity: this.routerObj.arrCity,
-                date: this.routerObj.date,
-                cabinType: this.cabinType,
-                price: this.infoObj.price,
-                totalMoney: this.infoObj.totalMoney,
-                carrier: this.carrier
-              }
-            })
+            self.addFlay(passengersList, contactsObj,data.data.status)
           }
         }).catch((err) => {
+          
           this.$Modal.error({
             title: '错误',
             content: err.response.data.message

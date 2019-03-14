@@ -223,7 +223,8 @@ export default {
       this.$refs['formInlineRef'].resetFields()
     },
     setFormCustom (data) {
-      console.log(this.formCustom)
+      
+      this.formCustom.id = data.id;
       this.formCustom.familyNameZh = data.familyNameZh
       this.formCustom.givenNameZh = data.givenNameZh
       this.formCustom.gender = data.gender === 'man' ? 1 : 0

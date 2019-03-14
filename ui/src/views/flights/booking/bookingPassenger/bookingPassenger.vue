@@ -332,7 +332,8 @@ export default {
           givenNameZh: '',
           gender: 1,
           birthday: '',
-          number: ''
+          number: '',
+          id:''
         }
       }
     }
