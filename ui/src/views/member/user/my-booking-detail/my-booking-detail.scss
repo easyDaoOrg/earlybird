@@ -1,0 +1,244 @@
+.my-booking-detail{
+  width: 100%;
+  height: 500px;
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  background: #fff;
+  margin-top: -15px;
+  &-title{
+    height: 54px;
+    border-bottom: 1px solid #c8c8c8;
+    padding: 10px 70px;
+    ul{
+      li{
+        height: 35px;
+        line-height: 35px;
+        padding: 0 10px;
+        margin: 0 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 15px;
+        &:hover{
+          color: #fff;
+          background: #3291eb;
+        }
+      }
+    }
+  }
+  &-main{
+    padding: 40px 50px;
+    &-header{
+      padding-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      i{
+        color: #3291eb;
+        font-size: 24px;
+      }
+    }
+    &-text{
+      padding-left: 35px;
+      overflow: hidden;
+      ol{
+        width: 30%;
+        float: left;
+        span{
+          color: #333333;
+          font-weight: bold;
+        }
+        strong{
+          color: orange;
+          font-size: 34px;
+          display: block;
+        }
+      }
+      ul{
+        width: 70%;
+        float: left;
+        li{
+          font-size: 15px;
+          padding: 5px 0;
+          width: 50%;
+          float: left;
+          label{
+            margin-bottom: 0;
+            min-width: 192px;
+            padding-right: 20px;
+            color: #969696;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+    &-step{
+      padding: 40px 35px;
+    }
+    &-box{
+      margin-bottom: 30px;
+      border: 1px solid #c8c8c8;
+      border-radius: 3px;
+      padding-bottom: 16px;
+      &-title{
+        margin: 0;
+        padding: 15px 0;
+        font-size: 20px;
+        b{
+          display: inline-block;
+          height: 30px;
+          line-height: 30px;
+          padding-left: 20px;
+          margin-left: -1px;
+          border-left: 3px solid #3291eb;
+        }
+      }
+      &-trip{
+        box-sizing: border-box;
+        width: 100%;
+        &-step{
+          position: relative;
+          height: 62px;
+          padding: 10px;
+          border-top: 1px solid #c8c8c8;
+          border-bottom: 1px solid #c8c8c8;
+          &-state{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 60px;
+            line-height: 60px;
+            width: 30px;
+            text-align: center;
+            background-color: #00b4ff;
+            i{
+              color: #fff;
+            }
+          }
+          &-col{
+            padding-left: 40px;
+            float: left;
+            small{
+              display: block;
+              color: #969696;
+            }
+            span{
+              display: block;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 16px;
+              i{
+                color: #3291eb;
+              }
+            }
+            b{
+              color: #3291eb;
+            }
+          }
+        }
+        &-bot{
+          padding: 10px;
+          overflow: hidden;
+          h4{
+            margin: 6px 0;
+            padding-right: 10px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+            .st{
+              padding-right: 8px;
+              font-weight: 100;
+              font-size: 14px;
+              min-width: 132px;
+              text-align: right;
+              display: inline-block;
+              color: #323232;
+              white-space: nowrap;
+            }
+            .flight-info-text{
+              margin-left: 20px;
+              color: #3291eb;
+              font-weight: 700;
+            }
+            i{
+              color: #3291eb;
+            }
+          }
+          .infoft{
+            margin: 5px 0 5px 114px;
+            padding: 3px 0 3px 32px;
+            height: 42px;
+            position: relative;
+            strong{
+              float: right;
+              padding: 10px 20px;
+              font-size: 16px;
+            }
+            ::before{
+              content: "";
+              position: absolute;
+              left: 1px;
+              top: 0;
+              width: 1px;
+              z-index: 1;
+              height: 100%;
+              background-color: #b4b4b4;
+            }
+            &-airline-icon{
+              margin-left: 20px;
+              width: 36px;
+              height: 36px;
+              float: left;
+            }
+            &-airline-name{
+              margin-left: 10px;
+              margin-top: 8px;
+              font-size: 14px;
+              border-radius: 4px;
+              vertical-align: top;
+              float: left;
+              b{
+                display: inline-block;
+                height: 22px;
+                line-height: 22px;
+                padding: 0 5px 0 0;
+              }
+              font{
+                color: orange;
+                padding-left: 5px;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+
+      &-list{
+        padding-left: 20px;
+        line-height: 26px;
+        overflow: hidden;
+        li{
+          line-height: 26px;
+          width: calc(100%/8);
+          float: left;
+          padding: 5px 0;
+        }
+        ol{
+          color: #b3b3b3;
+          border-bottom: 1px solid #dcdcdc;
+          overflow: hidden;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  &-footer{
+    text-align: center;
+    color: #969696;
+  }
+}
+
+.my-booking-detail-main-box-list .clearfix{
+  padding: 5px 0;
+}

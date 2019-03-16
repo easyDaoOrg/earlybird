@@ -269,6 +269,14 @@ export default new Router({
               component: () => import('@/views/member/user/user'),
               children: [
                 {
+                  path: '/member/user/my-booking-detail/:id',
+                  name: 'my-booking-detail',
+                  meta: {
+                    title: '我的订单-机票订单-订单详情'
+                  },
+                  component: () => import('@/views/member/user/my-booking-detail/my-booking-detail')
+                },
+                {
                   path: '/member/user/my-booking',
                   name: 'my-booking',
                   meta: {

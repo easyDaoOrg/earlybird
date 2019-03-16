@@ -33,7 +33,8 @@ export default {
           'update_date': 1552375646000,
           'user_id': 1
         }
-      ]
+      ],
+      orderAircraftDetail: {}
     }
   },
   computed: {},
@@ -171,15 +172,31 @@ export default {
         })
     },
 
-    // 验证动态码
+    // 获取订单信息
     getOrderList (id) {
       let url = this.loginUrl + `/aircraft/getOrderAircraftList?user_id=` + id
+      // let self = this
+      this.axios
+        .get(url)
+        .then(data => {
+          if (data.data.flag) {
+            // self.orderAircraftList = data.data.orderAircraftList
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    // 获取订单详情
+    getOrderDetail (id) {
+      let url = this.loginUrl + `/aircraft/getOrderAircraft?id=` + id
       let self = this
       this.axios
         .get(url)
         .then(data => {
           if (data.data.flag) {
-            self.orderAircraftList = data.data.orderAircraftList
+            self.orderAircraftDetail = data.data.orderAircraftDetail
           }
         })
         .catch(error => {

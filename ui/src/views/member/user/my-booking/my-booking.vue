@@ -10,7 +10,11 @@
           <div class="my-booking-list" v-if="orderAircraftList&&orderAircraftList.length>0">
             <div class="my-booking-list-box" v-for="(k,ii) in orderAircraftList" :key="ii">
               <div class="my-booking-list-box-info">
-                <font>{{k.order_status}}</font>
+                <font>
+                  <b v-if="k.order_status == 0">未支付</b>
+                  <b v-if="k.order_status == 1">已支付</b>
+                  <b v-if="k.order_status == 2">已取消</b>
+                </font>
                 <i data-v-7e6ddf1c="" class="iconfont icon-travel-find"></i>
                 <span>
                   订单号：<b>{{k.order_no}}</b>
@@ -82,6 +86,7 @@ export default {
     // 进入详情
     orderBookingDetail(data){
       console.log(data)
+      this.$router.push(`/member/user/my-booking-detail/${data.order_no}`)
     }
   },
   mounted () {
