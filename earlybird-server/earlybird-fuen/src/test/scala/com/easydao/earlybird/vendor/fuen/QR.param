@@ -1,6 +1,6 @@
-http://localhost:8080/flight/alipay
+http://localhost:8080/pay/alipay
 
-http://localhost:8080/flight/wxpay
+http://localhost:8080/pay/wxpay
 
 POST
 参数参考pay接口参数

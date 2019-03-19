@@ -80,18 +80,4 @@ public class FlightController {
         FuenProxy proxy = FuenProxy.apply();
         return Utils.toJson(proxy.refundApply(param));
     }
-
-    @PostMapping(value = "alipay")
-    public Object alipay(@RequestBody PayParam param) throws InvalidRequestException, APIException, ChannelException, RateLimitException, APIConnectionException, AuthenticationException {
-        int price = 100;
-        Charge charge = PingxxProxy.alipayQR(param.orderNo(), price, "subject", "body");
-        return charge.getCredential().get("alipay_qr");
-    }
-
-    @PostMapping(value = "wxpay")
-    public Object wxpay(@RequestBody PayParam param) throws InvalidRequestException, APIException, ChannelException, RateLimitException, APIConnectionException, AuthenticationException {
-        int price = 100;
-        Charge charge = PingxxProxy.weixinQR(param.orderNo(), price, "subject", "body");
-        return charge.getCredential().get("wx_pub_qr");
-    }
 }
