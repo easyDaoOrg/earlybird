@@ -109,7 +109,7 @@ public class PingxxProxy {
      * @throws APIConnectionException
      * @throws AuthenticationException
      */
-    public Charge isPaid(String chargeId) throws RateLimitException, APIException, ChannelException, InvalidRequestException, APIConnectionException, AuthenticationException {
+    public static Charge isPaid(String chargeId) throws RateLimitException, APIException, ChannelException, InvalidRequestException, APIConnectionException, AuthenticationException {
         Pingpp.apiKey = apiKey;
         Pingpp.privateKeyPath = Resources.getResource(privateKey).getPath();
         Charge retrieve = Charge.retrieve(chargeId);

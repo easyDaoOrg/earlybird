@@ -1,3 +1,5 @@
+1 两种二维码
+
 http://localhost:8080/pay/alipay
 
 http://localhost:8080/pay/wxpay
@@ -7,3 +9,20 @@ POST
 
 返回值是一个二维码http连接
 https://sissi.pingxx.com/mock.php?ch_id=ch_Devnv5qX9qnH5CuDq59m54m1&channel=alipay_qr
+
+
+
+流程
+ ... -> book -> order -> yunlong -> alipay/wxpay -> pay
+
+
+
+
+
+2 判断是否支付成功
+
+http://localhost:8080/pay/is_paid
+POST
+参数参考pay接口参数
+
+返回值是 true或false

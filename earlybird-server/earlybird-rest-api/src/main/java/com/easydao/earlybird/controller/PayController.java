@@ -44,4 +44,10 @@ public class PayController {
         Charge charge = PingxxProxy.weixinQR(param.orderNo(), price, "subject", "body");
         return charge.getCredential().get("wx_pub_qr");
     }
+
+    @PostMapping(value = "is_paid")
+    public Object isPaid(@RequestBody PayParam param) throws InvalidRequestException, APIException, ChannelException, RateLimitException, APIConnectionException, AuthenticationException {
+//        PingxxProxy.alipayQR()
+        return true;
+    }
 }
