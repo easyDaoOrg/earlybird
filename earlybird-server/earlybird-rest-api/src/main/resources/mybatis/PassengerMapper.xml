@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easydao.earlybird.mapper.PassengerMapper">
+
+
+    <!--添加-->
+    <insert id="addPassenger" parameterType="com.easydao.earlybird.bean.Passenger" keyProperty="id" useGeneratedKeys="true" >
+        insert into
+        user_passenger_info
+            (user_id,passenger_name_cn,passenger_name_en,passenger_nationality,passenger_gender,passenger_birthday,create_date,update_date)
+        values
+            (#{user_id},#{passenger_name_cn},#{passenger_name_en},#{passenger_nationality},#{passenger_gender},#{passenger_birthday},#{create_date},#{update_date})
+    </insert>
+
+
+    <update id="updatePassenger" parameterType="com.easydao.earlybird.bean.Passenger">
+        update
+            user_passenger_info
+        set
+            passenger_name_cn = #{passenger_name_cn},
+            passenger_name_en = #{passenger_name_en},
+            update_date = #{update_date}
+            where id = #{id}
+    </update>
+
+    <!--删除-->
+    <delete id="deletePassenger" parameterType="long">
+        delete from user_passenger_info where id = #{id}
+    </delete>
+
+    <!--查询-->
+    <select id="getPassengerList" resultType="com.easydao.earlybird.bean.Passenger" parameterType="long">
+        select * from user_passenger_info where user_id = #{user_id}
+    </select>
+
+    <!--查询-->
+    <select id="getOrderPassengerList" resultType="com.easydao.earlybird.bean.Passenger" >
+        select * from user_passenger_info where id in
+        <foreach collection="array" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--查询-->
+    <select id="getPassenger" resultType="com.easydao.earlybird.bean.Passenger" parameterType="long">
+        select * from user_passenger_info where id = #{id}
+    </select>
+    
+
+</mapper>

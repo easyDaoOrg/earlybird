@@ -1,10 +1,13 @@
 package com.easydao.earlybird.controller;
 
+import com.easydao.earlybird.bean.OrderAircraft;
+import com.easydao.earlybird.service.OrderAircraftService;
 import com.easydao.earlybird.util.Utils;
 import com.easydao.earlybird.vendor.fuen.*;
 import com.google.api.client.http.HttpResponseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,9 +15,18 @@ import org.springframework.web.bind.annotation.*;
 public class FlightController {
     private final static Logger logger = LoggerFactory.getLogger(FlightController.class);
 
+    @Autowired
+    private OrderAircraftService orderAircraftService;
+
     @GetMapping(value = "/hello")
     public Object createInstance() {
         logger.error("hello {}", System.currentTimeMillis());
+
+        OrderAircraft order = new OrderAircraft();
+        order.setContact_id("eeeeeeeeee");
+        order.setUser_id(11L);
+        orderAircraftService.addOrderAircraft(order);
+        System.out.println(order.getId());
         return "hello";
     }
 

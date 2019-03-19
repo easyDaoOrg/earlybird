@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easydao.earlybird.mapper.CertificateMapper">
+
+    <!--添加-->
+    <insert id="addCertificate" parameterType="java.util.List">
+        insert into
+        user_certificate_info
+            (passenger_id,certificate_type,certificate_no,certificate_issue_place,certificate_valid_date)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.passenger_id},#{item.certificate_type},#{item.certificate_no},#{item.certificate_issue_place},#{item.certificate_valid_date})
+        </foreach>
+    </insert>
+
+
+    <!--删除-->
+    <delete id="deleteCertificate" parameterType="long">
+        delete from user_certificate_info where passenger_id = #{passenger_id}
+    </delete>
+
+    <!--查询-->
+    <select id="getCertificateList" resultType="com.easydao.earlybird.bean.Certificate" parameterType="long">
+        select * from user_certificate_info where passenger_id = #{passenger_id}
+    </select>
+    
+
+</mapper>

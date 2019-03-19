@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://123.206.254.186:35066/easydao?useUnicode=true&characterEncoding=utf-8
+    username: easydao
+    password: easydao_20190128
+
+    min-idle: 5
+    initial-size: 5
+    max-total: 5
+    max-wait-millis: 200
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: com.easydao.earlybird.bean
+
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+
+logging:
+  level:
+    com:
+      rootcloud:
+        operator:
+          mapper: debug
+Service:
+  charge: 12.72
+
+
+
+
+
+
+
+
+
