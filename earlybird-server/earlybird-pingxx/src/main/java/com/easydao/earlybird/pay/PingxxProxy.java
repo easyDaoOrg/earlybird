@@ -40,7 +40,7 @@ public class PingxxProxy {
      */
     public static Charge alipayQR(String orderNo, int price, String subject, String body) throws RateLimitException, APIException, ChannelException, InvalidRequestException, APIConnectionException, AuthenticationException {
         Pingpp.apiKey = apiKey;
-        Pingpp.privateKeyPath = Resources.getResource(privateKey).getPath();
+        Pingpp.privateKeyPath = "/root/pingxx-private-key.pem";
 
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("order_no", orderNo);
