@@ -11,6 +11,7 @@
     <modules>
         <module>earlybird-rest-api</module>
         <module>earlybird-fuen</module>
+        <module>earlybird-pingxx</module>
     </modules>
 
     <properties>

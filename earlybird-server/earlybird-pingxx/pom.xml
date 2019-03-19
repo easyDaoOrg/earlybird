@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>earlybird-pingxx</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+
+    <parent>
+        <groupId>com.easydao.earlybird</groupId>
+        <artifactId>earlybird-server</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>27.0-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-jackson2</artifactId>
+            <version>1.26.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-jackson_2.11</artifactId>
+            <version>3.6.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-scala_2.11</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.11</artifactId>
+            <version>3.0.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+
+        <!--Ping++支付-->
+        <dependency>
+            <groupId>Pingplusplus</groupId>
+            <artifactId>pingpp-java</artifactId>
+            <version>2.3.9</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <recompileMode>incremental</recompileMode>
+                    <checkMultipleScalaVersions>true</checkMultipleScalaVersions>
+                    <args>
+                        <arg>-target:jvm-1.8</arg>
+                    </args>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>scala-compile</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>bintray</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+</project>
