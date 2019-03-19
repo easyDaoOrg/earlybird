@@ -1,10 +1,13 @@
 package com.easydao.earlybird.controller;
 
 import com.easydao.earlybird.bean.OrderAircraft;
+import com.easydao.earlybird.pay.PingxxProxy;
 import com.easydao.earlybird.service.OrderAircraftService;
 import com.easydao.earlybird.util.Utils;
 import com.easydao.earlybird.vendor.fuen.*;
 import com.google.api.client.http.HttpResponseException;
+import com.pingplusplus.exception.*;
+import com.pingplusplus.model.Charge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +79,19 @@ public class FlightController {
     public Object refundApply(@RequestBody RefundApplyParam param) throws HttpResponseException {
         FuenProxy proxy = FuenProxy.apply();
         return Utils.toJson(proxy.refundApply(param));
+    }
+
+    @PostMapping(value = "alipay")
+    public Object alipay(@RequestBody PayParam param) throws InvalidRequestException, APIException, ChannelException, RateLimitException, APIConnectionException, AuthenticationException {
+        int price = 100;
+        Charge charge = PingxxProxy.alipayQR(param.orderNo(), price, "subject", "body");
+        return charge.getCredential().get("alipay_qr");
+    }
+
+    @PostMapping(value = "wxpay")
+    public Object wxpay(@RequestBody PayParam param) throws InvalidRequestException, APIException, ChannelException, RateLimitException, APIConnectionException, AuthenticationException {
+        int price = 100;
+        Charge charge = PingxxProxy.weixinQR(param.orderNo(), price, "subject", "body");
+        return charge.getCredential().get("wx_pub_qr");
     }
 }

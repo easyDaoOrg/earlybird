@@ -1,4 +1,4 @@
-package pay;
+package com.easydao.earlybird.pay;
 
 import com.google.common.io.Resources;
 import com.pingplusplus.Pingpp;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-class PingxxProxy {
+public class PingxxProxy {
     private final static Logger logger = LoggerFactory.getLogger(PingxxProxy.class);
 
     private final static String privateKey = "pingxx-private-key.pem";
@@ -115,6 +115,12 @@ class PingxxProxy {
         Charge retrieve = Charge.retrieve(chargeId);
         logger.info("Charge {} is paid:{}", chargeId, retrieve.getPaid());
         return retrieve;
+    }
+
+    public static void main(String[] args) throws InvalidRequestException, APIException, ChannelException, RateLimitException, APIConnectionException, AuthenticationException {
+        Charge charge = PingxxProxy.weixinQR("aadf", 123, "s", "b");
+        System.out.println(charge);
+
     }
 }
 

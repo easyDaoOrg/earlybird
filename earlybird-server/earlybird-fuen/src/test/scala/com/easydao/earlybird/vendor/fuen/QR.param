@@ -1,0 +1,8 @@
+http://localhost:8080/flight/alipay
+
+http://localhost:8080/flight/wxpay
+
+POST
+参数参考pay接口参数
+
+返回值是一个二维码http连接
