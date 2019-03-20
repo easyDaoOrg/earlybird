@@ -7,6 +7,9 @@
       border: 1px solid #c8c8c8;
       border-radius: 3px;
       position: relative;
+      &:hover{
+        border-color: #3291eb;
+      }
       &-info{
         position: relative;
         border-bottom: 1px solid #c8c8c8;
@@ -32,6 +35,13 @@
           width: 14%;
           display: inline-block;
           line-height: 28px;
+          &:nth-child(3){
+            width: 22%;
+          }
+          &:nth-child(4),
+          &:nth-child(5){
+            width: 10%;
+          }
           b{
             font-size: 14px;
           }

@@ -20,25 +20,28 @@
                   订单号：<b>{{k.order_no}}</b>
                 </span>
                 <span class="my-booking-list-second">
-                  下单日期：<b>{{k.order_start_time}}</b>
+                  下单日期：<b>{{k.create_date}}</b>
                 </span>
               </div>
 
               <div class="my-booking-list-box-detail" @click="orderBookingDetail(k)">
                 <div class="my-booking-list-box-detail-trip my-booking-list-box-detail-air">
                   <b>单程</b>
-                  <p>{{k.order_departure_airport}}(SHA)
+                  <p>{{k.order_departure_airport}}({{k.order_depCode}})
                     <i data-v-7e6ddf1c="" class="iconfont icon-travel-find"></i>
-                    {{k.order_destination_airport}}(SHA)
+                    {{k.order_destination_airport}}({{k.order_arrCode}})
                   </p>
                 </div>
                 <div class="my-booking-list-box-detail-trip">
                   <b>航空公司</b>
-                  <p>{{k.order_flight_carrier}}</p>
+                  <p>
+                    <!-- {{k.order_flight_carrier}} -->
+                    <airportPic :carrier="k.order_flight_carrier" :airportTitle="true"></airportPic>
+                  </p>
                 </div>
                 <div class="my-booking-list-box-detail-trip">
                   <b>出发日期</b>
-                  <p>2019-04-03</p>
+                  <p>{{k.order_start_time}}</p>
                 </div>
                 <div class="my-booking-list-box-detail-trip">
                   <b>旅客</b>
@@ -60,6 +63,8 @@
 import usernodata from './../user-nodata/user-nodata'
 import Config from './../../config.js'
 import Util from '@/lib/utils.js'
+import airportPic from '../../../flights/airportpic/airportpic'
+
 
 
 export default {
@@ -80,13 +85,14 @@ export default {
     }
   },
   components: {
-    usernodata
+    usernodata,
+    airportPic
   },
   methods: {
     // 进入详情
     orderBookingDetail(data){
       console.log(data)
-      this.$router.push(`/member/user/my-booking-detail/${data.order_no}`)
+      this.$router.push(`/member/user/my-booking-detail/${data.id}`)
     }
   },
   mounted () {

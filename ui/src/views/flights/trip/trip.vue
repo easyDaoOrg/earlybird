@@ -104,6 +104,19 @@ export default {
         }
       }
     },
+    searchRouter () {
+      // 路由跳转
+      this.$router.push({
+        path: `/flights/timeline`,
+        query: {
+          dptCity: this.startObj.cityName,
+          dpt: this.startObj.cityCode,
+          arrCity: this.endObj.cityName,
+          arr: this.endObj.cityCode,
+          date: this.dateObj.start
+        }
+      })
+    },
     searchFlights () {
       if (this.startObj.citySelected && this.endObj.citySelected && this.dateObj.start) {
         // 向上传参
@@ -119,9 +132,12 @@ export default {
 
         // 存储搜索信息
         this.setAirportFilterData(this.tripObj)
-
         // 搜索航班信息
-        this.postAirportSearchData()
+        if(this.$route.name !== 'index'){
+          this.postAirportSearchData()
+        }else{
+          this.searchRouter()
+        }
       }
       console.log(this.tabIndex, '111', this.startObj.citySelected, '222', this.endObj.citySelected, '333', this.dateObj.start, this.dateObj.end)
     },
@@ -141,18 +157,7 @@ export default {
           // 存储搜索结果
           self.searchAirportListData(data)
           // 路由跳转
-          if(self.$route.name !== 'timeline'){
-            self.$router.push({
-              path: `/flights/timeline`,
-              query: {
-                dptCity: self.startObj.cityName,
-                dpt: self.startObj.cityCode,
-                arrCity: self.endObj.cityName,
-                arr: self.endObj.cityCode,
-                date: self.dateObj.start
-              }
-            })
-          }
+          self.searchRouter()
         })
         .catch(error => {
           console.log(error)

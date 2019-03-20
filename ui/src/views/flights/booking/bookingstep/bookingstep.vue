@@ -16,9 +16,9 @@
 
 
 export default {
+  props: ['current'],
   data () {
     return {
-      current: 0
     }
   },
   components: {

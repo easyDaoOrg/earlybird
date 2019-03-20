@@ -6,7 +6,7 @@
 <template>
   <div class="booking">
     <div class="booking-left fl">
-      <bookingStep></bookingStep>
+      <bookingStep :current="0"></bookingStep>
       <!--旅客-->
       <div class="booking-box">
         <bookingSubtitle :subTitle="0"></bookingSubtitle>
@@ -43,8 +43,8 @@
       <bookingOrder
         parentName='booking'
 
-        :dptCity='flightInformation.bairdrome'
-        :arrCity='flightInformation.eairdrome'
+        :dptCity='flightInformation.bairdrome + flightInformation.depTerminal'
+        :arrCity='flightInformation.eairdrome + flightInformation.arrTerminal'
         :date='flightInformation.date'
 
         :price='infoObj.price'
@@ -78,6 +78,7 @@ export default {
       flightInformation: {},
       resultBooking: {},
       user_id:Util.getCookie('userId'),
+      orderNoStr: ''
     }
   },
   components: {
@@ -129,23 +130,24 @@ export default {
     },
     addFlay(passengersList, contactsObj,start){
       let passenger_id=''
-      
+
       passengersList.forEach(item=>{
         if(item.id!==''){
            passenger_id=passenger_id+item.id
         }
       })
       let contact_id=contactsObj.id!=='' ? contactsObj.id.toString() : ''
-      
+
       let info = this.resultBooking.flightInfo[0]
-      
-       let obj = {
+
+      let obj = {
         user_id:this.user_id,
         contact_id:contact_id,
         passenger_id:passenger_id,
         order_flight_no:info.flightNum,// 航班号
         order_flight_carrier:info.carrier,//航班承运人,
-        order_flight_model:info.actPlaneType,// 航班机型
+        // order_flight_model:info.actPlaneType,// 航班机型
+        order_flight_model:this.routerObj.planeType,// 航班机型
         order_flight_cabin:info.cbcn,//'经济舱',//？number还是string
         order_flight_fare:Number(this.resultBooking.extInfo.ticketPrice),// 票面价
         order_flight_construction_cost:info.arf,//机建费
@@ -159,24 +161,27 @@ export default {
         order_status:start// 是order接口返回的status吧？
       }
       console.log(obj)
-      let url = this.loginUrl + `/easydao/aircraft/addOrderAircraft`
+      let url = this.loginUrl + `/aircraft/addOrderAircraft`;
+      let self = this;
       this.axios
         .post(url, obj)
         .then(data => {
-          if (data.status === 200) {
-            
-            this.$router.push({
+          if (data.data.flag) {
+            self.$router.push({
               path: `/flights/topay`,
               query: {
-                dptCity: this.routerObj.dptCity,
-                arrCity: this.routerObj.arrCity,
-                date: this.routerObj.date,
-                cabinType: this.cabinType,
-                price: this.infoObj.price,
-                totalMoney: this.infoObj.totalMoney,
-                carrier: this.carrier
+                dptCity: self.flightInformation.bairdrome,
+                arrCity: self.flightInformation.eairdrome,
+                date: self.routerObj.date,
+                cabinType: self.routerObj.cabinType,
+                price: self.infoObj.price,
+                totalMoney: self.infoObj.totalMoney,
+                carrier: self.routerObj.carrier,
+                orderNo: self.orderNoStr
               }
             })
+          }else{
+            this.$Message.error('提交订单失败')
           }
         }).catch(() => {})
     },
@@ -253,10 +258,11 @@ export default {
         .post(url, obj)
         .then(data => {
           if (data.status === 200) {
+            self.orderNoStr = data.data.orderNo
             self.addFlay(passengersList, contactsObj,data.data.status)
           }
         }).catch((err) => {
-          
+
           this.$Modal.error({
             title: '错误',
             content: err.response.data.message

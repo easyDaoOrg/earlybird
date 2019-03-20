@@ -84,13 +84,9 @@ export default {
   components: {airportPic},
   props: {
     // 出发城市
-    dptCity: {
-      type: String
-    },
+    dptCity: '',
     // 到达城市
-    arrCity: {
-      type: String
-    },
+    arrCity: '',
     // 日期
     date: {
       type: String

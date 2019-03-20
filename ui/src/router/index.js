@@ -170,12 +170,21 @@ export default new Router({
         },
         {
           path: '/flights/topay',
-          name: 'booking',
+          name: 'topay',
           meta: {
             title: '支付订单',
             footer: true
           },
           component: () => import('@/views/flights/topay/topay')
+        },
+        {
+          path: '/flights/payment',
+          name: 'payment',
+          meta: {
+            title: '完成订单',
+            footer: true
+          },
+          component: () => import('@/views/flights/topay/payment')
         },
         {
           path: '/hotel',

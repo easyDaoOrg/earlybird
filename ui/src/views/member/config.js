@@ -1,7 +1,9 @@
 import Common from '@/lib/comm.js'
+import {findAirport} from './../../assets/json/findAirport.js'
 
 export default {
   mixins: [Common],
+  component: {},
   data () {
     return {
       dateTime: 60,
@@ -9,30 +11,30 @@ export default {
       tabName: 'formInline',
       passwordType: 0,
       orderAircraftList: [
-        {
-          'contact_id': '2,4',
-          'create_date': 1552375646000,
-          'id': 2,
-          'order_departure': '北京',
-          'order_departure_airport': '首都机场T3',
-          'order_destination': '上海',
-          'order_destination_airport': '虹桥机场T1',
-          'order_end_time': '2019-04-01 12:30:00.0',
-          'order_flight_cabin': '经济舱',
-          'order_flight_carrier': '国航',
-          'order_flight_construction_cost': 30,
-          'order_flight_fare': 900,
-          'order_flight_fuel_cost': 30,
-          'order_flight_model': 'BIG',
-          'order_flight_no': '国航 CA8214',
-          'order_no': '15523756462432755',
-          'order_start_time': '2019-04-01 10:00:00.0',
-          'order_status': 0,
-          'passenger_id': '7,8',
-          'passenger_names': '汪云龙',
-          'update_date': 1552375646000,
-          'user_id': 1
-        }
+        // {
+        //   'contact_id': '2,4',
+        //   'create_date': 1552375646000,
+        //   'id': 2,
+        //   'order_departure': '北京',
+        //   'order_departure_airport': '首都机场T3',
+        //   'order_destination': '上海',
+        //   'order_destination_airport': '虹桥机场T1',
+        //   'order_end_time': '2019-04-01 12:30:00.0',
+        //   'order_flight_cabin': '经济舱',
+        //   'order_flight_carrier': '国航',
+        //   'order_flight_construction_cost': 30,
+        //   'order_flight_fare': 900,
+        //   'order_flight_fuel_cost': 30,
+        //   'order_flight_model': 'BIG',
+        //   'order_flight_no': '国航 CA8214',
+        //   'order_no': '15523756462432755',
+        //   'order_start_time': '2019-04-01 10:00:00.0',
+        //   'order_status': 0,
+        //   'passenger_id': '7,8',
+        //   'passenger_names': '汪云龙',
+        //   'update_date': 1552375646000,
+        //   'user_id': 1
+        // }
       ],
       orderAircraftDetail: {}
     }
@@ -175,12 +177,16 @@ export default {
     // 获取订单信息
     getOrderList (id) {
       let url = this.loginUrl + `/aircraft/getOrderAircraftList?user_id=` + id
-      // let self = this
+      let self = this
       this.axios
         .get(url)
         .then(data => {
           if (data.data.flag) {
-            // self.orderAircraftList = data.data.orderAircraftList
+            self.orderAircraftList = data.data.orderAircraftList
+            for (let item of self.orderAircraftList) {
+              item['order_depCode'] = self.getAirportcountryCode(item.order_departure_airport)
+              item['order_arrCode'] = self.getAirportcountryCode(item.order_destination_airport)
+            }
           }
         })
         .catch(error => {
@@ -196,12 +202,26 @@ export default {
         .get(url)
         .then(data => {
           if (data.data.flag) {
-            self.orderAircraftDetail = data.data.orderAircraftDetail
+            self.orderAircraftDetail = data.data.orderAircraft
+            self.orderAircraftDetail['order_depCode'] = self.getAirportcountryCode(self.orderAircraftDetail.order_departure_airport)
+            self.orderAircraftDetail['order_arrCode'] = self.getAirportcountryCode(self.orderAircraftDetail.order_destination_airport)
           }
         })
         .catch(error => {
           console.log(error)
         })
+    },
+
+    // 获取code
+    getAirportcountryCode (cityName) {
+      let countryCode = ''
+      for (let item of findAirport.result) {
+        if (item.airportName === cityName) {
+          countryCode = item.countryCode
+        }
+      }
+      console.log(countryCode)
+      return countryCode
     }
   }
 

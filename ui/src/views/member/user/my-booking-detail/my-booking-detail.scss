@@ -20,7 +20,13 @@
         cursor: pointer;
         display: inline-block;
         font-size: 15px;
+        a{
+          color: #323232;
+        }
         &:hover{
+          a{
+            color: #fff;
+          }
           color: #fff;
           background: #3291eb;
         }
@@ -166,7 +172,7 @@
             }
           }
           .infoft{
-            margin: 5px 0 5px 114px;
+            margin: 5px 0 5px 156px;
             padding: 3px 0 3px 32px;
             height: 42px;
             position: relative;
@@ -187,9 +193,10 @@
             }
             &-airline-icon{
               margin-left: 20px;
-              width: 36px;
+              width: 63px;
               height: 36px;
               float: left;
+              line-height: 38px;
             }
             &-airline-name{
               margin-left: 10px;
@@ -220,7 +227,7 @@
         overflow: hidden;
         li{
           line-height: 26px;
-          width: calc(100%/8);
+          width: calc(100%/5);
           float: left;
           padding: 5px 0;
         }

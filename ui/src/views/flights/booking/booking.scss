@@ -33,12 +33,12 @@ $colorq:#969696;
   z-index: 2;
   overflow-y: scroll;
   &-left{
-    width: calc(100% - 300px - 10px);
+    width: calc(100% - 340px - 10px);
   }
   &-right{
     background-color: #fff;
     border-radius: 3px;
-    width: 300px;
+    width: 340px;
     top: 70px;
     position: fixed;
     right: 10px;

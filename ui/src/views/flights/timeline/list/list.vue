@@ -95,7 +95,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { airportListData } from '../../../../assets/json/airportListData.js'
 import airportPic from '../../airportpic/airportpic'
 
 export default {
@@ -130,7 +129,6 @@ export default {
         this.airportList = data.data.flightInfos
         console.log(this.airportList)
       }
-      // this.airportList = airportListData.flightInfos;
     },
     airDetailModel (data, bool) {
       this.chooseAirportTimeData(data)

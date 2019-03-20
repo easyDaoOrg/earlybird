@@ -146,7 +146,8 @@ export default {
         date: this.$route.query.date
       },
       airportPriceObj: {},
-      saveFlightNum: null
+      saveFlightNum: null,
+      savePlaneType: null
     }
   },
   components: {
@@ -190,13 +191,13 @@ export default {
     buyTripBook (item) {
       let airObj = this.airpotTrip
       this.tripModel = false
-
       this.$router.push({
         path: `/flights/booking`,
         query: {
           dpt: airObj.dpt,
           arr: airObj.arr,
           flightNum: this.saveFlightNum,
+          planeType: this.savePlaneType,
           date: airObj.date,
           // adult: this.airport_group.bigvalue,
           // child: this.airport_group.childvalue,
@@ -215,6 +216,7 @@ export default {
       this.tripBuy = data.type
       if (data.type) {
         this.saveFlightNum = data.item.flightNum
+        this.savePlaneType = data.item.planetype
         this.getAirportPrice()
       }
     })

@@ -6,7 +6,7 @@ export var findAirport = {
     'provinceName': '北京',
     'countryCode': 'PEK',
     'countyType': '国内',
-    'airportName': '首都国际机场'
+    'airportName': '首都机场'
   },
   {
     'cityName': '北京南苑',
@@ -22,7 +22,7 @@ export var findAirport = {
     'provinceName': '上海',
     'countryCode': 'PVG',
     'countyType': '国内',
-    'airportName': '浦东国际机场'
+    'airportName': '浦东机场'
   },
   {
     'cityName': '上海虹桥',
@@ -30,7 +30,7 @@ export var findAirport = {
     'provinceName': '上海',
     'countryCode': 'SHA',
     'countyType': '国内',
-    'airportName': '虹桥国际机场'
+    'airportName': '虹桥机场'
   },
   {
     'cityName': '乌兰浩特',

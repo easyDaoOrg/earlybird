@@ -114,7 +114,7 @@ const Util = {
     return baseURL
   },
   loginUrl () {
-    return 'http://123.206.254.186:9090/easydao'
+    return 'http://123.206.254.186:8080/easydao'
   },
   differDays (updateTime, createTime) {
     let up = new Date(updateTime.replace(/-/g, '/')) // 开始时间
